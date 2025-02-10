@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:12:05 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 05:26:31 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/10 04:21:05 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_ctype.h"
 #include "ft_list.h"
 #include "../lex.h"
+#include "../input_utils/input_utils.h"
 #include "../token_utils/token_utils.h"
 
 static bool	is_valid_whitespace_continuation(

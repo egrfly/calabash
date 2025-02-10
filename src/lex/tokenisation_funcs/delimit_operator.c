@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:44:21 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 05:48:32 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/10 06:18:10 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,9 @@ bool	delimit_operator(
 	if (last_token && !last_token->is_delimited
 		&& is_not_valid_operator_continuation(input_tracker, last_token))
 	{
-		add_token_trailing_context(last_token->surrounding_context,
+		add_token_trailing_context(last_token,
 			input_tracker->input,
-			input_tracker->index_in_line,
-			last_token->length_in_context);
+			input_tracker->index_in_line);
 		last_token->content.operator
 			= get_operator_token_content(
 				input_tracker->input,

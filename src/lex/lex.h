@@ -6,17 +6,24 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:21:28 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 06:53:12 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/10 21:55:16 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEX_H
 # define LEX_H
 
+# define DEFAULT_START_LINE_INDEX 0
+
+# define BLANK_TOKEN_LENGTH_IN_CONTEXT 3
+# define MAX_TOKEN_LENGTH_IN_CONTEXT 10
+# define MAX_LEADING_CONTEXT_LENGTH 5
+# define MAX_TRAILING_CONTEXT_LENGTH 5
+# define ELLIPSIS_LENGTH 3
+
 # include <stdbool.h>
 # include <stdlib.h>
 # include "ft_list.h"
-# include "./context_utils/context_utils.h"
 
 typedef enum e_quote_mode
 {
@@ -115,10 +122,11 @@ typedef struct s_token
 		+ MAX_LEADING_CONTEXT_LENGTH
 		+ MAX_TOKEN_LENGTH_IN_CONTEXT
 		+ MAX_TRAILING_CONTEXT_LENGTH
-		+ ELLIPSIS_LENGTH];
+		+ ELLIPSIS_LENGTH
+		+ 1];
 	int				start_index_in_context;
 	int				length_in_context;
-	bool			context_is_complete;
+	bool			context_was_truncated;
 	bool			is_delimited;
 	bool			is_supported;
 	bool			has_been_consumed_at_some_point;
@@ -130,20 +138,8 @@ typedef struct s_tokens_with_status
 	bool	terminated_prematurely;
 }	t_tokens_with_status;
 
-t_tokens_with_status	*get_tokens_for_input(char *input,
+t_tokens_with_status	*lex(char *input,
 							t_multiline_options *multiline_options,
 							int start_line_index);
-
-static const char	*g_nesting_mode_closing_symbols[] = {
-	NULL,
-	"))",
-	")",
-	"}",
-	")",
-	")",
-	"))",
-	")",
-	"`",
-};
 
 #endif

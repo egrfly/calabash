@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:52:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 05:58:43 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/09 03:17:35 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,18 @@
 #include "../input_utils/input_utils.h"
 #include "../token_lifecycle/token_lifecycle.h"
 #include "../token_utils/token_utils.h"
+
+static const char	*g_nesting_mode_closing_symbols[] = {
+	NULL,
+	"))",
+	")",
+	"}",
+	")",
+	")",
+	"))",
+	")",
+	"`",
+};
 
 static bool	is_valid_end_of_nested_section_instance(
 				t_input_tracker *input_tracker)

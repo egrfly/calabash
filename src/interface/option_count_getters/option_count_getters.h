@@ -1,16 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   option_count_getters.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 00:44:15 by emflynn           #+#    #+#             */
-/*   Updated: 2024/07/03 00:56:28 by emflynn          ###   ########.fr       */
+/*   Created: 2025/02/10 22:28:13 by emflynn           #+#    #+#             */
+/*   Updated: 2025/02/10 22:28:58 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	main(void)
-{
-	return (0);
-}
+#ifndef OPTION_COUNT_GETTERS_H
+# define OPTION_COUNT_GETTERS_H
+
+int	get_c_option_count(int argc, char **argv);
+int	get_options_end_count(int argc, char **argv,
+		int c_option_count);
+
+#endif

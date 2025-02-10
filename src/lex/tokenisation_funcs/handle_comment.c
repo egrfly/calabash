@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 03:48:53 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 05:17:33 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/10 04:25:37 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ bool	handle_comment(
 			t_multiline_options *multiline_options,
 			bool *has_error)
 {
+	(void)multiline_options;
 	if (get_current_char(input_tracker) == '#')
 	{
 		delimit_last_token_if_exists(

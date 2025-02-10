@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_tokens_for_input.c                             :+:      :+:    :+:   */
+/*   lex.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 07:11:55 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/10 22:05:36 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,31 @@ static bool	any_non_terminating_tokenisation_func_called_without_error(
 	return (false);
 }
 
-static bool	still_quoted_or_nested(
-				t_input_tracker *input_tracker)
+static t_tokens_with_status	*init_tokens_with_status(void)
 {
-	return (input_tracker->quote_mode != UNQUOTED
-		|| input_tracker->nesting_mode != NOT_NESTED);
+	t_tokens_with_status	*tokens_with_termination_status;
+
+	tokens_with_termination_status
+		= ft_calloc(sizeof(t_tokens_with_status), 1);
+	if (!tokens_with_termination_status)
+		return (NULL);
+	tokens_with_termination_status->tokens = ft_list_init();
+	if (!tokens_with_termination_status->tokens)
+	{
+		free(tokens_with_termination_status);
+		return (NULL);
+	}
+	return (tokens_with_termination_status);
 }
 
-static t_tokens_with_status	*get_tokens_for_input_tracker(
-										t_input_tracker *input_tracker,
-										t_multiline_options *multiline_options)
+static t_tokens_with_status	*get_tokens_with_termination_status(
+								t_input_tracker *input_tracker,
+								t_multiline_options *multiline_options)
 {
 	t_tokens_with_status	*tokens_with_termination_status;
 	bool					has_error;
 
-	tokens_with_termination_status
-		= ft_calloc(sizeof(t_tokens_with_status), 1);
+	tokens_with_termination_status = init_tokens_with_status();
 	if (!tokens_with_termination_status)
 		return (NULL);
 	has_error = false;
@@ -124,15 +133,16 @@ static t_tokens_with_status	*get_tokens_for_input_tracker(
 	}
 	if (has_error)
 		return (NULL);
-	if (still_quoted_or_nested(input_tracker))
+	if (input_tracker->quote_mode != UNQUOTED
+		|| input_tracker->nesting_mode != NOT_NESTED)
 		tokens_with_termination_status->terminated_prematurely = true;
 	return (tokens_with_termination_status);
 }
 
-t_tokens_with_status	*get_tokens_for_input(
-										char *input,
-										t_multiline_options *multiline_options,
-										int start_line_index)
+t_tokens_with_status	*lex(
+							char *input,
+							t_multiline_options *multiline_options,
+							int start_line_index)
 {
 	t_input_tracker	*input_tracker;
 
@@ -141,5 +151,6 @@ t_tokens_with_status	*get_tokens_for_input(
 		return (NULL);
 	input_tracker->input = input;
 	input_tracker->line_index = start_line_index;
-	return (get_tokens_for_input_tracker(input_tracker, multiline_options));
+	return (get_tokens_with_termination_status(input_tracker,
+			multiline_options));
 }

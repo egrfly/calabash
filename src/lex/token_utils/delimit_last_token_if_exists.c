@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 20:53:57 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 05:48:22 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/10 17:22:44 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,10 @@ void	delimit_last_token_if_exists(
 {
 	if (token && !token->is_delimited)
 	{
-		if (!token->context_is_complete)
-		{
-			add_token_trailing_context(
-				token->surrounding_context,
-				input_tracker->input,
-				input_tracker->index_in_line,
-				token->length_in_context);
-			token->context_is_complete = true;
-		}
+		add_token_trailing_context(
+			token,
+			input_tracker->input,
+			input_tracker->index_in_line);
 		if (token->type == WORD)
 			extend_word_token_content(input_tracker, token, has_error);
 		if (token->type == OPERATOR)

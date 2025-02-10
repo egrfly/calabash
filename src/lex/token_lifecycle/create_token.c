@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 01:20:56 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 06:26:01 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/10 06:17:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_token	*create_token(
 	}
 	new_token->start_line_index = input_tracker->line_index;
 	new_token->start_index_in_start_line = input_tracker->index_in_line;
-	add_token_leading_context(new_token->surrounding_context,
+	add_token_leading_context(new_token,
 		input_tracker->input, input_tracker->index_in_line);
 	new_token->start_index_in_context
 		= get_token_start_index_in_context(input_tracker->index_in_line);

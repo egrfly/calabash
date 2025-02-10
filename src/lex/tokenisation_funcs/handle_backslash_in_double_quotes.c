@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:22:51 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 05:16:42 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/10 04:25:15 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../lex.h"
 #include "../context_utils/context_utils.h"
 #include "../input_utils/input_utils.h"
+#include "../token_utils/token_utils.h"
 
 bool	handle_backslash_in_double_quotes(
 			t_input_tracker *input_tracker,

@@ -1,32 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_to_token_context_if_space_available.c          :+:      :+:    :+:   */
+/*   option_is_unrecognised_or_unsupported.c            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 15:11:49 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 17:22:28 by emflynn          ###   ########.fr       */
+/*   Created: 2025/02/10 22:48:10 by emflynn           #+#    #+#             */
+/*   Updated: 2025/02/10 22:48:36 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "ft_string.h"
-#include "../lex.h"
-#include "../input_utils/input_utils.h"
-#include "./context_utils.h"
 
-void	add_to_token_context_if_space_available(
-			t_input_tracker *input_tracker,
-			t_token *token)
+bool	option_is_unrecognised_or_unsupported(int argc, char **argv,
+			int c_option_count)
 {
-	if (token->length_in_context < MAX_TOKEN_LENGTH_IN_CONTEXT)
-	{
-		ft_strncat(token->surrounding_context,
-			get_current_char_pointer(input_tracker),
-			1);
-		token->length_in_context++;
-	}
-	else
-		token->context_was_truncated = true;
+	return (c_option_count + 1 < argc
+		&& ft_strcmp(argv[1 + c_option_count], "-")
+		&& ft_strcmp(argv[1 + c_option_count], "--")
+		&& ft_strstarts(argv[1 + c_option_count], "-"));
 }
