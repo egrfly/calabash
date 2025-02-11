@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_utils.h                                      :+:      :+:    :+:   */
+/*   leave_escaped_section.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/08 04:15:27 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/11 19:49:33 by emflynn          ###   ########.fr       */
+/*   Created: 2025/02/11 17:16:06 by emflynn           #+#    #+#             */
+/*   Updated: 2025/02/11 20:13:50 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_UTILS_H
-# define INPUT_UTILS_H
+#include "../lex.h"
 
-# include "../lex.h"
-
-char	*get_current_char_pointer(
-			t_input_tracker *input_tracker);
-char	get_current_char(
-			t_input_tracker *input_tracker);
-char	get_next_char(
-			t_input_tracker *input_tracker);
-bool	in_escaped_section(
-			t_input_tracker *input_tracker);
 void	leave_escaped_section(
-			t_input_tracker *input_tracker);
-
-#endif
+			t_input_tracker *input_tracker)
+{
+	if (input_tracker->quote_mode == ESCAPED)
+		input_tracker->quote_mode = UNQUOTED;
+	if (input_tracker->quote_mode == DOUBLE_QUOTED_AND_ESCAPED)
+		input_tracker->quote_mode = DOUBLE_QUOTED;
+}

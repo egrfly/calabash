@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 20:53:57 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 17:22:44 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/11 20:10:54 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	delimit_last_token_if_exists(
 			input_tracker->input,
 			input_tracker->index_in_line);
 		if (token->type == WORD)
-			extend_word_token_content(input_tracker, token, has_error);
+			extend_word_token_content(input_tracker,
+				token, NO_BACKSLASH_ADJUSTMENT, has_error);
 		if (token->type == OPERATOR)
 			token->content.operator
 				= get_operator_token_content(

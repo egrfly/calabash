@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:29:35 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 04:24:09 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/11 20:50:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ static void	set_quote_mode(t_input_tracker *input_tracker)
 		input_tracker->quote_mode = SINGLE_QUOTED;
 }
 
+static bool	reached_backslash_newline_sequence(t_input_tracker *input_tracker)
+{
+	return (get_current_char(input_tracker) == '\\'
+		&& !get_next_char(input_tracker));
+}
+
 bool	enter_quoted_section(
 			t_input_tracker *input_tracker,
 			t_list *tokens,
@@ -45,17 +51,18 @@ bool	enter_quoted_section(
 	if (input_tracker->quote_mode == UNQUOTED
 		&& ft_strchr("\\\"\'", get_current_char(input_tracker)))
 	{
-		if (!last_token || last_token->type != WORD)
+		if (last_token && last_token->type != WORD)
+			delimit_last_token_if_exists(input_tracker, last_token, has_error);
+		if (!(last_token && !last_token->is_delimited)
+			&& !reached_backslash_newline_sequence(input_tracker))
 		{
-			start_token(input_tracker,
-				tokens,
-				create_word_token,
-				has_error);
+			start_token(input_tracker, tokens, create_word_token, has_error);
 			if (*has_error)
 				return (false);
 			last_token = tokens->last->value;
 		}
-		add_to_token_context_if_space_available(input_tracker, last_token);
+		if (last_token && !last_token->is_delimited)
+			add_to_token_context_if_space_available(input_tracker, last_token);
 		set_quote_mode(input_tracker);
 		input_tracker->index_in_line++;
 		return (true);
