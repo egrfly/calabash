@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 20:53:57 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/11 20:10:54 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/20 23:13:52 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ void	delimit_last_token_if_exists(
 					input_tracker->index_in_line
 					- token->start_index_in_start_line);
 		token->is_delimited = true;
+		token->end_line_index = input_tracker->line_index;
 	}
 }

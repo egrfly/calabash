@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 01:20:56 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 21:52:44 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/20 23:15:09 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static bool	set_end_of_input_specific_properties(t_token *token)
 	token->type = END_OF_INPUT;
 	token->length_in_context = BLANK_TOKEN_LENGTH_IN_CONTEXT;
 	token->is_delimited = true;
+	token->end_line_index = token->start_line_index;
 	return (true);
 }
 

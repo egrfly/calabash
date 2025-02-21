@@ -6,12 +6,13 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:44:21 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 06:18:10 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/20 23:14:14 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "ft_list.h"
+#include "../../interface/interface.h"
 #include "../lex.h"
 #include "../content_utils/content_utils.h"
 #include "../context_utils/context_utils.h"
@@ -53,6 +54,7 @@ bool	delimit_operator(
 				input_tracker->index_in_line
 				- last_token->start_index_in_start_line);
 		last_token->is_delimited = true;
+		last_token->end_line_index = input_tracker->line_index;
 		return (true);
 	}
 	return (false);

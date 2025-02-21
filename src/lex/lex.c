@@ -6,24 +6,28 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 22:05:36 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/21 06:12:04 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_list.h"
 #include "ft_stdlib.h"
+#include "../interface/interface.h"
 #include "./lex.h"
 #include "./token_lifecycle/token_lifecycle.h"
 #include "./tokenisation_funcs/tokenisation_funcs.h"
 
-static const t_tokenisation_func	g_terminating_tokenisation_funcs[] = {
+static const
+	t_tokenisation_func
+	g_terminating_tokenisation_funcs[] = {
 	delimit_token_if_at_end_of_input,
 	delimit_token_if_at_end_of_nested_section,
-	NULL,
 };
 
-static const t_tokenisation_func	g_non_terminating_tokenisation_funcs[] = {
+static const
+	t_tokenisation_func
+	g_non_terminating_tokenisation_funcs[] = {
 	get_next_line_if_quoted_and_out_of_input,
 	// handle_nested_parentheses,
 	continue_operator,
@@ -40,7 +44,6 @@ static const t_tokenisation_func	g_non_terminating_tokenisation_funcs[] = {
 	continue_word,
 	handle_comment,
 	start_word,
-	NULL,
 };
 
 static bool	any_terminating_tokenisation_func_called_without_error(
@@ -49,10 +52,11 @@ static bool	any_terminating_tokenisation_func_called_without_error(
 				t_list *tokens,
 				bool *has_error)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (g_terminating_tokenisation_funcs[i])
+	while (i < sizeof(g_terminating_tokenisation_funcs)
+		/ sizeof(t_tokenisation_func))
 	{
 		if ((*g_terminating_tokenisation_funcs[i])(
 			input_tracker, tokens, multiline_options, has_error))
@@ -73,10 +77,11 @@ static bool	any_non_terminating_tokenisation_func_called_without_error(
 				t_list *tokens,
 				bool *has_error)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (g_non_terminating_tokenisation_funcs[i])
+	while (i < sizeof(g_non_terminating_tokenisation_funcs)
+		/ sizeof(t_tokenisation_func))
 	{
 		if ((*g_non_terminating_tokenisation_funcs[i])(
 			input_tracker, tokens, multiline_options, has_error))
@@ -135,7 +140,7 @@ static t_tokens_with_status	*get_tokens_with_termination_status(
 		return (NULL);
 	if (input_tracker->quote_mode != UNQUOTED
 		|| input_tracker->nesting_mode != NOT_NESTED)
-		tokens_with_termination_status->terminated_prematurely = true;
+		tokens_with_termination_status->input_terminated_prematurely = true;
 	return (tokens_with_termination_status);
 }
 

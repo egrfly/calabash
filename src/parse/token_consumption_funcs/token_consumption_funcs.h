@@ -1,0 +1,446 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_consumption_funcs.h                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/13 19:55:08 by emflynn           #+#    #+#             */
+/*   Updated: 2025/02/21 09:10:32 by emflynn          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef TOKEN_CONSUMPTION_FUNCS_H
+# define TOKEN_CONSUMPTION_FUNCS_H
+
+# include "ft_list.h"
+# include "../../interface/interface.h"
+# include "../parse.h"
+
+int	try_get_input_units(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_input_units_continuation(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_sync_or_async_simple_command_list(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_simple_command_list(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_simple_command_list_continuation(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_simple_command_connector(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_optionally_timed_or_negated_pipeline(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_optionally_timed_or_negated_pipeline_or_list_separator(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_pipeline_timing_or_negation(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_time_command(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_time_posix_option(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_options_end(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_command(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_simple_command(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_simple_command_core_and_suffix(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_simple_command_core(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_simple_command_prefix(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_simple_command_suffix(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_simple_command_prefix_element(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_simple_command_suffix_element(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_redirection_list(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_redirection(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_redirection_operator_without_ampersand(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_redirection_operator_ending_with_ampersand(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_redirection_operator_starting_with_ampersand(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_dash_or_number_or_word(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_number_or_redirection_word(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_function_definition(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_function_declaration(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_function_body(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_shell_command(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_loop_command_body_or_group(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_loop_command_body(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_while_command(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_until_command(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_if_command(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_elif_clause_list(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_elif_clause(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_else_clause(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_for_command(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_select_command(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_case_command(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_optionally_terminated_case_clause_list(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_case_clause_list(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_case_clause_list_continuation(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_case_clause_terminator(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_pattern_with_body(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_pattern(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_pattern_continuation(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_word_or_arithmetic_for_expression(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_arithmetic_for_expression(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_section_following_arithmetic_for_expression_syntax(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_conditional_command(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_section_following_conditional_command_syntax(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_arithmetic_command(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_section_following_arithmetic_command_syntax(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_subshell(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_group(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_word_list(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_terminated_compound_list(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_optionally_terminated_compound_list(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_compound_list(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_compound_list_continuation(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_compound_list_connector(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_compound_list_terminator(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_named_or_unnamed_coprocess_declaration(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_unnamed_coprocess_declaration(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_named_coprocess_declaration(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_pipeline(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_pipeline_continuation(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_pipeline_operator(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_logical_operator(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_list_separator(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_sync_or_async_operator(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_operator(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_reserved_word(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_non_reserved_identifier(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_number(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_assignment_word(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_redirection_word(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_word(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_non_reserved_word(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_single_line_whitespace(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_multiline_whitespace(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_end_of_input(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+
+#endif

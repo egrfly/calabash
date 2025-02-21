@@ -1,4 +1,5 @@
 # Project-specific ignores
+calabash
 minishell
 
 # Created by https://www.toptal.com/developers/gitignore/api/c,visualstudiocode,jetbrains,macos,linux,windows

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 04:04:46 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 06:20:51 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/20 21:54:42 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,16 @@
 #include "ft_stdio.h"
 #include "ft_string.h"
 #include "../lex/lex.h"
+#include "./debug.h"
 
-static const char	*g_token_type_descriptors[] = {
-	"word",
-	"operator",
-	"newline",
-	"whitespace",
-	"end of input",
-};
-
-static const char	*g_operator_symbols[] = {
-	NULL,
-	"||",
-	"|&",
-	"|",
-	"&&",
-	"&>>",
-	"&>",
-	"&",
-	";;&",
-	";;",
-	";&",
-	";",
-	"<<<",
-	"<<-",
-	"<<",
-	"<>",
-	"<&",
-	"<",
-	">>",
-	">|",
-	">&",
-	">",
-	"((",
-	"(",
-	"))",
-	")",
+static const
+	char
+	*g_token_type_descriptors[] = {
+[WORD] = "word",
+[OPERATOR] = "operator",
+[NEWLINE] = "newline",
+[WHITESPACE] = "whitespace",
+[END_OF_INPUT] = "end of input",
 };
 
 void	print_tokens(t_list *tokens)
@@ -69,7 +43,7 @@ void	print_tokens(t_list *tokens)
 			ft_printf("Word content: `%s`\n", current_token->content.word);
 		if (current_token->type == OPERATOR)
 			ft_printf("Operator content: `%s`\n",
-				g_operator_symbols[current_token->content.operator]);
+				get_operator_symbol(current_token->content.operator));
 		ft_printf("Context: %s\n%*s%.*s\n",
 			current_token->surrounding_context,
 			current_token->start_index_in_context + ft_strlen("Context: "),

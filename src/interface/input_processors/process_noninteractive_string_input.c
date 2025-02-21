@@ -6,11 +6,12 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:15 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 22:33:31 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/11 23:42:54 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../lex/lex.h"
+#include "../interface.h"
 #include "../line_getters/line_getters.h"
 #include "../token_processors/token_processors.h"
 

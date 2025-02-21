@@ -6,13 +6,14 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:29:35 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/11 20:50:00 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/11 23:46:55 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "ft_list.h"
 #include "ft_string.h"
+#include "../../interface/interface.h"
 #include "../lex.h"
 #include "../context_utils/context_utils.h"
 #include "../input_utils/input_utils.h"

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 22:55:47 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/11 23:42:26 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <unistd.h>
 #include "ft_stdio.h"
 #include "../../lex/lex.h"
+#include "../interface.h"
 #include "../line_getters/line_getters.h"
 #include "../token_processors/token_processors.h"
 

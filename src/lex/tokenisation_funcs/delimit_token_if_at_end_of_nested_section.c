@@ -6,28 +6,30 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:52:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/09 03:17:35 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/20 21:54:04 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "ft_list.h"
 #include "ft_string.h"
+#include "../../interface/interface.h"
 #include "../lex.h"
 #include "../input_utils/input_utils.h"
 #include "../token_lifecycle/token_lifecycle.h"
 #include "../token_utils/token_utils.h"
 
-static const char	*g_nesting_mode_closing_symbols[] = {
-	NULL,
-	"))",
-	")",
-	"}",
-	")",
-	")",
-	"))",
-	")",
-	"`",
+static const
+	char
+	*g_nesting_mode_closing_symbols[] = {
+[DOLLAR_PARENTHESIS_PARENTHESIS] = "))",
+[DOLLAR_PARENTHESIS] = ")",
+[DOLLAR_BRACE] = "}",
+[LESS_PARENTHESIS] = ")",
+[GREATER_PARENTHESIS] = ")",
+[PARENTHESIS_PARENTHESIS] = "))",
+[PARENTHESIS] = ")",
+[BACKTICK] = "`",
 };
 
 static bool	is_valid_end_of_nested_section_instance(

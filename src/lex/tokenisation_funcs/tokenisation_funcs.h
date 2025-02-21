@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 04:50:53 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 05:34:03 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/11 23:47:58 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define TOKENISATION_FUNCS_H
 
 # include <stdbool.h>
+# include "../../interface/interface.h"
 # include "../lex.h"
 
 typedef bool	(*t_tokenisation_func)(

@@ -6,12 +6,13 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:52:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 05:58:11 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/11 23:46:33 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "ft_list.h"
+#include "../../interface/interface.h"
 #include "../lex.h"
 #include "../input_utils/input_utils.h"
 #include "../token_lifecycle/token_lifecycle.h"

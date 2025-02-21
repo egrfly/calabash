@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:21:28 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 21:55:16 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/20 23:12:15 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdbool.h>
 # include <stdlib.h>
 # include "ft_list.h"
+# include "../interface/interface.h"
 
 typedef enum e_quote_mode
 {
@@ -32,7 +33,6 @@ typedef enum e_quote_mode
 	SINGLE_QUOTED,
 	DOUBLE_QUOTED,
 	DOUBLE_QUOTED_AND_ESCAPED,
-	MAX_QUOTE_MODE,
 }	t_quote_mode;
 
 typedef enum e_nesting_mode
@@ -46,7 +46,6 @@ typedef enum e_nesting_mode
 	PARENTHESIS_PARENTHESIS,
 	PARENTHESIS,
 	BACKTICK,
-	MAX_NESTING_MODE,
 }	t_nesting_mode;
 
 typedef enum e_operator
@@ -77,7 +76,6 @@ typedef enum e_operator
 	OPENING_PARENTHESIS,
 	CLOSING_PARENTHESIS_PARENTHESIS,
 	CLOSING_PARENTHESIS,
-	OPERATOR_COUNT,
 }	t_operator;
 
 typedef enum e_token_type
@@ -95,13 +93,6 @@ typedef union u_token_content
 	t_operator	operator;
 }	t_token_content;
 
-typedef struct s_multiline_options
-{
-	bool	input_mode_is_interactive;
-	char	*(*get_next_line)(void *arg);
-	void	*get_next_line_arg;
-}	t_multiline_options;
-
 typedef struct s_input_tracker
 {
 	char			*input;
@@ -117,6 +108,7 @@ typedef struct s_token
 	t_token_type	type;
 	int				start_line_index;
 	int				start_index_in_start_line;
+	int				end_line_index;
 	t_token_content	content;
 	char			surrounding_context[ELLIPSIS_LENGTH
 		+ MAX_LEADING_CONTEXT_LENGTH
@@ -135,7 +127,7 @@ typedef struct s_token
 typedef struct s_tokens_with_status
 {
 	t_list	*tokens;
-	bool	terminated_prematurely;
+	bool	input_terminated_prematurely;
 }	t_tokens_with_status;
 
 t_tokens_with_status	*lex(char *input,
