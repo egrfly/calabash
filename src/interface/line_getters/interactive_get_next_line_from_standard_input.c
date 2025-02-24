@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_null_line.c                                    :+:      :+:    :+:   */
+/*   interactive_get_next_line_from_standard_inp        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:08:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 22:08:30 by emflynn          ###   ########.fr       */
+/*   Created: 2025/02/10 22:09:31 by emflynn           #+#    #+#             */
+/*   Updated: 2025/02/24 12:12:17 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <stdio.h>
 
-char	*get_null_line(void *arg)
+char	*interactive_get_next_line_from_standard_input(void *arg)
 {
 	(void)arg;
-	return (NULL);
+	return (readline("> "));
 }

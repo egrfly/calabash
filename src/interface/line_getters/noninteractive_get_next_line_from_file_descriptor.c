@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interactive_get_next_line.c                        :+:      :+:    :+:   */
+/*   noninteractive_get_next_line_from_file_desc        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:09:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 22:16:56 by emflynn          ###   ########.fr       */
+/*   Created: 2025/02/10 22:10:44 by emflynn           #+#    #+#             */
+/*   Updated: 2025/02/24 12:13:05 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdio.h>
+#include "ft_stdio.h"
 
-char	*interactive_get_next_line(void *arg)
+char	*noninteractive_get_next_line_from_file_descriptor(void *arg)
 {
-	(void)arg;
-	return (readline("> "));
+	return (ft_getline(*(int *)arg));
 }

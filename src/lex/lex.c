@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:12:04 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/24 19:37:45 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static const
 	enter_quoted_section,
 	// handle_expanded_section,
 	start_operator,
-	// create_newline,
 	continue_whitespace,
 	start_whitespace,
 	continue_word,

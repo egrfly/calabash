@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/11 23:42:26 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/24 12:30:26 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "../interface.h"
 #include "../line_getters/line_getters.h"
 #include "../token_processors/token_processors.h"
+#include "./input_processors.h"
 
 static void	print_banner_if_available(void)
 {
@@ -47,8 +48,9 @@ int	process_interactive_input(char *program_name)
 	int						latest_return_value;
 
 	multiline_options.input_mode_is_interactive = true;
-	multiline_options.get_next_line = interactive_get_next_line;
-	multiline_options.get_next_line_arg = NULL;
+	multiline_options.get_next_line
+		= interactive_get_next_line_from_standard_input;
+	multiline_options.get_next_line_arg = NO_ARG;
 	print_banner_if_available();
 	latest_return_value = 0;
 	while (true)
