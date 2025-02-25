@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:21:28 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/20 23:12:15 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 11:15:59 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,17 @@ typedef enum e_quote_mode
 	DOUBLE_QUOTED_AND_ESCAPED,
 }	t_quote_mode;
 
-typedef enum e_nesting_mode
+typedef enum e_expansion_mode
 {
-	NOT_NESTED,
-	DOLLAR_PARENTHESIS_PARENTHESIS,
-	DOLLAR_PARENTHESIS,
-	DOLLAR_BRACE,
-	LESS_PARENTHESIS,
-	GREATER_PARENTHESIS,
-	PARENTHESIS_PARENTHESIS,
-	PARENTHESIS,
-	BACKTICK,
-}	t_nesting_mode;
+	NOT_EXPANDED_OR_SUBSTITUTED,
+	ARITHMETIC_EXPANSION,
+	COMMAND_SUBSTITUTION_WITH_DOLLAR_PARENTHESES,
+	VARIABLE_EXPANSION_WITH_BRACES,
+	VARIABLE_EXPANSION_WITHOUT_BRACES,
+	PROCESS_SUBSTITUTION_WITH_LESS,
+	PROCESS_SUBSTITUTION_WITH_GREATER,
+	COMMAND_SUBSTITUTION_WITH_BACKTICKS,
+}	t_expansion_mode;
 
 typedef enum e_operator
 {
@@ -93,16 +92,6 @@ typedef union u_token_content
 	t_operator	operator;
 }	t_token_content;
 
-typedef struct s_input_tracker
-{
-	char			*input;
-	int				line_index;
-	int				index_in_line;
-	t_quote_mode	quote_mode;
-	t_nesting_mode	nesting_mode;
-	bool			is_out_of_lines;
-}	t_input_tracker;
-
 typedef struct s_token
 {
 	t_token_type	type;
@@ -127,11 +116,22 @@ typedef struct s_token
 typedef struct s_tokens_with_status
 {
 	t_list	*tokens;
+	bool	out_of_memory;
+	bool	contains_unsupported_features;
 	bool	input_terminated_prematurely;
 }	t_tokens_with_status;
 
 t_tokens_with_status	*lex(char *input,
 							t_multiline_options *multiline_options,
 							int start_line_index);
+
+typedef struct s_input_tracker
+{
+	char			*input;
+	int				line_index;
+	int				index_in_line;
+	t_quote_mode	quote_mode;
+	bool			is_out_of_lines;
+}	t_input_tracker;
 
 #endif

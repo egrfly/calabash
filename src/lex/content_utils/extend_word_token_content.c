@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:32:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/11 16:38:20 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 12:13:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	extend_word_token_content(
 			t_input_tracker *input_tracker,
 			t_token *token,
 			int backslash_adjustment,
-			bool *has_error)
+			bool *out_of_memory)
 {
 	char	*existing_word;
 	char	*extension_of_word;
@@ -34,7 +34,7 @@ void	extend_word_token_content(
 			input_tracker->index_in_line - backslash_adjustment);
 	token->content.word = ft_strjoin(token->content.word, extension_of_word);
 	if (!token->content.word)
-		*has_error = true;
+		*out_of_memory = true;
 	free(existing_word);
 	free(extension_of_word);
 }

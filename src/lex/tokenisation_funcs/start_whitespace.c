@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:36:18 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/11 23:47:44 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 12:18:21 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,13 @@ static bool	is_valid_whitespace_start_opportunity(
 
 bool	start_whitespace(
 			t_input_tracker *input_tracker,
-			t_list *tokens,
-			t_multiline_options *multiline_options,
-			bool *has_error)
+			t_tokens_with_status *tokens_with_status,
+			t_multiline_options *multiline_options)
 {
 	(void)multiline_options;
 	if (is_valid_whitespace_start_opportunity(input_tracker))
 		return (start_token(input_tracker,
-				tokens,
-				create_whitespace_token,
-				has_error));
+				tokens_with_status,
+				create_whitespace_token));
 	return (false);
 }

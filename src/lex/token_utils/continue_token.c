@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:39:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 04:28:34 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:17:05 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ bool	continue_token(
 		&& !last_token->is_delimited
 		&& is_valid_token_continuation(input_tracker, last_token))
 	{
-		add_to_token_context_if_space_available(input_tracker, last_token);
-		input_tracker->index_in_line++;
+		add_to_token_context_and_advance(input_tracker, last_token);
 		return (true);
 	}
 	return (false);

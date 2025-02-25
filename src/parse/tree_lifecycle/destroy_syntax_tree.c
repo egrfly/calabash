@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:51:08 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/18 16:17:30 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 11:35:47 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	destroy_syntax_tree(t_syntax_tree *syntax_tree)
 		deconstruct_syntax_tree_back_to_checkpoint(syntax_tree, BEGINNING);
 		ft_list_destroy(syntax_tree->undo_actions, DELETE_NO_OP);
 	}
-	if (syntax_tree->tree)
-		free(syntax_tree->tree);
+	free(syntax_tree->tree);
 	free(syntax_tree);
 }

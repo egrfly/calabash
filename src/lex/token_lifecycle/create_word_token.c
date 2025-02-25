@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:40:32 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 06:26:51 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 11:47:31 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static bool	set_word_specific_properties(t_token *token)
 
 t_token	*create_word_token(
 			t_input_tracker *input_tracker,
-			bool *has_error)
+			bool *out_of_memory)
 {
 	return (create_token(input_tracker,
 			set_word_specific_properties,
-			has_error));
+			out_of_memory));
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_to_token_context_if_space_available.c          :+:      :+:    :+:   */
+/*   add_to_token_context_and_advance.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:11:49 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/11 16:55:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:17:24 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "../input_utils/input_utils.h"
 #include "./context_utils.h"
 
-void	add_to_token_context_if_space_available(
+void	add_to_token_context_and_advance(
 			t_input_tracker *input_tracker,
 			t_token *token)
 {
@@ -30,4 +30,5 @@ void	add_to_token_context_if_space_available(
 	}
 	else
 		token->context_was_truncated = true;
+	input_tracker->index_in_line++;
 }

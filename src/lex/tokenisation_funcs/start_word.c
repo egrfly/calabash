@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:36:18 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/11 23:47:47 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 12:18:32 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@
 
 bool	start_word(
 			t_input_tracker *input_tracker,
-			t_list *tokens,
-			t_multiline_options *multiline_options,
-			bool *has_error)
+			t_tokens_with_status *tokens_with_status,
+			t_multiline_options *multiline_options)
 {
 	(void)multiline_options;
 	return (start_token(input_tracker,
-			tokens,
-			create_word_token,
-			has_error));
+			tokens_with_status,
+			create_word_token));
 }

@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_whitespace_token.c                          :+:      :+:    :+:   */
+/*   tree_has_errors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/08 01:39:13 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 11:47:24 by emflynn          ###   ########.fr       */
+/*   Created: 2025/02/25 17:45:10 by emflynn           #+#    #+#             */
+/*   Updated: 2025/02/25 18:07:04 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
-#include "../lex.h"
-#include "./token_lifecycle.h"
+#include "../parse.h"
 
-static bool	set_whitespace_specific_properties(t_token *token)
+bool	tree_has_errors(t_syntax_tree *syntax_tree)
 {
-	token->type = WHITESPACE;
-	return (true);
-}
-
-t_token	*create_whitespace_token(
-			t_input_tracker *input_tracker,
-			bool *out_of_memory)
-{
-	return (create_token(input_tracker,
-			set_whitespace_specific_properties,
-			out_of_memory));
+	return (syntax_tree->out_of_memory
+		|| syntax_tree->contains_unsupported_features
+		|| syntax_tree->input_terminated_prematurely);
 }

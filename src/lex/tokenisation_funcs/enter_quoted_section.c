@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:29:35 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/11 23:46:55 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:39:52 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,31 +41,28 @@ static bool	reached_backslash_newline_sequence(t_input_tracker *input_tracker)
 
 bool	enter_quoted_section(
 			t_input_tracker *input_tracker,
-			t_list *tokens,
-			t_multiline_options *multiline_options,
-			bool *has_error)
+			t_tokens_with_status *tokens_with_status,
+			t_multiline_options *multiline_options)
 {
 	t_token	*last_token;
 
 	(void)multiline_options;
-	last_token = get_last_token(tokens);
+	last_token = get_last_token(tokens_with_status->tokens);
 	if (input_tracker->quote_mode == UNQUOTED
 		&& ft_strchr("\\\"\'", get_current_char(input_tracker)))
 	{
 		if (last_token && last_token->type != WORD)
-			delimit_last_token_if_exists(input_tracker, last_token, has_error);
-		if (!(last_token && !last_token->is_delimited)
-			&& !reached_backslash_newline_sequence(input_tracker))
-		{
-			start_token(input_tracker, tokens, create_word_token, has_error);
-			if (*has_error)
-				return (false);
-			last_token = tokens->last->value;
-		}
-		if (last_token && !last_token->is_delimited)
-			add_to_token_context_if_space_available(input_tracker, last_token);
+			delimit_last_token_if_exists(input_tracker, last_token,
+				&tokens_with_status->out_of_memory);
+		if (!reached_backslash_newline_sequence(input_tracker)
+			&& !advance_to_new_word_token_if_necessary(input_tracker,
+				&last_token, tokens_with_status))
+			return (false);
 		set_quote_mode(input_tracker);
-		input_tracker->index_in_line++;
+		if (last_token && !last_token->is_delimited)
+			add_to_token_context_and_advance(input_tracker, last_token);
+		else
+			input_tracker->index_in_line++;
 		return (true);
 	}
 	return (false);

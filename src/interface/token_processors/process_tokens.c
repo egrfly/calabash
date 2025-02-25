@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 07:46:21 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 16:49:40 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "../../debug/debug.h"
 #include "../../lex/lex.h"
 #include "../../parse/parse.h"
+#include "../../parse/tree_lifecycle/tree_lifecycle.h"
 #include "../interface.h"
 
 #ifndef DEBUG_LEXING
@@ -96,7 +97,8 @@ static int	process_syntax_tree(
 	if (!syntax_tree)
 		return (ft_dprintf(STDERR_FILENO,
 				"%s: out of memory\n",
-				program_name), GENERAL_FAILURE);
+				program_name),
+			GENERAL_FAILURE);
 	if (syntax_tree->contains_unsupported_features)
 		return (print_parsing_error(
 				program_name,
@@ -120,17 +122,28 @@ int	process_tokens(
 		char *program_name)
 {
 	t_syntax_tree	*syntax_tree;
+	int				status;
 
-	if (!tokens_with_status)
+	if (!tokens_with_status || tokens_with_status->out_of_memory)
 		return (ft_dprintf(STDERR_FILENO,
 				"%s: out of memory\n",
-				program_name), GENERAL_FAILURE);
+				program_name),
+			GENERAL_FAILURE);
+	if (tokens_with_status->contains_unsupported_features)
+		return (print_parsing_error(
+				program_name,
+				"unsupported feature",
+				get_first_unsupported_token(tokens_with_status->tokens)),
+			INCORRECT_USAGE);
 	if (tokens_with_status->input_terminated_prematurely)
 		return (ft_dprintf(STDERR_FILENO,
 				"%s: an opening quote or bracket was not closed\n",
-				program_name), INCORRECT_USAGE);
+				program_name),
+			INCORRECT_USAGE);
 	if (DEBUG_LEXING)
 		return (print_tokens(tokens_with_status->tokens), 0);
 	syntax_tree = parse(tokens_with_status->tokens, multiline_options);
-	return (process_syntax_tree(tokens_with_status, syntax_tree, program_name));
+	status = process_syntax_tree(tokens_with_status, syntax_tree, program_name);
+	destroy_syntax_tree(syntax_tree);
+	return (status);
 }

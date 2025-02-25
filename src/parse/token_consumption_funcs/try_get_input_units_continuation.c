@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:59:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:22:10 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 18:49:19 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static const
 {
 	.token_consumption_func = try_get_multiline_whitespace,
 	.token_consumption_func_arg
-	= (void *)SHOULD_NOT_PROMPT_FURTHER_IN_INTERACTIVE_MODE,
+	= (void *)SHOULD_NOT_PROMPT_MORE_IN_INTERACTIVE_MODE,
 	.tree_update_func = update_command_to_terminated,
 	.is_optional = MANDATORY,
 	.is_supported = SUPPORTED,

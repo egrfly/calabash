@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:44:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/11 23:48:38 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 11:40:14 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,13 @@ static bool	is_valid_operator_continuation(
 
 bool	continue_operator(
 			t_input_tracker *input_tracker,
-			t_list *tokens,
-			t_multiline_options *multiline_options,
-			bool *has_error)
+			t_tokens_with_status *tokens_with_status,
+			t_multiline_options *multiline_options)
 {
 	t_token	*last_token;
 
 	(void)multiline_options;
-	(void)has_error;
-	last_token = get_last_token(tokens);
+	last_token = get_last_token(tokens_with_status->tokens);
 	return (continue_token(
 			input_tracker,
 			last_token,

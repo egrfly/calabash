@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:03:17 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 06:26:51 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 11:46:57 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static bool	set_operator_specific_properties(t_token *token)
 
 t_token	*create_operator_token(
 			t_input_tracker *input_tracker,
-			bool *has_error)
+			bool *out_of_memory)
 {
 	return (create_token(input_tracker,
 			set_operator_specific_properties,
-			has_error));
+			out_of_memory));
 }

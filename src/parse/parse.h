@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:13:10 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/24 12:29:15 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 18:49:24 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 # define SUPPORTED true
 # define UNSUPPORTED false
 
-# define SHOULD_PROMPT_FURTHER_IN_INTERACTIVE_MODE true
-# define SHOULD_NOT_PROMPT_FURTHER_IN_INTERACTIVE_MODE false
+# define SHOULD_PROMPT_MORE_IN_INTERACTIVE_MODE true
+# define SHOULD_NOT_PROMPT_MORE_IN_INTERACTIVE_MODE false
 
 typedef enum e_syntax_tree_node_value_type
 {
@@ -85,6 +85,15 @@ typedef union u_redirection_right_content
 	char	*word;
 }	t_redirection_right_content;
 
+typedef struct s_redirection
+{
+	t_redirection_left_type		left_type;
+	t_redirection_left_content	left_content;
+	t_operator					operator;
+	t_redirection_right_type	right_type;
+	t_redirection_right_content	right_content;
+}	t_redirection;
+
 typedef struct s_syntax_tree_node_value
 {
 	t_syntax_tree_node_value_type	type;
@@ -102,19 +111,11 @@ typedef struct s_syntax_tree
 	t_binary_tree		*tree;
 	t_binary_tree_node	*current_node;
 	t_list				*undo_actions;
+	bool				out_of_memory;
 	bool				contains_unsupported_features;
 	bool				some_tokens_left_unconsumed;
 	bool				input_terminated_prematurely;
 }	t_syntax_tree;
-
-typedef struct s_redirection
-{
-	t_redirection_left_type		left_type;
-	t_redirection_left_content	left_content;
-	t_operator					operator;
-	t_redirection_right_type	right_type;
-	t_redirection_right_content	right_content;
-}	t_redirection;
 
 typedef int		(*t_token_consumption_func)(
 	void *arg,

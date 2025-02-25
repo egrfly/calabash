@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:55:08 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 09:10:32 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:28:31 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 # include "ft_list.h"
 # include "../../interface/interface.h"
 # include "../parse.h"
+
+typedef struct s_tokens_consumed_counts
+{
+	int	total;
+	int	newlines;
+}	t_tokens_consumed_counts;
 
 int	try_get_input_units(
 		void *arg,

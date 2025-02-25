@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:44:19 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 07:00:25 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 18:06:11 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ typedef struct s_parsing_tracker
 {
 	t_list_node			*checkpoint;
 	t_list_node			*current_token_node;
-	int					tokens_consumed;
-	int					tokens_consumed_this_step;
+	int					tokens_consumed_count;
+	int					tokens_consumed_this_step_count;
 	int					step_index;
 	t_parsing_option	step;
 }	t_parsing_tracker;

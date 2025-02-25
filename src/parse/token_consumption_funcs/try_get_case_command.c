@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 04:02:19 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 09:20:38 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 18:48:57 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static const
 {
 	.token_consumption_func = try_get_multiline_whitespace,
 	.token_consumption_func_arg
-	= (void *)SHOULD_PROMPT_FURTHER_IN_INTERACTIVE_MODE,
+	= (void *)SHOULD_PROMPT_MORE_IN_INTERACTIVE_MODE,
 	.tree_update_func = UPDATE_NO_OP,
 	.is_optional = OPTIONAL,
 	.is_supported = SUPPORTED,
@@ -59,7 +59,7 @@ static const
 {
 	.token_consumption_func = try_get_multiline_whitespace,
 	.token_consumption_func_arg
-	= (void *)SHOULD_PROMPT_FURTHER_IN_INTERACTIVE_MODE,
+	= (void *)SHOULD_PROMPT_MORE_IN_INTERACTIVE_MODE,
 	.tree_update_func = UPDATE_NO_OP,
 	.is_optional = OPTIONAL,
 	.is_supported = SUPPORTED,
@@ -74,7 +74,7 @@ static const
 {
 	.token_consumption_func = try_get_multiline_whitespace,
 	.token_consumption_func_arg
-	= (void *)SHOULD_PROMPT_FURTHER_IN_INTERACTIVE_MODE,
+	= (void *)SHOULD_PROMPT_MORE_IN_INTERACTIVE_MODE,
 	.tree_update_func = UPDATE_NO_OP,
 	.is_optional = OPTIONAL,
 	.is_supported = SUPPORTED,

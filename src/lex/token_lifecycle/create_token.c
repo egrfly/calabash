@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 01:20:56 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 06:17:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 11:47:12 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ t_token	*create_token(
 			t_input_tracker *input_tracker,
 			bool (*set_type_specific_properties)(
 				t_token *token),
-			bool *has_error)
+			bool *out_of_memory)
 {
 	t_token	*new_token;
 
 	new_token = ft_calloc(sizeof(t_token), 1);
 	if (!new_token)
 	{
-		*has_error = true;
+		*out_of_memory = true;
 		return (NULL);
 	}
 	new_token->start_line_index = input_tracker->line_index;
@@ -40,7 +40,7 @@ t_token	*create_token(
 	new_token->is_supported = true;
 	if (!set_type_specific_properties(new_token))
 	{
-		*has_error = true;
+		*out_of_memory = true;
 		destroy_token(new_token);
 		return (NULL);
 	}

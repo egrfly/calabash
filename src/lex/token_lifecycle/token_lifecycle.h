@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 04:17:42 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 06:26:25 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 11:47:46 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@
 
 t_token	*create_word_token(
 			t_input_tracker *input_tracker,
-			bool *has_error);
+			bool *out_of_memory);
 t_token	*create_operator_token(
 			t_input_tracker *input_tracker,
-			bool *has_error);
+			bool *out_of_memory);
 t_token	*create_whitespace_token(
 			t_input_tracker *input_tracker,
-			bool *has_error);
+			bool *out_of_memory);
 t_token	*create_end_of_input_token(
 			t_input_tracker *input_tracker,
-			bool *has_error);
+			bool *out_of_memory);
 t_token	*create_token(
 			t_input_tracker *input_tracker,
 			bool (*set_type_specific_properties)(
 				t_token *token),
-			bool *has_error);
+			bool *out_of_memory);
 void	destroy_token(
 			t_token *token);
 

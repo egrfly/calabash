@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:07:41 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 07:20:40 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:29:06 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,22 @@
 #include "../parse.h"
 #include "../token_utils/token_utils.h"
 #include "../tree_lifecycle/tree_lifecycle.h"
+#include "../tree_utils/tree_utils.h"
 #include "./parsing_utils.h"
 
-static int	process_tokens(
+static void	mark_tokens_as_unsupported(
+				t_list_node *original_token_node,
+				int tokens_consumed_this_step_count)
+{
+	while (tokens_consumed_this_step_count > 0)
+	{
+		mark_token_as_unsupported(original_token_node->value);
+		original_token_node = original_token_node->next;
+		tokens_consumed_this_step_count--;
+	}
+}
+
+static int	process_tokens_according_to_parsing_option_sequence_step(
 				t_parsing_tracker *tracker,
 				t_syntax_tree *syntax_tree,
 				t_multiline_options *multiline_options)
@@ -31,34 +44,31 @@ static int	process_tokens(
 		= tracker->step.token_consumption_func(
 			tracker->step.token_consumption_func_arg,
 			&tracker->current_token_node, syntax_tree, multiline_options);
-	if (tokens_consumed_this_step_count > 0
-		&& !tracker->step.is_supported)
+	if (tokens_consumed_this_step_count > 0 && !tracker->step.is_supported)
 	{
-		while (tokens_consumed_this_step_count > 0)
-		{
-			mark_token_as_unsupported(original_token_node->value);
-			original_token_node = original_token_node->next;
-			tokens_consumed_this_step_count--;
-		}
+		mark_tokens_as_unsupported(original_token_node,
+			tokens_consumed_this_step_count);
 		syntax_tree->contains_unsupported_features = true;
+		return (0);
 	}
-	else if (tokens_consumed_this_step_count > 0
-		&& tracker->current_token_node
-		&& tracker->step.tree_update_func)
-		tracker->step.tree_update_func(syntax_tree,
-			tracker->current_token_node->prev);
+	if (tokens_consumed_this_step_count > 0 && tracker->current_token_node
+		&& tracker->step.tree_update_func && !tracker->step.tree_update_func(
+			syntax_tree, tracker->current_token_node->prev))
+	{
+		syntax_tree->out_of_memory = true;
+		return (0);
+	}
 	return (tokens_consumed_this_step_count);
 }
 
-static bool	unsupported_step_processed_or_mandatory_step_not_processed(
+static bool	error_encountered_or_mandatory_step_not_processed(
 				t_parsing_tracker *tracker,
 				t_syntax_tree *syntax_tree)
 {
-	if (tracker->tokens_consumed_this_step > 0
-		&& !tracker->step.is_supported)
+	if (tree_has_errors(syntax_tree))
 		deconstruct_syntax_tree_back_to_checkpoint(syntax_tree,
 			BEGINNING);
-	else if (tracker->tokens_consumed_this_step == 0
+	else if (tracker->tokens_consumed_this_step_count == 0
 		&& !tracker->step.is_optional)
 		deconstruct_syntax_tree_back_to_checkpoint(syntax_tree,
 			tracker->checkpoint);
@@ -67,17 +77,25 @@ static bool	unsupported_step_processed_or_mandatory_step_not_processed(
 	return (true);
 }
 
-static bool	advance_first_token_if_parsing_option_sequence_complete(
-				t_parsing_tracker *tracker,
+static void	process_tokens_according_to_parsing_option_sequence(
+				t_syntax_tree *syntax_tree,
+				t_multiline_options *multiline_options,
 				const t_parsing_option_sequence_with_count *sequence,
-				t_list_node **first_token_node)
+				t_parsing_tracker *tracker)
 {
-	if (tracker->step_index == sequence->count)
+	while (tracker->step_index < sequence->count)
 	{
-		*first_token_node = tracker->current_token_node;
-		return (true);
+		tracker->step = sequence->sequence[tracker->step_index];
+		tracker->tokens_consumed_this_step_count
+			= process_tokens_according_to_parsing_option_sequence_step(
+				tracker, syntax_tree, multiline_options);
+		if (error_encountered_or_mandatory_step_not_processed(
+				tracker, syntax_tree))
+			break ;
+		tracker->tokens_consumed_count
+			+= tracker->tokens_consumed_this_step_count;
+		tracker->step_index++;
 	}
-	return (false);
 }
 
 int	parse_recursively(
@@ -89,25 +107,18 @@ int	parse_recursively(
 	t_parsing_tracker	tracker;
 
 	tracker.checkpoint = syntax_tree->undo_actions->last;
-	while (!syntax_tree->contains_unsupported_features && *sequences)
+	while (!tree_has_errors(syntax_tree) && *sequences)
 	{
 		tracker.current_token_node = *first_token_node;
-		tracker.tokens_consumed = 0;
+		tracker.tokens_consumed_count = 0;
 		tracker.step_index = 0;
-		while (tracker.step_index < (*sequences)->count)
+		process_tokens_according_to_parsing_option_sequence(syntax_tree,
+			multiline_options, *sequences, &tracker);
+		if (tracker.step_index == (*sequences)->count)
 		{
-			tracker.step = (*sequences)->sequence[tracker.step_index];
-			tracker.tokens_consumed_this_step
-				= process_tokens(&tracker, syntax_tree, multiline_options);
-			if (unsupported_step_processed_or_mandatory_step_not_processed(
-					&tracker, syntax_tree))
-				break ;
-			tracker.tokens_consumed += tracker.tokens_consumed_this_step;
-			tracker.step_index++;
+			*first_token_node = tracker.current_token_node;
+			return (tracker.tokens_consumed_count);
 		}
-		if (advance_first_token_if_parsing_option_sequence_complete(
-				&tracker, *sequences, first_token_node))
-			return (tracker.tokens_consumed);
 		sequences++;
 	}
 	return (0);

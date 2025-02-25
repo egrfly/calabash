@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 04:27:10 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/08 06:00:47 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:36:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,16 @@
 # include <stdbool.h>
 # include "../lex.h"
 
+bool	advance_to_new_word_token_if_necessary(
+			t_input_tracker *input_tracker,
+			t_token **last_token,
+			t_tokens_with_status *tokens_with_status);
 bool	start_token(
 			t_input_tracker *input_tracker,
-			t_list *tokens,
+			t_tokens_with_status *tokens_with_status,
 			t_token *(*create_token_of_correct_type)(
 				t_input_tracker *input_tracker,
-				bool *has_error),
-			bool *has_error);
+				bool *out_of_memory));
 bool	continue_token(
 			t_input_tracker *input_tracker,
 			t_token *last_token,
@@ -38,6 +41,6 @@ t_token	*get_last_token(
 void	delimit_last_token_if_exists(
 			t_input_tracker *input_tracker,
 			t_token *token,
-			bool *has_error);
+			bool *out_of_memory);
 
 #endif

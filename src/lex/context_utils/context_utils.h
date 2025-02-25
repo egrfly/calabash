@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 04:09:12 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/11 20:01:56 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:17:05 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../lex.h"
 
-void	add_to_token_context_if_space_available(
+void	add_to_token_context_and_advance(
 			t_input_tracker *input_tracker,
 			t_token *token);
 void	add_token_leading_context(
