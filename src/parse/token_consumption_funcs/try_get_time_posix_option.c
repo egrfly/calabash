@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 15:34:00 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:39:49 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:49:48 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_time_posix_option_sequence_with_count = {
+	.name = "time posix option",
 	.sequence = g_time_posix_option_sequence,
 	.count = sizeof(g_time_posix_option_sequence)
 	/ sizeof(t_parsing_option),

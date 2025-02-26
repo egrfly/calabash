@@ -6,13 +6,14 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 04:31:29 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:37:16 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:47:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "ft_list.h"
 #include "../../interface/interface.h"
+#include "../../lex/lex.h"
 #include "../parse.h"
 
 int	try_get_single_line_whitespace(
@@ -29,7 +30,7 @@ int	try_get_single_line_whitespace(
 	(void)multiline_options;
 	tokens_consumed_count = 0;
 	current_token = (*current_token_node)->value;
-	while (current_token->type == WHITESPACE)
+	while (current_token->type == TYPE_WHITESPACE)
 	{
 		current_token->has_been_consumed_at_some_point = true;
 		*current_token_node = (*current_token_node)->next;

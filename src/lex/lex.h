@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:21:28 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 11:15:59 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 22:24:43 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ typedef enum e_operator
 
 typedef enum e_token_type
 {
-	WORD,
-	OPERATOR,
-	NEWLINE,
-	WHITESPACE,
-	END_OF_INPUT,
+	TYPE_WORD,
+	TYPE_OPERATOR,
+	TYPE_NEWLINE,
+	TYPE_WHITESPACE,
+	TYPE_END_OF_INPUT,
 }	t_token_type;
 
 typedef union u_token_content

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:25:02 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:40:41 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:36:58 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_here_string_operator_sequence_with_count = {
+	.name = "here string operator",
 	.sequence = g_here_string_operator_sequence,
 	.count = sizeof(g_here_string_operator_sequence)
 	/ sizeof(t_parsing_option),
@@ -117,6 +118,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_indented_here_document_operator_sequence_with_count = {
+	.name = "indented here document operator",
 	.sequence = g_indented_here_document_operator_sequence,
 	.count = sizeof(g_indented_here_document_operator_sequence)
 	/ sizeof(t_parsing_option),
@@ -125,6 +127,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_here_document_operator_sequence_with_count = {
+	.name = "here document operator",
 	.sequence = g_here_document_operator_sequence,
 	.count = sizeof(g_here_document_operator_sequence)
 	/ sizeof(t_parsing_option),
@@ -133,6 +136,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_read_write_operator_sequence_with_count = {
+	.name = "read write operator",
 	.sequence = g_read_write_operator_sequence,
 	.count = sizeof(g_read_write_operator_sequence)
 	/ sizeof(t_parsing_option),
@@ -141,6 +145,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_read_operator_sequence_with_count = {
+	.name = "read operator",
 	.sequence = g_read_operator_sequence,
 	.count = sizeof(g_read_operator_sequence)
 	/ sizeof(t_parsing_option),
@@ -149,6 +154,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_append_operator_sequence_with_count = {
+	.name = "append operator",
 	.sequence = g_append_operator_sequence,
 	.count = sizeof(g_append_operator_sequence)
 	/ sizeof(t_parsing_option),
@@ -157,6 +163,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_force_write_operator_sequence_with_count = {
+	.name = "force write operator",
 	.sequence = g_force_write_operator_sequence,
 	.count = sizeof(g_force_write_operator_sequence)
 	/ sizeof(t_parsing_option),
@@ -165,6 +172,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_write_operator_sequence_with_count = {
+	.name = "write operator",
 	.sequence = g_write_operator_sequence,
 	.count = sizeof(g_write_operator_sequence)
 	/ sizeof(t_parsing_option),

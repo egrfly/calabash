@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 19:56:52 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:33:49 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 15:01:04 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ bool	update_with_new_pre_command_node(
 	t_syntax_tree_node_value_type	new_node_type;
 
 	new_node_type = get_node_type_from_token(current_token_node->value);
-	return (!adjust_current_node_to_accommodate_new_node(new_node_type,
+	return (adjust_current_node_to_accommodate_new_node(new_node_type,
 			syntax_tree));
 }

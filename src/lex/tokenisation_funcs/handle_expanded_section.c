@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:57:41 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 22:03:49 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 22:23:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ bool	handle_expanded_section(
 	if (expansion_mode && (input_tracker->quote_mode == UNQUOTED
 			|| input_tracker->quote_mode == DOUBLE_QUOTED))
 	{
-		if (last_token && last_token->type != WORD)
+		if (last_token && last_token->type != TYPE_WORD)
 			delimit_last_token_if_exists(input_tracker, last_token,
 				&tokens_with_status->out_of_memory);
 		if (!advance_to_new_word_token_if_necessary(input_tracker,

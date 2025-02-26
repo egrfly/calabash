@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 04:04:46 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/20 21:54:42 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 08:38:42 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@
 static const
 	char
 	*g_token_type_descriptors[] = {
-[WORD] = "word",
-[OPERATOR] = "operator",
-[NEWLINE] = "newline",
-[WHITESPACE] = "whitespace",
-[END_OF_INPUT] = "end of input",
+[TYPE_WORD] = "word",
+[TYPE_OPERATOR] = "operator",
+[TYPE_NEWLINE] = "newline",
+[TYPE_WHITESPACE] = "whitespace",
+[TYPE_END_OF_INPUT] = "end of input",
 };
 
 void	print_tokens(t_list *tokens)
@@ -39,9 +39,9 @@ void	print_tokens(t_list *tokens)
 			g_token_type_descriptors[current_token->type],
 			current_token->start_line_index,
 			current_token->start_index_in_start_line);
-		if (current_token->type == WORD)
+		if (current_token->type == TYPE_WORD)
 			ft_printf("Word content: `%s`\n", current_token->content.word);
-		if (current_token->type == OPERATOR)
+		if (current_token->type == TYPE_OPERATOR)
 			ft_printf("Operator content: `%s`\n",
 				get_operator_symbol(current_token->content.operator));
 		ft_printf("Context: %s\n%*s%.*s\n",

@@ -6,14 +6,14 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 00:06:00 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:41:15 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:27:48 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
-#include <stdint.h>
 #include "ft_list.h"
 #include "../../interface/interface.h"
+#include "../../lex/lex.h"
 #include "../parse.h"
 
 int	try_get_operator(
@@ -27,9 +27,9 @@ int	try_get_operator(
 
 	(void)syntax_tree;
 	(void)multiline_options;
-	operator = (t_operator)(intptr_t)arg;
+	operator = (t_operator)arg;
 	current_token = (*current_token_node)->value;
-	if (current_token->type == OPERATOR
+	if (current_token->type == TYPE_OPERATOR
 		&& current_token->content.operator == operator)
 	{
 		current_token->has_been_consumed_at_some_point = true;

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:59:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:09:14 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:38:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_redirection_operator_ending_with_ampersand_sequence_with_count = {
-	.sequence
-	= g_redirection_operator_ending_with_ampersand_sequence,
+	.name = "redirection operator ending with ampersand",
+	.sequence = g_redirection_operator_ending_with_ampersand_sequence,
 	.count = sizeof(g_redirection_operator_ending_with_ampersand_sequence)
 	/ sizeof(t_parsing_option),
 };
@@ -121,8 +121,8 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_redirection_operator_without_ampersand_sequence_with_count = {
-	.sequence
-	= g_redirection_operator_without_ampersand_sequence,
+	.name = "redirection operator without ampersand",
+	.sequence = g_redirection_operator_without_ampersand_sequence,
 	.count = sizeof(g_redirection_operator_without_ampersand_sequence)
 	/ sizeof(t_parsing_option),
 };
@@ -130,8 +130,8 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_redirection_operator_starting_with_ampersand_sequence_with_count = {
-	.sequence
-	= g_redirection_operator_starting_with_ampersand_sequence,
+	.name = "redirection operator starting with ampersand",
+	.sequence = g_redirection_operator_starting_with_ampersand_sequence,
 	.count = sizeof(g_redirection_operator_starting_with_ampersand_sequence)
 	/ sizeof(t_parsing_option),
 };

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 17:09:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/20 20:04:09 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:23:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "../../lex/lex.h"
 # include "../parse.h"
+
+# define OTHER_COMMAND 0
 
 t_syntax_tree_node_value_type	get_node_type_from_token(
 									t_token *token);

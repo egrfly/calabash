@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:26:28 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 11:40:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 22:23:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static bool	is_valid_word_continuation(
 			t_token *last_token)
 {
 	(void)input_tracker;
-	return (last_token->type == WORD);
+	return (last_token->type == TYPE_WORD);
 }
 
 bool	continue_word(

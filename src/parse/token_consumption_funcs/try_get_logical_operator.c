@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:25:02 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 07:44:21 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:11:03 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_or_operator_sequence_with_count = {
+	.name = "or operator",
 	.sequence = g_or_operator_sequence,
 	.count = sizeof(g_or_operator_sequence)
 	/ sizeof(t_parsing_option),
@@ -51,6 +52,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_and_operator_sequence_with_count = {
+	.name = "and operator",
 	.sequence = g_and_operator_sequence,
 	.count = sizeof(g_and_operator_sequence)
 	/ sizeof(t_parsing_option),

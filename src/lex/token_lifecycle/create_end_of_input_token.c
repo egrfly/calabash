@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 01:20:56 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 11:46:42 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 22:24:43 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static bool	set_end_of_input_specific_properties(t_token *token)
 {
-	token->type = END_OF_INPUT;
+	token->type = TYPE_END_OF_INPUT;
 	token->length_in_context = BLANK_TOKEN_LENGTH_IN_CONTEXT;
 	token->is_delimited = true;
 	token->end_line_index = token->start_line_index;

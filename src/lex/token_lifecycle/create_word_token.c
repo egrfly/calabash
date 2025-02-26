@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:40:32 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 11:47:31 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 22:23:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 static bool	set_word_specific_properties(t_token *token)
 {
-	token->type = WORD;
+	token->type = TYPE_WORD;
 	token->content.word = ft_strdup("");
 	return (token->content.word);
 }

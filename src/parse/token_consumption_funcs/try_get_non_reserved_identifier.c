@@ -6,13 +6,14 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 00:01:26 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:31:08 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:25:44 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "ft_list.h"
 #include "../../interface/interface.h"
+#include "../../lex/lex.h"
 #include "../parse.h"
 #include "../word_utils/word_utils.h"
 
@@ -28,7 +29,7 @@ int	try_get_non_reserved_identifier(
 	(void)syntax_tree;
 	(void)multiline_options;
 	current_token = (*current_token_node)->value;
-	if (current_token->type == WORD
+	if (current_token->type == TYPE_WORD
 		&& is_identifier(current_token->content.word)
 		&& !is_reserved(current_token->content.word))
 	{

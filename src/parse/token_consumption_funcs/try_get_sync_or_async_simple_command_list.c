@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 20:10:43 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:40:41 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:48:42 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_simple_command_list_with_sync_or_async_operator_sequence_with_count = {
-	.sequence
-	= g_simple_command_list_with_sync_or_async_operator_sequence,
+	.name = "simple command list with sync or async operator",
+	.sequence = g_simple_command_list_with_sync_or_async_operator_sequence,
 	.count = sizeof(g_simple_command_list_with_sync_or_async_operator_sequence)
 	/ sizeof(t_parsing_option),
 };

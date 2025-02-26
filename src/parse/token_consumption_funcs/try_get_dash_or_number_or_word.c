@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:59:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:09:14 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:02:48 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_dash_sequence_with_count = {
+	.name = "dash sequence",
 	.sequence = g_dash_sequence,
 	.count = sizeof(g_dash_sequence)
 	/ sizeof(t_parsing_option),
@@ -62,6 +63,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_number_sequence_with_count = {
+	.name = "number sequence",
 	.sequence = g_number_sequence,
 	.count = sizeof(g_number_sequence)
 	/ sizeof(t_parsing_option),
@@ -70,6 +72,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_word_sequence_with_count = {
+	.name = "word sequence",
 	.sequence = g_word_sequence,
 	.count = sizeof(g_word_sequence)
 	/ sizeof(t_parsing_option),

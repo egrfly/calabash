@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:44:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 11:40:14 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 22:23:27 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static bool	is_valid_operator_continuation(
 			t_input_tracker *input_tracker,
 			t_token *last_token)
 {
-	return (last_token->type == OPERATOR
+	return (last_token->type == TYPE_OPERATOR
 		&& input_tracker->quote_mode == UNQUOTED
 		&& some_operator_starts_with_chars(input_tracker->input,
 			last_token->start_index_in_start_line,

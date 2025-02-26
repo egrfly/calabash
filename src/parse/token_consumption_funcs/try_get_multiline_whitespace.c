@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:49:50 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 19:28:48 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 08:49:18 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static void	consume_available_multiline_whitespace_tokens(
 				t_list_node **current_token_node,
 				t_tokens_consumed_counts *whitespace_tokens_consumed_counts)
 {
-	while (token_is_of_type((*current_token_node)->value, NEWLINE)
-		|| token_is_of_type((*current_token_node)->value, WHITESPACE))
+	while (token_is_of_type((*current_token_node)->value, TYPE_NEWLINE)
+		|| token_is_of_type((*current_token_node)->value, TYPE_WHITESPACE))
 	{
 		consume_token((*current_token_node)->value);
 		whitespace_tokens_consumed_counts->total++;
-		if (token_is_of_type((*current_token_node)->value, NEWLINE))
+		if (token_is_of_type((*current_token_node)->value, TYPE_NEWLINE))
 			whitespace_tokens_consumed_counts->newlines++;
 		*current_token_node = (*current_token_node)->next;
 	}
@@ -37,11 +37,13 @@ static void	consume_available_multiline_whitespace_tokens(
 
 static void	join_tokens(
 				t_list_node *current_token_node,
-				t_list *next_line_tokens)
+				t_tokens_with_status *next_line_tokens)
 {
-	set_token_type(current_token_node->value, NEWLINE);
-	current_token_node->next = next_line_tokens->first;
-	next_line_tokens->first->prev = current_token_node;
+	set_token_type(current_token_node->value, TYPE_NEWLINE);
+	current_token_node->next = next_line_tokens->tokens->first;
+	next_line_tokens->tokens->first->prev = current_token_node;
+	free(next_line_tokens->tokens);
+	free(next_line_tokens);
 }
 
 static void	propagate_lexing_errors(
@@ -70,7 +72,7 @@ static bool	prompt_more_while_at_end_of_input(
 	char					*next_line;
 	t_tokens_with_status	*next_line_tokens;
 
-	while (token_is_of_type((*current_token_node)->value, END_OF_INPUT)
+	while (token_is_of_type((*current_token_node)->value, TYPE_END_OF_INPUT)
 		&& !tree_has_errors(syntax_tree))
 	{
 		next_line = multiline_options->get_next_line(
@@ -83,8 +85,7 @@ static bool	prompt_more_while_at_end_of_input(
 		propagate_lexing_errors(next_line_tokens, syntax_tree);
 		if (!next_line_tokens)
 			return (false);
-		join_tokens(*current_token_node, next_line_tokens->tokens);
-		free(next_line_tokens);
+		join_tokens(*current_token_node, next_line_tokens);
 		consume_available_multiline_whitespace_tokens(
 			current_token_node, whitespace_tokens_consumed_counts);
 	}

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:25:50 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:09:14 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:31:09 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 static const
 	t_parsing_option
-	g_timing_or_negation_sequence[] = {
+	g_timing_or_negation_with_pipeline_sequence[] = {
 {
 	.token_consumption_func = try_get_pipeline_timing_or_negation,
 	.token_consumption_func_arg = NO_ARG,
@@ -56,15 +56,17 @@ static const
 
 static const
 	t_parsing_option_sequence_with_count
-	g_timing_or_negation_sequence_with_count = {
-	.sequence = g_timing_or_negation_sequence,
-	.count = sizeof(g_timing_or_negation_sequence)
+	g_timing_or_negation_with_pipeline_sequence_with_count = {
+	.name = "timing or negation with pipeline",
+	.sequence = g_timing_or_negation_with_pipeline_sequence,
+	.count = sizeof(g_timing_or_negation_with_pipeline_sequence)
 	/ sizeof(t_parsing_option),
 };
 
 static const
 	t_parsing_option_sequence_with_count
 	g_pipeline_sequence_with_count = {
+	.name = "pipeline",
 	.sequence = g_pipeline_sequence,
 	.count = sizeof(g_pipeline_sequence)
 	/ sizeof(t_parsing_option),
@@ -73,7 +75,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	*g_optionally_timed_or_negated_pipeline_sequences[] = {
-	&g_timing_or_negation_sequence_with_count,
+	&g_timing_or_negation_with_pipeline_sequence_with_count,
 	&g_pipeline_sequence_with_count,
 	NULL,
 };

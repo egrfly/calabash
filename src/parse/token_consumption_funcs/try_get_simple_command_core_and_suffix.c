@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:59:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:09:14 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:44:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_core_with_suffix_sequence_with_count = {
+	.name = "core with suffix",
 	.sequence = g_core_with_suffix_sequence,
 	.count = sizeof(g_core_with_suffix_sequence)
 	/ sizeof(t_parsing_option),

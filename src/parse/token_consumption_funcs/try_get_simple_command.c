@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:59:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:09:14 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:47:21 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "../../interface/interface.h"
 #include "../parse.h"
 #include "../parsing_utils/parsing_utils.h"
-#include "../tree_update_funcs/tree_update_funcs.h"
 #include "./token_consumption_funcs.h"
 
 static const
@@ -68,6 +67,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_prefix_with_core_and_suffix_sequence_with_count = {
+	.name = "prefix with core and suffix",
 	.sequence = g_prefix_with_core_and_suffix_sequence,
 	.count = sizeof(g_prefix_with_core_and_suffix_sequence)
 	/ sizeof(t_parsing_option),
@@ -76,6 +76,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_prefix_sequence_with_count = {
+	.name = "prefix",
 	.sequence = g_prefix_sequence,
 	.count = sizeof(g_prefix_sequence)
 	/ sizeof(t_parsing_option),
@@ -84,6 +85,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_core_and_suffix_sequence_with_count = {
+	.name = "core and suffix",
 	.sequence = g_core_and_suffix_sequence,
 	.count = sizeof(g_core_and_suffix_sequence)
 	/ sizeof(t_parsing_option),

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:25:02 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:23:03 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 13:57:08 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_execute_case_then_continue_operator_sequence_with_count = {
-	.sequence
-	= g_execute_case_then_continue_operator_sequence,
+	.name = "execute case then continue operator",
+	.sequence = g_execute_case_then_continue_operator_sequence,
 	.count = sizeof(g_execute_case_then_continue_operator_sequence)
 	/ sizeof(t_parsing_option),
 };
@@ -71,8 +71,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_execute_case_and_next_then_terminate_operator_sequence_with_count = {
-	.sequence
-	= g_execute_case_and_next_then_terminate_operator_sequence,
+	.sequence = g_execute_case_and_next_then_terminate_operator_sequence,
 	.count = sizeof(g_execute_case_and_next_then_terminate_operator_sequence)
 	/ sizeof(t_parsing_option),
 };

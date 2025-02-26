@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:29:35 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 19:39:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 22:23:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ bool	enter_quoted_section(
 	if (input_tracker->quote_mode == UNQUOTED
 		&& ft_strchr("\\\"\'", get_current_char(input_tracker)))
 	{
-		if (last_token && last_token->type != WORD)
+		if (last_token && last_token->type != TYPE_WORD)
 			delimit_last_token_if_exists(input_tracker, last_token,
 				&tokens_with_status->out_of_memory);
 		if (!reached_backslash_newline_sequence(input_tracker)

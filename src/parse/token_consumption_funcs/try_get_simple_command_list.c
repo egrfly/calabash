@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 20:16:23 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:09:14 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:44:47 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_optionally_timed_or_negated_pipelines_sequence_with_count = {
+	.name = "optionally timed or negated pipelines",
 	.sequence = g_optionally_timed_or_negated_pipelines_sequence,
 	.count = sizeof(g_optionally_timed_or_negated_pipelines_sequence)
 	/ sizeof(t_parsing_option),

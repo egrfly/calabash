@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 23:52:25 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:31:18 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:26:34 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "ft_stdlib.h"
 #include "ft_string.h"
 #include "../../interface/interface.h"
+#include "../../lex/lex.h"
 #include "../parse.h"
 
 int	try_get_number(
@@ -31,7 +32,7 @@ int	try_get_number(
 	(void)syntax_tree;
 	(void)multiline_options;
 	current_token = (*current_token_node)->value;
-	if (current_token->type == WORD
+	if (current_token->type == TYPE_WORD
 		&& ft_all(current_token->content.word, ft_isdigit)
 		&& ft_atoi(current_token->content.word, &number))
 	{

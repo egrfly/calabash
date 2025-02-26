@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_processors.h                                 :+:      :+:    :+:   */
+/*   destroy_tokens_with_status.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:30:21 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 15:20:14 by emflynn          ###   ########.fr       */
+/*   Created: 2025/02/26 15:09:07 by emflynn           #+#    #+#             */
+/*   Updated: 2025/02/26 15:15:08 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN_PROCESSORS_H
-# define TOKEN_PROCESSORS_H
+#include <stdlib.h>
+#include "ft_list.h"
+#include "../token_lifecycle/token_lifecycle.h"
+#include "../lex.h"
 
-# include "../../lex/lex.h"
-# include "../interface.h"
-
-int		process_tokens(
-			t_tokens_with_status *tokens_with_status,
-			t_multiline_options *multiline_options,
-			char *program_name);
-t_token	*get_first_unsupported_token(
-			t_list *tokens);
-t_token	*get_first_unconsumed_token(
-			t_list *tokens);
-
-#endif
+void	destroy_tokens_with_status(
+			t_tokens_with_status *tokens_with_status)
+{
+	ft_list_destroy(tokens_with_status->tokens, (t_action_func)destroy_token);
+	free(tokens_with_status);
+}

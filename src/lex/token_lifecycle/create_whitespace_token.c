@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 01:39:13 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 11:47:24 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 22:24:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static bool	set_whitespace_specific_properties(t_token *token)
 {
-	token->type = WHITESPACE;
+	token->type = TYPE_WHITESPACE;
 	return (true);
 }
 

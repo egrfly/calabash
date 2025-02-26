@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:25:02 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:09:14 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:42:49 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_subshell_sequence_with_count = {
+	.name = "subshell",
 	.sequence = g_subshell_sequence,
 	.count = sizeof(g_subshell_sequence)
 	/ sizeof(t_parsing_option),
@@ -138,6 +139,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_group_sequence_with_count = {
+	.name = "group",
 	.sequence = g_group_sequence,
 	.count = sizeof(g_group_sequence)
 	/ sizeof(t_parsing_option),
@@ -146,6 +148,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_conditional_command_sequence_with_count = {
+	.name = "conditional command",
 	.sequence = g_conditional_command_sequence,
 	.count = sizeof(g_conditional_command_sequence)
 	/ sizeof(t_parsing_option),
@@ -154,6 +157,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_arithmetic_command_sequence_with_count = {
+	.name = "arithmetic command",
 	.sequence = g_arithmetic_command_sequence,
 	.count = sizeof(g_arithmetic_command_sequence)
 	/ sizeof(t_parsing_option),
@@ -162,6 +166,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_while_command_sequence_with_count = {
+	.name = "while command",
 	.sequence = g_while_command_sequence,
 	.count = sizeof(g_while_command_sequence)
 	/ sizeof(t_parsing_option),
@@ -170,6 +175,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_until_command_sequence_with_count = {
+	.name = "until command",
 	.sequence = g_until_command_sequence,
 	.count = sizeof(g_until_command_sequence)
 	/ sizeof(t_parsing_option),
@@ -178,6 +184,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_if_command_sequence_with_count = {
+	.name = "if command",
 	.sequence = g_if_command_sequence,
 	.count = sizeof(g_if_command_sequence)
 	/ sizeof(t_parsing_option),
@@ -186,6 +193,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_for_command_sequence_with_count = {
+	.name = "for command",
 	.sequence = g_for_command_sequence,
 	.count = sizeof(g_for_command_sequence)
 	/ sizeof(t_parsing_option),
@@ -194,6 +202,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_select_command_sequence_with_count = {
+	.name = "select command",
 	.sequence = g_select_command_sequence,
 	.count = sizeof(g_select_command_sequence)
 	/ sizeof(t_parsing_option),
@@ -202,6 +211,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_case_command_sequence_with_count = {
+	.name = "case command",
 	.sequence = g_case_command_sequence,
 	.count = sizeof(g_case_command_sequence)
 	/ sizeof(t_parsing_option),

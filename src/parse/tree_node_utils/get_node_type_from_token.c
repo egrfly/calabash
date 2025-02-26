@@ -6,13 +6,14 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 19:41:13 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/20 19:55:27 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:23:37 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "../../lex/lex.h"
 #include "../parse.h"
+#include "./tree_node_utils.h"
 
 static t_syntax_tree_node_value_type	get_node_type_from_operator_token(
 											t_token *token)
@@ -30,7 +31,7 @@ static t_syntax_tree_node_value_type	get_node_type_from_operator_token(
 		return (AND);
 	if (token->content.operator == AMPERSAND)
 		return (BACKGROUND);
-	return (0);
+	return (OTHER_COMMAND);
 }
 
 static t_syntax_tree_node_value_type	get_node_type_from_word_token(
@@ -59,15 +60,15 @@ static t_syntax_tree_node_value_type	get_node_type_from_word_token(
 		return (SELECT_COMMAND);
 	if (!ft_strcmp(token->content.word, "case"))
 		return (CASE_COMMAND);
-	return (0);
+	return (OTHER_COMMAND);
 }
 
 t_syntax_tree_node_value_type	get_node_type_from_token(
 									t_token *token)
 {
-	if (token->type == OPERATOR)
+	if (token->type == TYPE_OPERATOR)
 		return (get_node_type_from_operator_token(token));
-	if (token->type == WORD)
+	if (token->type == TYPE_WORD)
 		return (get_node_type_from_word_token(token));
-	return (0);
+	return (OTHER_COMMAND);
 }

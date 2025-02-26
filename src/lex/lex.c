@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 18:03:00 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 15:08:48 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "./lex.h"
 #include "./token_lifecycle/token_lifecycle.h"
 #include "./tokenisation_funcs/tokenisation_funcs.h"
+#include "./tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
 
 static const
 	t_tokenisation_func
@@ -87,30 +88,13 @@ static bool	any_non_terminating_tokenisation_func_called_without_error(
 	return (false);
 }
 
-static t_tokens_with_status	*init_tokens_with_status(void)
-{
-	t_tokens_with_status	*tokens_with_status;
-
-	tokens_with_status
-		= ft_calloc(sizeof(t_tokens_with_status), 1);
-	if (!tokens_with_status)
-		return (NULL);
-	tokens_with_status->tokens = ft_list_init();
-	if (!tokens_with_status->tokens)
-	{
-		free(tokens_with_status);
-		return (NULL);
-	}
-	return (tokens_with_status);
-}
-
 static t_tokens_with_status	*get_tokens_with_status(
 								t_input_tracker *input_tracker,
 								t_multiline_options *multiline_options)
 {
 	t_tokens_with_status	*tokens_with_status;
 
-	tokens_with_status = init_tokens_with_status();
+	tokens_with_status = create_tokens_with_status();
 	if (!tokens_with_status)
 		return (NULL);
 	while (true)

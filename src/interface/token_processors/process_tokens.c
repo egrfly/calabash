@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 16:49:40 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 15:22:21 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 #include "ft_string.h"
 #include "../../debug/debug.h"
 #include "../../lex/lex.h"
+#include "../../lex/tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
 #include "../../parse/parse.h"
 #include "../../parse/tree_lifecycle/tree_lifecycle.h"
 #include "../interface.h"
+#include "./token_processors.h"
 
 #ifndef DEBUG_LEXING
 # define DEBUG_LEXING 0
@@ -27,41 +29,7 @@
 # define DEBUG_PARSING 1
 #endif
 
-static t_token	*get_first_unsupported_token(
-					t_list *tokens)
-{
-	t_list_node	*token_node;
-	t_token		*token;
-
-	token_node = tokens->first;
-	while (token_node)
-	{
-		token = token_node->value;
-		if (!token->is_supported)
-			return (token);
-		token_node = token_node->next;
-	}
-	return (NULL);
-}
-
-static t_token	*get_first_unconsumed_token(
-					t_list *tokens)
-{
-	t_list_node	*token_node;
-	t_token		*token;
-
-	token_node = tokens->first;
-	while (token_node)
-	{
-		token = token_node->value;
-		if (!token->has_been_consumed_at_some_point)
-			return (token);
-		token_node = token_node->next;
-	}
-	return (NULL);
-}
-
-static void	print_parsing_error(
+static void	print_processing_error(
 				char *program_name,
 				char *description,
 				t_token	*token)
@@ -100,20 +68,20 @@ static int	process_syntax_tree(
 				program_name),
 			GENERAL_FAILURE);
 	if (syntax_tree->contains_unsupported_features)
-		return (print_parsing_error(
+		return (print_processing_error(
 				program_name,
 				"unsupported feature",
 				get_first_unsupported_token(tokens_with_status->tokens)),
 			INCORRECT_USAGE);
 	if (syntax_tree->some_tokens_left_unconsumed)
-		return (print_parsing_error(
+		return (print_processing_error(
 				program_name,
 				"syntax error",
 				get_first_unconsumed_token(tokens_with_status->tokens)),
 			INCORRECT_USAGE);
 	if (DEBUG_PARSING)
-		return (print_syntax_tree(syntax_tree->tree), 0);
-	return (0);
+		return (print_syntax_tree(syntax_tree->tree), SUCCESS);
+	return (SUCCESS);
 }
 
 int	process_tokens(
@@ -130,7 +98,7 @@ int	process_tokens(
 				program_name),
 			GENERAL_FAILURE);
 	if (tokens_with_status->contains_unsupported_features)
-		return (print_parsing_error(
+		return (print_processing_error(
 				program_name,
 				"unsupported feature",
 				get_first_unsupported_token(tokens_with_status->tokens)),
@@ -141,9 +109,9 @@ int	process_tokens(
 				program_name),
 			INCORRECT_USAGE);
 	if (DEBUG_LEXING)
-		return (print_tokens(tokens_with_status->tokens), 0);
+		return (print_tokens(tokens_with_status->tokens), SUCCESS);
 	syntax_tree = parse(tokens_with_status->tokens, multiline_options);
 	status = process_syntax_tree(tokens_with_status, syntax_tree, program_name);
-	destroy_syntax_tree(syntax_tree);
-	return (status);
+	return (destroy_syntax_tree(syntax_tree),
+		destroy_tokens_with_status(tokens_with_status), status);
 }

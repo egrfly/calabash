@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:59:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 09:12:46 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:25:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_named_coprocess_declaration_sequence_with_count = {
+	.name = "named coprocess declaration",
 	.sequence = g_named_coprocess_declaration_sequence,
 	.count = sizeof(g_named_coprocess_declaration_sequence)
 	/ sizeof(t_parsing_option),
@@ -51,6 +52,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_unnamed_coprocess_declaration_sequence_with_count = {
+	.name = "unnamed coprocess declaration",
 	.sequence = g_unnamed_coprocess_declaration_sequence,
 	.count = sizeof(g_unnamed_coprocess_declaration_sequence)
 	/ sizeof(t_parsing_option),

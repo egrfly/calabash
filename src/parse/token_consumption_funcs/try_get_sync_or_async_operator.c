@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:25:02 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:27:40 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:48:14 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_sync_operator_sequence_with_count = {
+	.name = "sync operator",
 	.sequence = g_sync_operator_sequence,
 	.count = sizeof(g_sync_operator_sequence)
 	/ sizeof(t_parsing_option),
@@ -51,6 +52,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_async_operator_sequence_with_count = {
+	.name = "async operator",
 	.sequence = g_async_operator_sequence,
 	.count = sizeof(g_async_operator_sequence)
 	/ sizeof(t_parsing_option),

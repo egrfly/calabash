@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:13:10 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 18:49:24 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 13:47:28 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ typedef struct s_parsing_option
 
 typedef struct s_parsing_option_sequence_with_count
 {
+	char					*name;
 	const t_parsing_option	*sequence;
 	int						count;
 }	t_parsing_option_sequence_with_count;

@@ -6,11 +6,10 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:59:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 18:49:55 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 13:51:08 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdint.h>
 #include <stdlib.h>
 #include "ft_list.h"
 #include "../../interface/interface.h"
@@ -20,7 +19,7 @@
 
 static const
 	t_parsing_option
-	g_double_parentheses_with_arithmetic_syntax_section_sequence[] = {
+	g_double_parentheses_with_arithmetic_section_sequence[] = {
 {
 	.token_consumption_func = try_get_operator,
 	.token_consumption_func_arg = (void *)OPENING_PARENTHESIS_PARENTHESIS,
@@ -62,18 +61,17 @@ static const
 
 static const
 	t_parsing_option_sequence_with_count
-	g_double_parentheses_with_arithmetic_syntax_section_sequence_with_count = {
-	.sequence
-	= g_double_parentheses_with_arithmetic_syntax_section_sequence,
-	.count = sizeof(
-		g_double_parentheses_with_arithmetic_syntax_section_sequence)
+	g_double_parentheses_with_arithmetic_section_sequence_with_count = {
+	.name = "double parentheses with arithmetic section",
+	.sequence = g_double_parentheses_with_arithmetic_section_sequence,
+	.count = sizeof(g_double_parentheses_with_arithmetic_section_sequence)
 	/ sizeof(t_parsing_option),
 };
 
 static const
 	t_parsing_option_sequence_with_count
 	*g_arithmetic_command_sequences[] = {
-	&g_double_parentheses_with_arithmetic_syntax_section_sequence_with_count,
+	&g_double_parentheses_with_arithmetic_section_sequence_with_count,
 	NULL,
 };
 

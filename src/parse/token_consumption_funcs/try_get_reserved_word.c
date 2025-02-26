@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 00:03:57 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 09:11:38 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:40:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_list.h"
 #include "ft_string.h"
 #include "../../interface/interface.h"
+#include "../../lex/lex.h"
 #include "../parse.h"
 
 int	try_get_reserved_word(
@@ -29,7 +30,7 @@ int	try_get_reserved_word(
 	(void)multiline_options;
 	reserved_word = arg;
 	current_token = (*current_token_node)->value;
-	if (current_token->type == WORD
+	if (current_token->type == TYPE_WORD
 		&& !ft_strcmp(current_token->content.word, reserved_word))
 	{
 		current_token->has_been_consumed_at_some_point = true;

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 04:18:43 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:26:05 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:31:42 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_separator_with_pattern_sequence_with_count = {
+	.name = "separator with pattern",
 	.sequence = g_separator_with_pattern_sequence,
 	.count = sizeof(g_separator_with_pattern_sequence)
 	/ sizeof(t_parsing_option),

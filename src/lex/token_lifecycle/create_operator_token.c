@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:03:17 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 11:46:57 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 22:23:27 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static bool	set_operator_specific_properties(t_token *token)
 {
-	token->type = OPERATOR;
+	token->type = TYPE_OPERATOR;
 	return (true);
 }
 

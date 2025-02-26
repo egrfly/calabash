@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 20:16:23 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 18:48:57 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 13:55:41 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_pattern_with_body_sequence_with_count = {
+	.name = "pattern with body",
 	.sequence = g_pattern_with_body_sequence,
 	.count = sizeof(g_pattern_with_body_sequence)
 	/ sizeof(t_parsing_option),

@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_processors.h                                 :+:      :+:    :+:   */
+/*   tokens_with_status_lifecycle.h                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:30:21 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 15:20:14 by emflynn          ###   ########.fr       */
+/*   Created: 2025/02/26 15:06:52 by emflynn           #+#    #+#             */
+/*   Updated: 2025/02/26 15:15:44 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN_PROCESSORS_H
-# define TOKEN_PROCESSORS_H
+#ifndef TOKENS_WITH_STATUS_LIFECYCLE_H
+# define TOKENS_WITH_STATUS_LIFECYCLE_H
 
-# include "../../lex/lex.h"
-# include "../interface.h"
+# include "../lex.h"
 
-int		process_tokens(
-			t_tokens_with_status *tokens_with_status,
-			t_multiline_options *multiline_options,
-			char *program_name);
-t_token	*get_first_unsupported_token(
-			t_list *tokens);
-t_token	*get_first_unconsumed_token(
-			t_list *tokens);
+t_tokens_with_status	*create_tokens_with_status(void);
+void					destroy_tokens_with_status(
+							t_tokens_with_status *tokens_with_status);
 
 #endif

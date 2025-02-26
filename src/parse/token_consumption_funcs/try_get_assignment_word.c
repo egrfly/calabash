@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 23:43:19 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:30:15 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:04:52 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_list.h"
 #include "ft_string.h"
 #include "../../interface/interface.h"
+#include "../../lex/lex.h"
 #include "../parse.h"
 #include "../word_utils/word_utils.h"
 
@@ -31,7 +32,7 @@ int	try_get_assignment_word(
 	(void)syntax_tree;
 	(void)multiline_options;
 	current_token = (*current_token_node)->value;
-	if (current_token->type == WORD)
+	if (current_token->type == TYPE_WORD)
 	{
 		word_len = ft_strlen(current_token->content.word);
 		first_equals_sign = ft_strchr(current_token->content.word, '=');

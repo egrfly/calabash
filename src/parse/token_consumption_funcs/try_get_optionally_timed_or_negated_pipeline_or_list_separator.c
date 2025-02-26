@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:25:50 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:09:14 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:29:23 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_pipeline_sequence_with_count = {
+	.name = "pipeline",
 	.sequence = g_pipeline_sequence,
 	.count = sizeof(g_pipeline_sequence)
 	/ sizeof(t_parsing_option),
@@ -50,6 +51,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_list_separator_sequence_with_count = {
+	.name = "list separator",
 	.sequence = g_list_separator_sequence,
 	.count = sizeof(g_list_separator_sequence)
 	/ sizeof(t_parsing_option),

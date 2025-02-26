@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:12:05 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 11:40:40 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/25 22:24:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static bool	is_valid_whitespace_continuation(
 			t_input_tracker *input_tracker,
 			t_token *last_token)
 {
-	return (last_token->type == WHITESPACE
+	return (last_token->type == TYPE_WHITESPACE
 		&& input_tracker->quote_mode == UNQUOTED
 		&& ft_isspace(get_current_char(input_tracker)));
 }

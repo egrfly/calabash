@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:59:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 18:48:57 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 14:08:14 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static const
 static const
 	t_parsing_option_sequence_with_count
 	g_declaration_with_body_sequence_with_count = {
+	.name = "declaration with body",
 	.sequence = g_declaration_with_body_sequence,
 	.count = sizeof(g_declaration_with_body_sequence)
 	/ sizeof(t_parsing_option),
