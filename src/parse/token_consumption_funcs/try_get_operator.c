@@ -6,11 +6,12 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 00:06:00 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:27:48 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 16:14:26 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
+#include <stdint.h>
 #include "ft_list.h"
 #include "../../interface/interface.h"
 #include "../../lex/lex.h"
@@ -27,7 +28,7 @@ int	try_get_operator(
 
 	(void)syntax_tree;
 	(void)multiline_options;
-	operator = (t_operator)arg;
+	operator = (t_operator)(intptr_t)arg;
 	current_token = (*current_token_node)->value;
 	if (current_token->type == TYPE_OPERATOR
 		&& current_token->content.operator == operator)

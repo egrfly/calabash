@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 08:31:42 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 16:17:17 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	print_banner_if_available(void)
 		banner_file_line = ft_getline(banner_file_fd);
 		while (banner_file_line)
 		{
-			ft_printf("%s", banner_file_line);
+			ft_printf("%s\n", banner_file_line);
 			free(banner_file_line);
 			banner_file_line = ft_getline(banner_file_fd);
 		}
