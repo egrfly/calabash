@@ -2,6 +2,8 @@
 
 shopt -s nocasematch
 
+RETURN_VALUE=0
+
 export GREEN="\033[0;32m"
 export RED="\033[0;31m"
 export DEFAULT="\033[0m"
@@ -12,7 +14,7 @@ function ask_whether_section_should_be_run() {
 }
 
 function run_test() {
-  echo "$COMMAND" | ../calabash |& cmp -s - <(echo -n "$EXPECTED_RESULT") && echo -e "[${GREEN}PASS${DEFAULT}] $COMMAND" || echo -e "[${RED}FAIL${DEFAULT}] $COMMAND"
+  echo "$COMMAND" | ../calabash |& cmp -s - <(echo -n "$EXPECTED_RESULT") && echo -e "[${GREEN}PASS${DEFAULT}] $COMMAND" || { echo -e "[${RED}FAIL${DEFAULT}] $COMMAND"; RETURN_VALUE=1; }
 }
 
 export SECTION_NAME="SIMPLE COMMAND TESTS"
@@ -883,3 +885,5 @@ export EXPECTED_RESULT="\
 run_test
 
 fi
+
+exit $RETURN_VALUE

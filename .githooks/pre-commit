@@ -1,0 +1,24 @@
+#!/bin/bash
+
+exec < /dev/tty
+
+read -n 1 -p "Run norminette? [y/n] " ANSWER
+echo
+if [[ $ANSWER == "y" ]]
+then
+    norminette | grep -v OK!
+fi
+
+read -n 1 -p "Check compilation? [y/n] " ANSWER
+echo
+if [[ $ANSWER == "y" ]]
+then
+    make
+fi
+
+read -n 1 -p "Run parser tests? [y/n] " ANSWER
+echo
+if [[ $ANSWER == "y" ]]
+then
+    make test-parsing
+fi
