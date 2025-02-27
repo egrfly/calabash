@@ -6,7 +6,7 @@
 #    By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/03 00:45:25 by emflynn           #+#    #+#              #
-#    Updated: 2025/02/27 22:57:06 by emflynn          ###   ########.fr        #
+#    Updated: 2025/02/27 23:17:38 by emflynn          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,9 @@ define update_mode_if_different
 endef
 
 $(NAME):			turn-off-debugging
+
+run:				$(NAME)
+					./$(NAME)
 
 test-lexing:		debug-lexing
 					@cd $(TEST_DIR) && bash lexer_tests.sh
@@ -110,7 +113,8 @@ fclean:				clean
 
 re:					fclean all
 
-.PHONY:				prepare \
+.PHONY:				run \
+					prepare \
 					all \
 					bonus \
 					debug-lexing \
