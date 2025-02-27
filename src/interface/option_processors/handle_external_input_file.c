@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:39:44 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/10 22:41:35 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 20:11:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "../input_processors/input_processors.h"
 #include "../interface.h"
 
-int	handle_external_input_file(char **argv,
+int	handle_external_input_file(char **argv, char **envp,
 		int options_end_count)
 {
 	int	input_file_fd;
@@ -28,7 +28,7 @@ int	handle_external_input_file(char **argv,
 	if (input_file_fd > -1)
 	{
 		return_value
-			= process_noninteractive_file_input(input_file_fd, argv[0]);
+			= process_noninteractive_file_input(input_file_fd, argv[0], envp);
 		close(input_file_fd);
 		return (return_value);
 	}

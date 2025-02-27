@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 15:03:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/27 22:03:12 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ typedef struct s_multiline_options
 	void	*get_next_line_arg;
 }	t_multiline_options;
 
-int	interface(int argc, char **argv);
+int	interface(int argc, char **argv, char **envp);
 
 #endif

@@ -12,7 +12,7 @@ function ask_whether_section_should_be_run() {
 }
 
 function run_test() {
-  echo "$COMMAND" | ../calabash |& cmp - <(echo -n "$EXPECTED_RESULT") &>/dev/null && echo -e "[${GREEN}PASS${DEFAULT}] $COMMAND" || echo -e "[${RED}FAIL${DEFAULT}] $COMMAND"
+  echo "$COMMAND" | ../calabash |& cmp -s - <(echo -n "$EXPECTED_RESULT") && echo -e "[${GREEN}PASS${DEFAULT}] $COMMAND" || echo -e "[${RED}FAIL${DEFAULT}] $COMMAND"
 }
 
 export SECTION_NAME="SIMPLE COMMAND TESTS"
@@ -653,6 +653,14 @@ export COMMAND="{ ls }
 export EXPECTED_RESULT="\
 Type group
   -> Type simple command, arguments: ls, }
+"
+run_test
+
+export COMMAND="\"
+\""
+export EXPECTED_RESULT="\
+Type simple command, arguments: \"
+\"
 "
 run_test
 

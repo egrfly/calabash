@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:12 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/24 12:13:12 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/26 19:05:57 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 #include "../token_processors/token_processors.h"
 #include "../interface.h"
 
-int	process_noninteractive_file_input(int fd, char *program_name)
+int	process_noninteractive_file_input(
+		int fd,
+		char *program_name,
+		char **envp)
 {
 	t_multiline_options		multiline_options;
 	char					*input;
@@ -34,9 +37,7 @@ int	process_noninteractive_file_input(int fd, char *program_name)
 				&multiline_options,
 				DEFAULT_START_LINE_INDEX);
 		return (process_tokens(
-				tokens_with_status,
-				&multiline_options,
-				program_name));
+				tokens_with_status, &multiline_options, program_name, envp));
 	}
 	return (GENERAL_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 16:17:17 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/27 21:49:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ static void	print_banner_if_available(void)
 	}
 }
 
-int	process_interactive_input(char *program_name)
+int	process_interactive_input(
+		char *program_name,
+		char **envp)
 {
 	t_multiline_options		multiline_options;
 	char					*input;
@@ -57,14 +59,14 @@ int	process_interactive_input(char *program_name)
 	latest_return_value = 0;
 	while (true)
 	{
-		input = readline("calabash> ");
+		input = readline("\033[32mcalabash\033[36m>\033[0m ");
 		if (!input)
 			break ;
 		tokens_with_status
 			= lex(input, &multiline_options, DEFAULT_START_LINE_INDEX);
 		latest_return_value
 			= process_tokens(
-				tokens_with_status, &multiline_options, program_name);
+				tokens_with_status, &multiline_options, program_name, envp);
 	}
 	ft_printf("\n");
 	return (latest_return_value);

@@ -1,6 +1,8 @@
 # Project-specific ignores
 calabash
 minishell
+.build
+.execmode
 
 # Created by https://www.toptal.com/developers/gitignore/api/c,visualstudiocode,jetbrains,macos,linux,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=c,visualstudiocode,jetbrains,macos,linux,windows

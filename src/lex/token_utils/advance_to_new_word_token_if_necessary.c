@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 19:33:11 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 19:36:47 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/27 20:01:06 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	advance_to_new_word_token_if_necessary(
 			t_token **last_token,
 			t_tokens_with_status *tokens_with_status)
 {
-	if (!last_token || (*last_token)->is_delimited)
+	if (!*last_token || (*last_token)->is_delimited)
 	{
 		start_token(input_tracker, tokens_with_status, create_word_token);
 		if (tokens_with_status->out_of_memory)

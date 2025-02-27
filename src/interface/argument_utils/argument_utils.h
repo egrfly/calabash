@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   argument_utils.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 00:44:15 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 18:57:18 by emflynn          ###   ########.fr       */
+/*   Created: 2025/02/10 22:47:17 by emflynn           #+#    #+#             */
+/*   Updated: 2025/02/27 22:07:21 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./interface/interface.h"
+#ifndef ARGUMENT_UTILS_H
+# define ARGUMENT_UTILS_H
 
-int	main(int argc, char **argv, char **envp)
-{
-	return (interface(argc, argv, envp));
-}
+# include <stdbool.h>
+
+bool	has_more_arguments(int argc, int option_count);
+
+#endif

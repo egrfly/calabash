@@ -6,13 +6,14 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:49:50 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 08:49:18 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/02/27 20:43:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stdlib.h>
 #include "ft_list.h"
+#include "ft_stdio.h"
 #include "../../interface/interface.h"
 #include "../../lex/lex.h"
 #include "../parse.h"
@@ -78,7 +79,11 @@ static bool	prompt_more_while_at_end_of_input(
 		next_line = multiline_options->get_next_line(
 				multiline_options->get_next_line_arg);
 		if (!next_line)
+		{
+			if (multiline_options->input_mode_is_interactive)
+				ft_printf("\n");
 			break ;
+		}
 		next_line_tokens
 			= lex(next_line, multiline_options,
 				get_post_token_line_index((*current_token_node)->value));
