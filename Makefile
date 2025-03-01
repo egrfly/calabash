@@ -6,7 +6,7 @@
 #    By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/03 00:45:25 by emflynn           #+#    #+#              #
-#    Updated: 2025/02/27 23:17:38 by emflynn          ###   ########.fr        #
+#    Updated: 2025/03/01 01:03:45 by emflynn          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ MKDIR :=			mkdir -p
 RM :=				rm -f
 
 define update_mode_if_different
-	@if ! cmp -s $(MODE) - <<< "$(1)"; \
+	@if ! echo $(1) | cmp -s $(MODE) -; \
 	then \
 		echo $(1) > $(MODE); \
 	else \
