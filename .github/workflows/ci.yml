@@ -17,7 +17,7 @@ jobs:
       - name: Set up format checker
         run: python -m pip install norminette
       - name: Set up GNU Readline
-        run: apt install libreadline-dev
+        run: sudo apt install libreadline-dev
       - name: Check out repo
         uses: actions/checkout@v4
       - name: Check formatting
