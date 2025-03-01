@@ -1,0 +1,30 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Set up format checker
+        run: python -m pip install norminette
+      - name: Set up GNU Readline
+        run: apt install libreadline-dev
+      - name: Check out repo
+        uses: actions/checkout@v4
+      - name: Check formatting
+        run: norminette
+      - name: Check compilation
+        run: make
+      - name: Check lexing
+        run: yes | make test-lexing
+      - name: Check parsing
+        run: yes | make test-parsing
