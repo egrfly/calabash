@@ -20,6 +20,8 @@ jobs:
         run: sudo apt install libreadline-dev
       - name: Check out repo
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - name: Check formatting
         run: norminette
       - name: Check compilation
