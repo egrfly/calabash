@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_processors.h                                 :+:      :+:    :+:   */
+/*   discard_remaining_lines_if_present.c               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:13:26 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 01:51:28 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/01 01:40:33 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/01 01:56:23 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_PROCESSORS_H
-# define INPUT_PROCESSORS_H
+#include "../interface.h"
+#include "../line_getters/line_getters.h"
 
-int	process_noninteractive_string_input(
-		char *input, char *program_name, char **envp);
-int	process_noninteractive_file_input(
-		int fd, char *program_name, char **envp);
-int	process_interactive_input(
-		char *program_name, char **envp);
-
-#endif
+void	discard_remaining_lines_if_present(
+			t_multiline_options *multiline_options)
+{
+	if (multiline_options->get_next_line
+		== noninteractive_get_next_line_from_split_string)
+		access_input_lines(DELETE, NO_ARG);
+}

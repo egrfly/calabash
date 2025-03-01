@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/27 20:58:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 02:18:21 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "../../parse/parse.h"
 #include "../../parse/tree_lifecycle/tree_lifecycle.h"
 #include "../interface.h"
+#include "../line_utils/line_utils.h"
 #include "./token_processors.h"
 
 #ifndef DEBUG_LEXING
@@ -91,8 +92,7 @@ int	process_tokens(
 	int				status;
 
 	if (!tokens_with_status || tokens_with_status->out_of_memory)
-		return (ft_dprintf(STDERR_FILENO,
-				"%s: out of memory\n", program_name),
+		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n", program_name),
 			GENERAL_FAILURE);
 	if (tokens_with_status->contains_unsupported_features)
 		return (print_processing_error(program_name, "unsupported feature",
@@ -103,11 +103,13 @@ int	process_tokens(
 				"%s: an opening quote was not closed\n", program_name),
 			INCORRECT_USAGE);
 	if (DEBUG_LEXING)
+	{
+		discard_remaining_lines_if_present(multiline_options);
 		return (print_tokens(tokens_with_status->tokens), SUCCESS);
+	}
 	syntax_tree = parse(tokens_with_status->tokens, multiline_options);
 	status = process_syntax_tree(tokens_with_status, syntax_tree,
 			program_name, envp);
 	destroy_syntax_tree(syntax_tree);
-	destroy_tokens_with_status(tokens_with_status);
 	return (status);
 }

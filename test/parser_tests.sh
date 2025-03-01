@@ -14,7 +14,17 @@ function ask_whether_section_should_be_run() {
 }
 
 function run_test() {
-  echo "$COMMAND" | ../calabash |& cmp -s - <(echo -n "$EXPECTED_RESULT") && echo -e "[${GREEN}PASS${DEFAULT}] $COMMAND" || { echo -e "[${RED}FAIL${DEFAULT}] $COMMAND"; RETURN_VALUE=1; }
+  # Test file-based input
+  echo "$COMMAND" \
+      | ../calabash \
+      |& cmp -s - <(echo -n "$EXPECTED_RESULT") \
+    && echo -e "FILE:   [${GREEN}PASS${DEFAULT}] $COMMAND" \
+    || { echo -e "FILE:   [${RED}FAIL${DEFAULT}] $COMMAND"; RETURN_VALUE=1; }
+  # Test string-based input
+  ../calabash -c "$COMMAND" \
+      |& cmp -s - <(echo -n "$EXPECTED_RESULT") \
+    && echo -e "STRING: [${GREEN}PASS${DEFAULT}] $COMMAND" \
+    || { echo -e "STRING: [${RED}FAIL${DEFAULT}] $COMMAND"; RETURN_VALUE=1; }
 }
 
 export SECTION_NAME="SIMPLE COMMAND TESTS"

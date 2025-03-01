@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/27 22:03:12 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 01:53:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define INTERFACE_H
 
 # include <stdbool.h>
+
+# ifndef NO_ARG
+#  define NO_ARG 0
+# endif
 
 # define SUCCESS 0
 # define GENERAL_FAILURE 1

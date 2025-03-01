@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:52:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 11:41:49 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 02:33:05 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static bool	is_valid_end_of_input_instance(
 {
 	return (input_tracker->is_out_of_lines
 		|| (input_tracker->quote_mode == UNQUOTED
-			&& !get_current_char(input_tracker)));
+			&& (!input_tracker->input
+				|| !get_current_char(input_tracker))));
 }
 
 bool	delimit_token_if_at_end_of_input(

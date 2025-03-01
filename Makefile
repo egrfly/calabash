@@ -6,7 +6,7 @@
 #    By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/03 00:45:25 by emflynn           #+#    #+#              #
-#    Updated: 2025/03/01 01:03:45 by emflynn          ###   ########.fr        #
+#    Updated: 2025/03/01 02:42:18 by emflynn          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,10 +58,10 @@ run:				$(NAME)
 					./$(NAME)
 
 test-lexing:		debug-lexing
-					@cd $(TEST_DIR) && bash lexer_tests.sh
+					@cd $(TEST_DIR) && yes | bash lexer_tests.sh
 
 test-parsing:		debug-parsing
-					@cd $(TEST_DIR) && bash parser_tests.sh
+					@cd $(TEST_DIR) && yes | bash parser_tests.sh
 
 $(BUILD_WITH_TIMESTAMP):	\
 					$(PREPARE) $(LIBFT) $(OBJS)
