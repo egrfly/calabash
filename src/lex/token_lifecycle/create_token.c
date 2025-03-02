@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 01:20:56 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 11:47:12 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 20:55:39 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_token	*create_token(
 {
 	t_token	*new_token;
 
-	new_token = ft_calloc(sizeof(t_token), 1);
+	new_token = ft_calloc(1, sizeof(t_token));
 	if (!new_token)
 	{
 		*out_of_memory = true;

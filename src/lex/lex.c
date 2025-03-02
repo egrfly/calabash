@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 15:08:48 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 20:55:54 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,11 @@ static t_tokens_with_status	*get_tokens_with_status(
 		if (any_terminating_tokenisation_func_called_without_error(
 				input_tracker, multiline_options,
 				tokens_with_status))
+		{
+			if (input_tracker->quote_mode != UNQUOTED)
+				tokens_with_status->input_terminated_prematurely = true;
 			return (tokens_with_status);
+		}
 		if (tokens_with_status->out_of_memory
 			|| tokens_with_status->contains_unsupported_features
 			|| !any_non_terminating_tokenisation_func_called_without_error(
@@ -110,9 +114,7 @@ static t_tokens_with_status	*get_tokens_with_status(
 				tokens_with_status))
 			break ;
 	}
-	if (input_tracker->quote_mode != UNQUOTED)
-		tokens_with_status->input_terminated_prematurely = true;
-	return (tokens_with_status);
+	return (destroy_tokens_with_status(tokens_with_status), NULL);
 }
 
 t_tokens_with_status	*lex(
@@ -123,7 +125,7 @@ t_tokens_with_status	*lex(
 	t_input_tracker			*input_tracker;
 	t_tokens_with_status	*tokens_with_status;
 
-	input_tracker = ft_calloc(sizeof(t_input_tracker), 1);
+	input_tracker = ft_calloc(1, sizeof(t_input_tracker));
 	if (!input_tracker)
 		return (NULL);
 	input_tracker->input = input;

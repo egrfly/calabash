@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:29:35 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 22:23:02 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 06:23:48 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 #include "../token_lifecycle/token_lifecycle.h"
 #include "../token_utils/token_utils.h"
 
-static void	set_quote_mode(t_input_tracker *input_tracker)
+static void	set_quote_mode(
+				t_input_tracker *input_tracker)
 {
 	char	quote_char;
 
@@ -33,7 +34,25 @@ static void	set_quote_mode(t_input_tracker *input_tracker)
 		input_tracker->quote_mode = SINGLE_QUOTED;
 }
 
-static bool	reached_backslash_newline_sequence(t_input_tracker *input_tracker)
+static void	update_last_opening_quote_details(
+				t_input_tracker *input_tracker,
+				t_token *token)
+{
+	if (token->content.word)
+		token->last_opening_quote_line_start_index_in_word_content
+			= ft_strlen(token->content.word);
+	if (token->start_line_index != input_tracker->line_index)
+		token->last_opening_quote_index_in_word_content_line
+			= input_tracker->index_in_line;
+	else
+		token->last_opening_quote_index_in_word_content_line
+			= input_tracker->index_in_line - token->start_index_in_start_line;
+	token->last_opening_quote_line_index = input_tracker->line_index;
+	token->last_opening_quote_index_in_line = input_tracker->index_in_line;
+}
+
+static bool	reached_backslash_newline_sequence(
+				t_input_tracker *input_tracker)
 {
 	return (get_current_char(input_tracker) == '\\'
 		&& !get_next_char(input_tracker));
@@ -59,6 +78,8 @@ bool	enter_quoted_section(
 				&last_token, tokens_with_status))
 			return (false);
 		set_quote_mode(input_tracker);
+		if (input_tracker->quote_mode != ESCAPED)
+			update_last_opening_quote_details(input_tracker, last_token);
 		if (last_token && !last_token->is_delimited)
 			add_to_token_context_and_advance(input_tracker, last_token);
 		else

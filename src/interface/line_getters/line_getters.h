@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:08:39 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/24 19:28:21 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 01:53:46 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef enum e_access_mode
 {
 	GET,
 	SET,
+	DELETE,
 }	t_access_mode;
 
 char	*access_input_lines(t_access_mode mode, char **new_input_lines);

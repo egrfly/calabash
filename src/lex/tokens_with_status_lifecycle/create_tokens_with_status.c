@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 15:05:26 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 15:07:46 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 20:55:47 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_tokens_with_status	*create_tokens_with_status(void)
 	t_tokens_with_status	*tokens_with_status;
 
 	tokens_with_status
-		= ft_calloc(sizeof(t_tokens_with_status), 1);
+		= ft_calloc(1, sizeof(t_tokens_with_status));
 	if (!tokens_with_status)
 		return (NULL);
 	tokens_with_status->tokens = ft_list_init();

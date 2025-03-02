@@ -27,14 +27,16 @@ Calabash is a limited recreation of the bash shell, written to satisfy the requi
 
 ## How do I run the project locally?
 
-You will need the following software to get started:
+The project should run on Unix- or BSD-based systems (**Linux** or **macOS** should work well). If you wish to run the project on Windows, [setting up and using **WSL**](https://learn.microsoft.com/en-us/windows/wsl/install) is recommended.
 
-- A Unix- or BSD-based system (Linux or macOS recommended)
-- Git
-- Make
-- A C compiler of your choice (gcc or clang recommended)
+The best way to get a local copy of the project is to clone it using **Git** (which is itself most likely available for installation through your system's package manager, for example **apt** or **brew**).
 
-Once you have cloned the project, open a terminal and use the following command to get started:
+To build the project, you'll need the following software, all of which should also be available for installation through your system's package manager:
+- **Make**
+- A C compiler of your choice (**gcc** or **clang** recommended)
+- **GNU Readline**
+
+Once you have installed the required software and cloned the project, open a terminal inside the root directory and use the following command to get started:
 
 ```
 make run

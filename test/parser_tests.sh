@@ -14,7 +14,17 @@ function ask_whether_section_should_be_run() {
 }
 
 function run_test() {
-  echo "$COMMAND" | ../calabash |& cmp -s - <(echo -n "$EXPECTED_RESULT") && echo -e "[${GREEN}PASS${DEFAULT}] $COMMAND" || { echo -e "[${RED}FAIL${DEFAULT}] $COMMAND"; RETURN_VALUE=1; }
+  # Test file-based input
+  echo "$COMMAND" \
+      | ../calabash \
+      |& cmp -s - <(echo -n "$EXPECTED_RESULT") \
+    && echo -e "FILE:   [${GREEN}PASS${DEFAULT}] $COMMAND" \
+    || { echo -e "FILE:   [${RED}FAIL${DEFAULT}] $COMMAND"; RETURN_VALUE=1; }
+  # Test string-based input
+  ../calabash -c "$COMMAND" \
+      |& cmp -s - <(echo -n "$EXPECTED_RESULT") \
+    && echo -e "STRING: [${GREEN}PASS${DEFAULT}] $COMMAND" \
+    || { echo -e "STRING: [${RED}FAIL${DEFAULT}] $COMMAND"; RETURN_VALUE=1; }
 }
 
 export SECTION_NAME="SIMPLE COMMAND TESTS"
@@ -795,6 +805,28 @@ export COMMAND="echo hello | | for WORD in dog cat pig; do echo \$WORD ; done"
 export EXPECTED_RESULT="\
 ../calabash: syntax error near line 1, char 14: ...lo | | for ...
                                                         ^
+"
+run_test
+
+fi
+
+export SECTION_NAME="EARLY INPUT TERMINATION TESTS"
+ask_whether_section_should_be_run
+
+if [[ $SHOULD_RUN_SECTION == "y" ]]; then
+
+export COMMAND="\""
+export EXPECTED_RESULT="\
+../calabash: unclosed quote near line 1, char 1: \"
+                                                 ^
+"
+run_test
+
+export COMMAND="echo a &&
+echo \"b"
+export EXPECTED_RESULT="\
+../calabash: unclosed quote near line 2, char 6: echo \"b
+                                                      ^
 "
 run_test
 

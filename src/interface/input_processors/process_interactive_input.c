@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/27 21:49:00 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 02:14:14 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 #include <unistd.h>
 #include "ft_stdio.h"
 #include "../../lex/lex.h"
+#include "../../lex/tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
 #include "../interface.h"
 #include "../line_getters/line_getters.h"
 #include "../token_processors/token_processors.h"
-#include "./input_processors.h"
 
 static void	print_banner_if_available(void)
 {
@@ -67,6 +67,7 @@ int	process_interactive_input(
 		latest_return_value
 			= process_tokens(
 				tokens_with_status, &multiline_options, program_name, envp);
+		destroy_tokens_with_status(tokens_with_status);
 	}
 	ft_printf("\n");
 	return (latest_return_value);

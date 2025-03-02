@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 17:51:17 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:55:59 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 20:56:15 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_syntax_tree	*create_syntax_tree(void)
 {
 	t_syntax_tree	*syntax_tree;
 
-	syntax_tree = ft_calloc(sizeof(t_syntax_tree), 1);
+	syntax_tree = ft_calloc(1, sizeof(t_syntax_tree));
 	if (!syntax_tree)
 		return (NULL);
 	syntax_tree->tree = ft_binary_tree_init();

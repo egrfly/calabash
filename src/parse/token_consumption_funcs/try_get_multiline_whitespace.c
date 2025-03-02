@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:49:50 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/27 20:43:02 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 21:09:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,7 @@ static void	join_tokens(
 				t_tokens_with_status *next_line_tokens)
 {
 	set_token_type(current_token_node->value, TYPE_NEWLINE);
-	current_token_node->next = next_line_tokens->tokens->first;
-	next_line_tokens->tokens->first->prev = current_token_node;
-	free(next_line_tokens->tokens);
+	ft_list_splicenodes(current_token_node, next_line_tokens->tokens->first);
 	free(next_line_tokens);
 }
 

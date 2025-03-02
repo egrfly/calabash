@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 04:27:10 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 19:36:02 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 03:23:33 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int		get_token_start_index_in_current_line(
 			int start_line_index,
 			int start_index_in_start_line);
 t_token	*get_last_token(
+			t_list *tokens);
+t_token	*get_penultimate_token_with_context_focused_on_quote(
 			t_list *tokens);
 void	delimit_last_token_if_exists(
 			t_input_tracker *input_tracker,
