@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:21:28 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 22:24:43 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 05:26:25 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ typedef struct s_token
 	t_token_type	type;
 	int				start_line_index;
 	int				start_index_in_start_line;
+	int				last_opening_quote_line_start_index_in_word_content;
+	int				last_opening_quote_index_in_word_content_line;
+	int				last_opening_quote_line_index;
+	int				last_opening_quote_index_in_line;
 	int				end_line_index;
 	t_token_content	content;
 	char			surrounding_context[ELLIPSIS_LENGTH

@@ -810,6 +810,28 @@ run_test
 
 fi
 
+export SECTION_NAME="EARLY INPUT TERMINATION TESTS"
+ask_whether_section_should_be_run
+
+if [[ $SHOULD_RUN_SECTION == "y" ]]; then
+
+export COMMAND="\""
+export EXPECTED_RESULT="\
+../calabash: unclosed quote near line 1, char 1: \"
+                                                 ^
+"
+run_test
+
+export COMMAND="echo a &&
+echo \"b"
+export EXPECTED_RESULT="\
+../calabash: unclosed quote near line 2, char 6: echo \"b
+                                                      ^
+"
+run_test
+
+fi
+
 export SECTION_NAME="UNSUPPORTED FEATURE TESTS"
 ask_whether_section_should_be_run
 

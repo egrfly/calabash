@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 20:53:57 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 22:23:27 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 03:10:49 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	delimit_last_token_if_exists(
 			t_token *token,
 			bool *out_of_memory)
 {
-	if (token && !token->is_delimited)
+	if (token && !token->is_delimited && !input_tracker->is_out_of_lines)
 	{
 		add_token_trailing_context(
 			token,

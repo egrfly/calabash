@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/27 21:49:31 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/01 20:55:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	**get_arguments_from_list(t_list *arguments_list)
 	t_list_node	*current_argument_node;
 	size_t		i;
 
-	arguments = ft_calloc(sizeof(char *), arguments_list->size + 1);
+	arguments = ft_calloc(arguments_list->size + 1, sizeof(char *));
 	if (!arguments)
 		return (NULL);
 	current_argument_node = arguments_list->first;
