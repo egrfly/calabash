@@ -6,7 +6,7 @@
 #    By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/03 00:45:25 by emflynn           #+#    #+#              #
-#    Updated: 2025/03/02 03:50:26 by emflynn          ###   ########.fr        #
+#    Updated: 2025/03/02 23:16:24 by emflynn          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ OBJS :=				$(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 MODE_DEPENDENT :=	interface/token_processors/process_tokens
 
 LIBFT_DIR :=		$(LIB_DIR)/libft
+LIBFT :=			$(LIBFT_DIR)/libft.a
 LIBFT_LIB := 		$(LIBFT_DIR)
 LIBFT_INCLUDE :=	$(LIBFT_DIR)/include
 
@@ -46,6 +47,7 @@ RM :=				rm -f
 define update_mode_and_rebuild_if_necessary
 	CYAN='\033[36m'; \
 	GREEN='\033[32m'; \
+	RED='\033[31m'; \
 	END='\033[0m'; \
 	CLEAR='\033[K'; \
 	CHAR='|'; \
@@ -57,37 +59,60 @@ define update_mode_and_rebuild_if_necessary
 		fi; \
 	}; \
 	update_mode() { \
-		if ! echo $(1) | cmp -s $(MODE) -; \
-		then echo $(1) > $(MODE); return 0; \
-		else return 1; \
+		if echo $(1) | cmp -s $(MODE) -; then return 1; \
+		elif echo $(1) > $(MODE); then return 0; \
+		else return 2; \
 		fi; \
 	}; \
+	update_using_make() { \
+		TEMP=$$(mktemp); \
+		if ! $(MAKE) $(MAKEFLAGS) $${1} > $${TEMP}; then RETURN_VALUE=2; \
+		elif cat $${TEMP} | grep -q "up to date"; then RETURN_VALUE=1; \
+		else RETURN_VALUE=0; \
+		fi; \
+		$(RM) $${TEMP}; \
+		return $${RETURN_VALUE}; \
+	}; \
+	update_submodules() { \
+		update_using_make $(PREPARE); \
+	}; \
 	update_libft() { \
-		$(MAKE) $(MAKEFLAGS) -C $(LIBFT_DIR) | grep -q "up to date"; \
+		update_using_make $(LIBFT); \
 	}; \
 	update_calabash() { \
-		$(MAKE) $(MAKEFLAGS) $(BUILD_WITH_TIMESTAMP) | grep -q "up to date"; \
-	}; \
-	perform_update_if_necessary() { \
-		if $${1}; \
-		then echo "$${CLEAR}[$${GREEN}$${2}$${END}] $${3}."; \
-		else echo "$${CLEAR}[$${GREEN}$${2}$${END}] $${4}."; \
-		fi & \
+		update_using_make $(BUILD_WITH_TIMESTAMP); \
 	}; \
 	display_waiting_message() { \
-		while kill -0 $$! 2>/dev/null; \
+		while kill -0 $${!} 2> /dev/null; \
 		do printf "[$${CYAN}$${1}$${END}] $${2} $${CHAR} \r"; advance_char; \
 		done; \
 	}; \
+	perform_update_if_necessary() { \
+		{ \
+			$$($${1} 2> /dev/null); \
+			RETURN_VALUE=$${?}; \
+			if [ $${RETURN_VALUE} -eq 0 ]; then \
+				echo "$${CLEAR}[$${GREEN}$${2}$${END}] $${4}."; \
+			elif [ $${RETURN_VALUE} -eq 1 ]; then \
+				echo "$${CLEAR}[$${GREEN}$${2}$${END}] $${5}."; \
+			else \
+				echo "$${CLEAR}[$${RED}$${2}$${END}] $${6}."; \
+			fi; \
+		} & \
+		display_waiting_message "$${2}" "$${3}"; \
+	}; \
 	perform_update_if_necessary update_mode "MODES" \
-		"Mode now set to $(1)" "Mode already set to $(1)"; \
-	display_waiting_message "MODES" "Selecting mode $(1)"; \
+		"Selecting mode $(1)" "Mode now set to $(1)" \
+		"Mode already set to $(1)" "Error setting mode"; \
+	perform_update_if_necessary update_submodules "CLONE" \
+		"Preparing submodules" "Submodules ready" \
+		"Submodules already cloned" "Error cloning submodules"; \
 	perform_update_if_necessary update_libft "LIBFT" \
-		"Libft already up to date" "Libft ready"; \
-	display_waiting_message "LIBFT" "Preparing Libft"; \
+		"Preparing Libft" "Libft ready" \
+		"Libft already up to date" "Error preparing libft"; \
 	perform_update_if_necessary update_calabash "BUILD" \
-		"Calabash already up to date" "Calabash ready"; \
-	display_waiting_message "BUILD" "Preparing Calabash"
+		"Preparing Calabash" "Calabash ready" \
+		"Calabash already up to date" "Error preparing calabash"
 endef
 
 $(NAME):			turn-off-debugging
@@ -111,15 +136,19 @@ $(OBJ_DIR)/$(MODE_DEPENDENT).o:	\
 $(OBJ_DIR)/%.o:		$(SRC_DIR)/%.c | $(OBJ_DIR)
 					@$(CC) $(CFLAGS) -c $< -o $@
 
+$(LIBFT):
+					@$(MAKE) $(MAKEFLAGS) -C $(LIBFT_DIR)
+
 $(MODE):
 					@echo "NO_DEBUG" > $@
 
 $(PREPARE):
 					@git config core.hooksPath .githooks
+					@git submodule update --quiet --init --recursive
 					@touch $@
 
 $(BUILD_WITH_TIMESTAMP):	\
-					$(PREPARE) $(OBJS)
+					$(OBJS)
 					@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(NAME) $(LDLIBS)
 					@touch $@
 
@@ -137,7 +166,10 @@ turn-off-debugging:
 					@$(call update_mode_and_rebuild_if_necessary,NO_DEBUG)
 
 clean:
-					@$(MAKE) $(MAKEFLAGS) -C $(LIBFT_DIR) fclean
+					@git submodule foreach -q \
+						"if [ -f Makefile ]; then \
+							$(MAKE) $(MAKEFLAGS) fclean; \
+						fi"
 					@$(RM) -R $(OBJ_DIR)
 
 fclean:				clean
@@ -146,7 +178,6 @@ fclean:				clean
 re:					fclean all
 
 .PHONY:				run \
-					prepare \
 					all \
 					bonus \
 					debug-lexing \
