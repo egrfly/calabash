@@ -49,6 +49,9 @@ static void	print_banner_if_available(void)
 }
 
 /* FUNCTIONS FOR SIGNAL HANDLING --- START */
+
+volatile sig_atomic_t	global_signal;
+
 void	terminal_disable_ECHOCTL(bool disable_ECHOCTL)
 {
 	static struct termios	original_settings;

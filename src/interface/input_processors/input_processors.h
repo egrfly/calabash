@@ -22,7 +22,9 @@
 # define DO_NO_CLEANUP false
 # define DO_CLEANUP true
 
-volatile sig_atomic_t	global_signal;
+/* may need to find a better place for this? */
+/* currently, declared in process_interactive_input.c */
+extern volatile sig_atomic_t	global_signal;
 
 int	process_noninteractive_string_input(
 		char *input, char *program_name, char **envp);
