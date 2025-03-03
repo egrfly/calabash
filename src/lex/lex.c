@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 20:55:54 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/02 19:10:58 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ static t_tokens_with_status	*get_tokens_with_status(
 				tokens_with_status))
 			break ;
 	}
-	return (destroy_tokens_with_status(tokens_with_status), NULL);
+	return (tokens_with_status);
 }
 
 t_tokens_with_status	*lex(

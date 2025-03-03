@@ -316,7 +316,7 @@ run_test
 
 fi
 
-export SECTION_NAME="SEQUENCE/BACKGROUND TESTS"
+export SECTION_NAME="SEQUENCE TESTS"
 ask_whether_section_should_be_run
 
 if [[ $SHOULD_RUN_SECTION == "y" ]]; then
@@ -345,102 +345,11 @@ Type sequence
 "
 run_test
 
-export COMMAND="echo 'hello' &"
-export EXPECTED_RESULT="\
-Type background
-  -> Type simple command, arguments: echo, 'hello'
-"
-run_test
-
-export COMMAND="echo 'hello' & ls"
-export EXPECTED_RESULT="\
-Type sequence
-  -> Type background
-    -> Type simple command, arguments: echo, 'hello'
-  -> Type simple command, arguments: ls
-"
-run_test
-
-export COMMAND="echo 'hello' & ls & cat a.txt"
-export EXPECTED_RESULT="\
-Type sequence
-  -> Type sequence
-    -> Type background
-      -> Type simple command, arguments: echo, 'hello'
-    -> Type background
-      -> Type simple command, arguments: ls
-  -> Type simple command, arguments: cat, a.txt
-"
-run_test
-
-export COMMAND="echo 'hello' ; ls & cat a.txt"
-export EXPECTED_RESULT="\
-Type sequence
-  -> Type sequence
-    -> Type simple command, arguments: echo, 'hello'
-    -> Type background
-      -> Type simple command, arguments: ls
-  -> Type simple command, arguments: cat, a.txt
-"
-run_test
-
-export COMMAND="echo 'hello' ; ls & cat a.txt &"
-export EXPECTED_RESULT="\
-Type sequence
-  -> Type sequence
-    -> Type simple command, arguments: echo, 'hello'
-    -> Type background
-      -> Type simple command, arguments: ls
-  -> Type background
-    -> Type simple command, arguments: cat, a.txt
-"
-run_test
-
-export COMMAND="echo 'hello' & ls ; cat a.txt"
-export EXPECTED_RESULT="\
-Type sequence
-  -> Type sequence
-    -> Type background
-      -> Type simple command, arguments: echo, 'hello'
-    -> Type simple command, arguments: ls
-  -> Type simple command, arguments: cat, a.txt
-"
-run_test
-
-export COMMAND="echo 'hello' & ls ; cat a.txt &"
-export EXPECTED_RESULT="\
-Type sequence
-  -> Type sequence
-    -> Type background
-      -> Type simple command, arguments: echo, 'hello'
-    -> Type simple command, arguments: ls
-  -> Type background
-    -> Type simple command, arguments: cat, a.txt
-"
-run_test
-
-export COMMAND="cat a.txt ; echo 'hello' && ls & ! cat b.txt | cat c.txt ;"
+export COMMAND="cat a.txt ; echo 'hello' && ls ; ! cat b.txt | cat c.txt ;"
 export EXPECTED_RESULT="\
 Type sequence
   -> Type sequence
     -> Type simple command, arguments: cat, a.txt
-    -> Type background
-      -> Type and
-        -> Type simple command, arguments: echo, 'hello'
-        -> Type simple command, arguments: ls
-  -> Type negation
-    -> Type pipe
-      -> Type simple command, arguments: cat, b.txt
-      -> Type simple command, arguments: cat, c.txt
-"
-run_test
-
-export COMMAND="cat a.txt & echo 'hello' && ls ; ! cat b.txt | cat c.txt ;"
-export EXPECTED_RESULT="\
-Type sequence
-  -> Type sequence
-    -> Type background
-      -> Type simple command, arguments: cat, a.txt
     -> Type and
       -> Type simple command, arguments: echo, 'hello'
       -> Type simple command, arguments: ls
@@ -703,10 +612,11 @@ Type simple command, arguments: echo, 'hello'
 run_test
 
 export COMMAND="echo 'hello' \\
-&"
+&& echo 'goodbye'"
 export EXPECTED_RESULT="\
-Type background
+Type and
   -> Type simple command, arguments: echo, 'hello'
+  -> Type simple command, arguments: echo, 'goodbye'
 "
 run_test
 
@@ -913,6 +823,62 @@ export COMMAND="coproc MY_COPROC { ls; }"
 export EXPECTED_RESULT="\
 ../calabash: unsupported feature near line 1, char 1: coproc MY_C...
                                                       ^^^^^^
+"
+run_test
+
+export COMMAND="echo 'hello' &"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 14: ...llo' &
+                                                               ^
+"
+run_test
+
+export COMMAND="echo 'hello' & ls"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 14: ...llo' & ls
+                                                               ^
+"
+run_test
+
+export COMMAND="echo 'hello' & ls & cat a.txt"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 14: ...llo' & ls &...
+                                                               ^
+"
+run_test
+
+export COMMAND="echo 'hello' ; ls & cat a.txt"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 19: ...; ls & cat ...
+                                                               ^
+"
+run_test
+
+export COMMAND="echo 'hello' ; ls & cat a.txt &"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 19: ...; ls & cat ...
+                                                               ^
+"
+run_test
+
+export COMMAND="echo 'hello' & ls ; cat a.txt"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 14: ...llo' & ls ;...
+                                                               ^
+"
+run_test
+
+export COMMAND="echo 'hello' & ls ; cat a.txt &"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 14: ...llo' & ls ;...
+                                                               ^
+"
+run_test
+
+export COMMAND="cat a.txt & echo 'hello' && ls ; ! cat b.txt | cat c.txt ;"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 11: ....txt & echo...
+                                                               ^
 "
 run_test
 

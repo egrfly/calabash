@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:25:02 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:48:14 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/02 18:46:35 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static const
 	.token_consumption_func_arg = (void *)AMPERSAND,
 	.tree_update_func = update_with_new_mid_or_post_command_node,
 	.is_optional = MANDATORY,
-	.is_supported = SUPPORTED,
+	.is_supported = UNSUPPORTED,
 }};
 
 static const

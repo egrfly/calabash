@@ -13,7 +13,7 @@ read -n 1 -p "Check compilation? [y/n] " ANSWER
 echo
 if [[ $ANSWER == "y" ]]
 then
-    make
+    make re
 fi
 
 read -n 1 -p "Run lexing tests? [y/n] " ANSWER
