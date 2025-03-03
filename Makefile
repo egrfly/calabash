@@ -37,6 +37,7 @@ LIBFT_INCLUDE :=	$(LIBFT_DIR)/include
 
 CC :=				cc
 CFLAGS :=			-Wall -Wextra -Werror -I $(LIBFT_INCLUDE)
+DFLAGS :=			$(CFLAGS) -g3 -O0
 LDFLAGS :=			-L $(LIBFT_LIB)
 LDLIBS :=			-lreadline -lft
 MAKE :=				make
@@ -89,7 +90,7 @@ define update_mode_and_rebuild_if_necessary
 	}; \
 	perform_update_if_necessary() { \
 		{ \
-			$$($${1} 2> /dev/null); \
+			$$($${1} 2> $(SRC_DIR)/../last_build_errors); \
 			RETURN_VALUE=$${?}; \
 			if [ $${RETURN_VALUE} -eq 0 ]; then \
 				echo "$${CLEAR}[$${GREEN}$${2}$${END}] $${4}."; \
@@ -165,6 +166,10 @@ debug-parsing:
 turn-off-debugging:
 					@$(call update_mode_and_rebuild_if_necessary,NO_DEBUG)
 
+gdb:				CFLAGS := $(DFLAGS)
+gdb:				$(NAME)
+					gdb $(NAME)
+
 clean:
 					@git submodule foreach -q \
 						"if [ -f Makefile ]; then \
@@ -177,7 +182,8 @@ fclean:				clean
 
 re:					fclean all
 
-.PHONY:				run \
+.PHONY:				gdb \
+					run \
 					all \
 					bonus \
 					debug-lexing \
