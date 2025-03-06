@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_if_quoted_and_out_of_input.c         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 00:50:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/27 20:46:58 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 15:12:02 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "../context_utils/context_utils.h"
 #include "../input_utils/input_utils.h"
 #include "../token_utils/token_utils.h"
+#include "../../execute/signals/signals.h"
 
 static void	update_input_tracker_with_next_line_of_input_if_available(
 				t_input_tracker *input_tracker,
@@ -45,6 +46,7 @@ static void	update_input_tracker_with_next_line_of_input_if_available(
 	}
 }
 
+/* NORMINETTE: function too long! */
 bool	get_next_line_if_quoted_and_out_of_input(
 			t_input_tracker *input_tracker,
 			t_tokens_with_status *tokens_with_status,
@@ -72,6 +74,8 @@ bool	get_next_line_if_quoted_and_out_of_input(
 			input_tracker, multiline_options);
 		if (in_escaped_section(input_tracker))
 			leave_escaped_section(input_tracker);
+		if (g_signal == SIGNAL_FOR_CTRL_C)
+			return (false);
 		return (true);
 	}
 	return (false);

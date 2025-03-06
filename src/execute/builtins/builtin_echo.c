@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_processors.h                                 :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:13:26 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 14:24:48 by aistok           ###   ########.fr       */
+/*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
+/*   Updated: 2025/03/06 15:24:51 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_PROCESSORS_H
-# define INPUT_PROCESSORS_H
+#include <unistd.h>
+#include "builtins.h"
+#include "ft_stdio.h"
 
-int	process_noninteractive_string_input(
-		char *input, char *program_name, char **envp);
-int	process_noninteractive_file_input(
-		int fd, char *program_name, char **envp);
-int	process_interactive_input(
-		char *program_name, char **envp);
-
-#endif
+int	builtin_echo(char *const *argv, char *const *envp)
+{
+	(void)argv;
+	(void)envp;
+	ft_dprintf(STDOUT_FILENO, "builtin_echo\n");
+	return (0);
+}

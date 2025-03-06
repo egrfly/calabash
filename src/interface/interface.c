@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   interface.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:45 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/27 22:08:16 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:55 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <signal.h>
 #include "ft_stdio.h"
 #include "./argument_utils/argument_utils.h"
 #include "./input_processors/input_processors.h"
@@ -18,6 +19,8 @@
 #include "./option_processors/option_processors.h"
 #include "./option_utils/option_utils.h"
 #include "./interface.h"
+
+volatile sig_atomic_t	g_signal;
 
 int	interface(int argc, char **argv, char **envp)
 {

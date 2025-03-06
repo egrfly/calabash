@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/02 19:10:58 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 15:12:00 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "./token_lifecycle/token_lifecycle.h"
 #include "./tokenisation_funcs/tokenisation_funcs.h"
 #include "./tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
+#include "../execute/signals/signals.h"
 
 static const
 	t_tokenisation_func
@@ -112,6 +113,8 @@ static t_tokens_with_status	*get_tokens_with_status(
 			|| !any_non_terminating_tokenisation_func_called_without_error(
 				input_tracker, multiline_options,
 				tokens_with_status))
+			break ;
+		if (g_signal == SIGNAL_FOR_CTRL_C)
 			break ;
 	}
 	return (tokens_with_status);

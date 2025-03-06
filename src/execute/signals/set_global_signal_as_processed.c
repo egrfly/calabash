@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_processors.h                                 :+:      :+:    :+:   */
+/*   set_global_signal_as_processed.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:13:26 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 14:24:48 by aistok           ###   ########.fr       */
+/*   Created: 2025/03/06 13:50:25 by aistok            #+#    #+#             */
+/*   Updated: 2025/03/06 15:11:45 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef INPUT_PROCESSORS_H
-# define INPUT_PROCESSORS_H
+#include "./signals.h"
 
-int	process_noninteractive_string_input(
-		char *input, char *program_name, char **envp);
-int	process_noninteractive_file_input(
-		int fd, char *program_name, char **envp);
-int	process_interactive_input(
-		char *program_name, char **envp);
-
-#endif
+void	set_global_signal_as_processed(void)
+{
+	if (g_signal == SIGNAL_FOR_CTRL_C
+		|| g_signal == SIGNAL_FOR_CTRL_BACKSLASH)
+		g_signal = SIGNAL_PROCESSED;
+}

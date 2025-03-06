@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 01:53:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 14:05:48 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # define INCORRECT_USAGE 2
 # define COULD_NOT_EXECUTE 126
 # define NOT_FOUND 127
+# define CTRL_C_TERMINATED 130
+# define CTRL_BACKSLASH_TERMINATED 131
 
 typedef struct s_multiline_options
 {

@@ -37,7 +37,7 @@ LIBFT_INCLUDE :=	$(LIBFT_DIR)/include
 
 CC :=				cc
 CFLAGS :=			-Wall -Wextra -Werror -I $(LIBFT_INCLUDE)
-DFLAGS :=			$(CFLAGS) -g3 -O0
+DFLAGS :=			-g3 -O0 $(CFLAGS)
 LDFLAGS :=			-L $(LIBFT_LIB)
 LDLIBS :=			-lreadline -lft
 MAKE :=				make
@@ -153,6 +153,8 @@ $(BUILD_WITH_TIMESTAMP):	\
 					@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(NAME) $(LDLIBS)
 					@touch $@
 
+dev:				$(NAME) $(BUILD_WITH_TIMESTAMP)
+
 all:				$(NAME)
 
 bonus:				all
@@ -168,7 +170,12 @@ turn-off-debugging:
 
 gdb:				CFLAGS := $(DFLAGS)
 gdb:				$(NAME)
+					echo CFLAGS = $(CFLAGS)
 					gdb $(NAME)
+
+kill:
+					@calabash_pid=$$(ps -ax | grep calabash | grep -v grep | awk '{ print $$1 }'); \
+					kill -9 $$calabash_pid
 
 clean:
 					@git submodule foreach -q \
@@ -182,7 +189,9 @@ fclean:				clean
 
 re:					fclean all
 
-.PHONY:				gdb \
+.PHONY:				dev \
+					kill \
+					gdb \
 					run \
 					all \
 					bonus \
