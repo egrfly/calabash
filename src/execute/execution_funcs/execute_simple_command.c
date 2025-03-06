@@ -15,6 +15,7 @@
 #include "../../interface/interface.h"
 #include "../../parse/tree_node_utils/tree_node_utils.h"
 #include "../execute.h"
+#include "../builtin_utils/builtin_utils.h"
 #include "../command_utils/command_utils.h"
 #include "../execution_utils/execution_utils.h"
 
@@ -53,6 +54,9 @@ int	execute_simple_command(
 	node_value = node->value;
 	if (node_value->arguments->first)
 	{
+		if (get_builtin(node_value->arguments->first->value))
+			return (execute_builtin(node,
+					tokens_and_syntax_tree, program_name_and_env));
 		if (node->parent && node_is_of_type(node->parent->value, PIPE))
 			return (locate_and_execute_command(node,
 					tokens_and_syntax_tree, program_name_and_env));
