@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:11:52 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 02:13:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 17:24:40 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ int	execute_in_child_process(
 
 	exit_status = SUCCESS;
 	pid = fork();
-	if (pid < 0)
+	if (pid == FORK_FAILURE)
 		return (ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
 				program_name_and_env->name, "cannot fork", strerror(errno)),
 			GENERAL_FAILURE);
-	else if (pid == 0)
+	else if (pid == CHILD_PROCESS_ID)
 	{
 		exit_status = execution_func(node, tokens_and_syntax_tree,
 				program_name_and_env);

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 03:12:37 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 17:30:47 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static int	locate_and_execute_command(
 	node_value = node->value;
 	if (!init_exec_params(&exec_params, node_value->arguments,
 			program_name_and_env->env))
-		exit_if_out_of_memory(program_name_and_env->name, &exec_params,
+		exit_due_to_lack_of_memory(program_name_and_env->name, &exec_params,
 			tokens_and_syntax_tree);
 	if (!exec_params.path)
-		exit_if_command_not_found(program_name_and_env->name,
+		exit_due_to_unfound_command(program_name_and_env->name,
 			node_value->arguments->first->value, &exec_params,
 			tokens_and_syntax_tree);
 	execve(exec_params.path, exec_params.args, exec_params.envp);
-	exit_if_execve_failed(program_name_and_env->name,
+	exit_due_to_execve_failure(program_name_and_env->name,
 		node_value->arguments->first->value, &exec_params,
 		tokens_and_syntax_tree);
 	return (GENERAL_FAILURE);

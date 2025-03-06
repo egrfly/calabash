@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_if_command_not_found.c                        :+:      :+:    :+:   */
+/*   exit_due_to_unfound_command.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:50:27 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 05:25:09 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 17:31:34 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "../execution_utils/execution_utils.h"
 #include "./command_utils.h"
 
-void	exit_if_command_not_found(
+void	exit_due_to_unfound_command(
 			char *program_name,
 			char *unfound_command,
 			t_exec_params *exec_params,

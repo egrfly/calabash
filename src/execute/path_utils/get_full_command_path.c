@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 20:51:43 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 17:51:23 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static bool	use_regular_file(char **path, char *full_command_path)
 {
 	struct stat	stat_buffer;
 
-	if (access(full_command_path, F_OK) == 0
-		&& stat(full_command_path, &stat_buffer) == 0
+	if (access(full_command_path, F_OK) == ACCESS_SUCCESS
+		&& stat(full_command_path, &stat_buffer) == STAT_SUCCESS
 		&& S_ISREG(stat_buffer.st_mode))
 	{
 		*path = full_command_path;

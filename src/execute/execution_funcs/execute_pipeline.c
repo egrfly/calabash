@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:57:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 06:11:15 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 17:24:53 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ static int	execute_section_of_pipeline(
 	int	exit_status;
 
 	pipeline->pids[pipeline->current_index] = fork();
-	if (pipeline->pids[pipeline->current_index] < 0)
+	if (pipeline->pids[pipeline->current_index] == FORK_FAILURE)
 	{
 		close_pipe_fds_for_process(pipeline->pipe_fds, pipeline->pipe_count);
 		destroy_pipeline(pipeline);
 		return (ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", program_name_and_env
 				->name, "cannot fork", strerror(errno)), GENERAL_FAILURE);
 	}
-	if (pipeline->pids[pipeline->current_index] == 0)
+	if (pipeline->pids[pipeline->current_index] == CHILD_PROCESS_ID)
 	{
 		reroute_standard_input_if_necessary(pipeline);
 		reroute_standard_output_if_necessary(pipeline);

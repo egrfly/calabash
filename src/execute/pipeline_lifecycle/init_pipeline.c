@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:57:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 02:10:36 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 17:25:21 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	init_pipeline(
 	pipeline->current_index = 0;
 	while (pipeline->current_index < pipeline->pipe_count)
 	{
-		if (pipe(pipeline->pipe_fds[pipeline->current_index]) < 0)
+		if (pipe(pipeline->pipe_fds[pipeline->current_index]) == PIPE_FAILURE)
 		{
 			close_pipe_fds_for_process(pipeline->pipe_fds,
 				pipeline->current_index);
