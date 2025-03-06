@@ -6,14 +6,14 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:21:28 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 05:26:25 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/04 04:51:11 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEX_H
 # define LEX_H
 
-# define DEFAULT_START_LINE_INDEX 0
+# define DEFAULT_LINE_INDEX 0
 
 # define BLANK_TOKEN_LENGTH_IN_CONTEXT 3
 # define MAX_TOKEN_LENGTH_IN_CONTEXT 10

@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   option_count_getters.h                             :+:      :+:    :+:   */
+/*   execute_group.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:28:13 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 16:48:01 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/05 21:24:48 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/05 21:28:53 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPTION_COUNT_GETTERS_H
-# define OPTION_COUNT_GETTERS_H
+#include "ft_binary_tree.h"
+#include "../../interface/interface.h"
+#include "../execute.h"
 
-int	get_c_option_count(int argc, char **argv);
-int	get_options_end_count(int argc, char **argv);
-
-#endif
+// TODO: these can have redirections
+int	execute_group(
+		t_binary_tree_node *node,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+		t_program_name_and_env *program_name_and_env)
+{
+	return (execute_recursively(node->primary_child, tokens_and_syntax_tree,
+			program_name_and_env));
+}

@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 15:14:55 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/06 18:12:35 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,12 @@ static void	print_banner_if_available(void)
 
 /* NORMINETTE: function too long! */
 int	process_interactive_input(
-		char *program_name,
-		char **envp)
+		t_program_name_and_env *program_name_and_env)
 {
 	t_multiline_options		multiline_options;
 	char					*input;
 	t_tokens_with_status	*tokens_with_status;
-	int						latest_return_value;
+	int						latest_exit_code;
 
 	setup_signals();
 	terminal_disable_echoctl(true);
@@ -63,20 +62,18 @@ int	process_interactive_input(
 		= interactive_get_next_line_from_standard_input;
 	multiline_options.get_next_line_arg = NO_ARG;
 	print_banner_if_available();
-	latest_return_value = 0;
+	latest_exit_code = SUCCESS;
 	while (true)
 	{
 		input = readline("\033[32mcalabash\033[36m>\033[0m ");
 		command_history_update_if_suitable(input, DO_NO_CLEANUP);
 		if (!input)
 			break ;
-		tokens_with_status
-			= lex(input, &multiline_options, DEFAULT_START_LINE_INDEX);
+		tokens_with_status = lex(input, &multiline_options, DEFAULT_LINE_INDEX);
 		if (g_signal != SIGNAL_FOR_CTRL_C)
 		{
-			latest_return_value
-				= process_tokens(
-					tokens_with_status, &multiline_options, program_name, envp);
+			latest_exit_code = process_tokens(tokens_with_status,
+				&multiline_options, program_name_and_env);
 		}
 		destroy_tokens_with_status(tokens_with_status);
 		set_global_signal_as_processed();
@@ -84,5 +81,5 @@ int	process_interactive_input(
 	terminal_disable_echoctl(false);
 	command_history_update_if_suitable(NULL, DO_CLEANUP);
 	ft_printf("exit\n");
-	return (latest_return_value);
+	return (latest_exit_code);
 }

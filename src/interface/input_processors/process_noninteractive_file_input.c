@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:12 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 02:28:11 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/05 20:38:09 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@
 
 int	process_noninteractive_file_input(
 		int fd,
-		char *program_name,
-		char **envp)
+		t_program_name_and_env *program_name_and_env)
 {
 	t_multiline_options		multiline_options;
 	char					*input;
+	int						exit_status;
 	t_tokens_with_status	*tokens_with_status;
-	int						return_value;
 
 	multiline_options.input_mode_is_interactive = false;
 	multiline_options.get_next_line
@@ -34,11 +33,10 @@ int	process_noninteractive_file_input(
 	input = ft_getline(fd);
 	if (input)
 	{
-		tokens_with_status = lex(
-				input, &multiline_options, DEFAULT_START_LINE_INDEX);
-		return_value = process_tokens(
-				tokens_with_status, &multiline_options, program_name, envp);
-		return (destroy_tokens_with_status(tokens_with_status), return_value);
+		tokens_with_status = lex(input, &multiline_options, DEFAULT_LINE_INDEX);
+		exit_status = process_tokens(tokens_with_status, &multiline_options,
+				program_name_and_env);
+		return (destroy_tokens_with_status(tokens_with_status), exit_status);
 	}
 	return (GENERAL_FAILURE);
 }

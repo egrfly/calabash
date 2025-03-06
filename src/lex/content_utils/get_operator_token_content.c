@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:34:41 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/21 06:12:18 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 03:51:21 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static const
 [CLOSING_PARENTHESIS] = ")",
 };
 
-int	get_operator_token_content(
+t_operator	get_operator_token_content(
 		char *input,
 		int start_index,
 		int chars_count)
@@ -60,5 +60,5 @@ int	get_operator_token_content(
 			return (i);
 		i++;
 	}
-	return (0);
+	return (NO_OPERATOR);
 }

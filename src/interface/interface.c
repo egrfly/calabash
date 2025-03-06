@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:45 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 15:11:55 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/06 18:13:03 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ volatile sig_atomic_t	g_signal;
 int	interface(int argc, char **argv, char **envp)
 {
 	int	c_option_count;
-	int	options_end_count;
+	int	option_count;
 
 	if (argc > 1)
 	{
@@ -34,14 +34,11 @@ int	interface(int argc, char **argv, char **envp)
 			return (ft_dprintf(STDERR_FILENO,
 					"%s: %s: unrecognised or unsupported option\n",
 					argv[0], argv[1 + c_option_count]), INCORRECT_USAGE);
-		options_end_count = get_options_end_count(argc, argv, c_option_count);
+		option_count = c_option_count + get_options_end_count(argc, argv);
 		if (c_option_count > 0)
-			return (handle_c_option(
-					argc, argv, envp, c_option_count + options_end_count));
-		if (has_more_arguments(argc, c_option_count + options_end_count))
-			return (handle_external_input_file(argv, envp, options_end_count));
+			return (handle_c_option(argc, argv, envp, option_count));
+		if (has_more_arguments(argc, option_count))
+			return (handle_external_input_file(argv, envp, option_count));
 	}
-	if (!isatty(STDIN_FILENO))
-		return (process_noninteractive_file_input(STDIN_FILENO, argv[0], envp));
-	return (process_interactive_input(argv[0], envp));
+	return (handle_standard_input(argv, envp));
 }

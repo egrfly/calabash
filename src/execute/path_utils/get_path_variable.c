@@ -1,19 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   option_count_getters.h                             :+:      :+:    :+:   */
+/*   get_path_variable.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:28:13 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 16:48:01 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/05 19:57:40 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/05 20:46:01 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPTION_COUNT_GETTERS_H
-# define OPTION_COUNT_GETTERS_H
+#include <stdlib.h>
+#include "ft_list.h"
+#include "ft_string.h"
 
-int	get_c_option_count(int argc, char **argv);
-int	get_options_end_count(int argc, char **argv);
+char	*get_path_variable(
+			t_list *env)
+{
+	t_list_node	*env_node;
 
-#endif
+	env_node = env->first;
+	while (env_node)
+	{
+		if (ft_strstarts(env_node->value, "PATH="))
+			return (&ft_strchr(env_node->value, '=')[1]);
+		env_node = env_node->next;
+	}
+	return (NULL);
+}
