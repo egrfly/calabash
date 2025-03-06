@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 22:19:05 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 02:37:59 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "ft_binary_tree.h"
 #include "ft_stdio.h"
 #include "../../interface/interface.h"
+#include "../../parse/tree_node_utils/tree_node_utils.h"
 #include "../execute.h"
 #include "../execution_utils/execution_utils.h"
 #include "../list_utils/list_utils.h"
@@ -107,18 +108,13 @@ int	execute_simple_command(
 		t_program_name_and_env *program_name_and_env)
 {
 	t_syntax_tree_node_value	*node_value;
-	t_syntax_tree_node_value	*parent_node_value;
 
 	node_value = node->value;
 	if (node_value->arguments->first)
 	{
-		if (node->parent)
-		{
-			parent_node_value = node->parent->value;
-			if (parent_node_value->type == PIPE)
-				return (locate_and_execute_command(node,
-						tokens_and_syntax_tree, program_name_and_env));
-		}
+		if (node->parent && node_is_of_type(node->parent->value, PIPE))
+			return (locate_and_execute_command(node,
+					tokens_and_syntax_tree, program_name_and_env));
 		return (execute_in_child_process(locate_and_execute_command, node,
 				tokens_and_syntax_tree, program_name_and_env));
 	}
