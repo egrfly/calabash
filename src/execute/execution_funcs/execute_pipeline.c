@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:57:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 02:09:03 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 06:11:15 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static int	execute_section_of_pipeline(
 				t_binary_tree_node *node,
 				t_tokens_and_syntax_tree *tokens_and_syntax_tree)
 {
+	int	exit_status;
+
 	pipeline->pids[pipeline->current_index] = fork();
 	if (pipeline->pids[pipeline->current_index] < 0)
 	{
@@ -51,19 +53,15 @@ static int	execute_section_of_pipeline(
 	}
 	if (pipeline->pids[pipeline->current_index] == 0)
 	{
-		if (pipeline->current_index < pipeline->pipe_count)
-			dup2(pipeline->pipe_fds[pipeline->current_index][READ_END],
-				STDIN_FILENO);
-		if (pipeline->current_index > 0)
-			dup2(pipeline->pipe_fds[pipeline->current_index - 1][WRITE_END],
-				STDOUT_FILENO);
+		reroute_standard_input_if_necessary(pipeline);
+		reroute_standard_output_if_necessary(pipeline);
 		close_pipe_fds_for_process(pipeline->pipe_fds, pipeline->pipe_count);
-		execute_recursively(select_correct_child_to_execute(node,
-				pipeline->current_index == pipeline->pipe_count),
-			tokens_and_syntax_tree, program_name_and_env);
+		exit_status = execute_recursively(select_correct_child_to_execute(node,
+					pipeline->current_index == pipeline->pipe_count),
+				tokens_and_syntax_tree, program_name_and_env);
 		destroy_pipeline(pipeline);
 		destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
-		exit(GENERAL_FAILURE);
+		exit(exit_status);
 	}
 	return (SUCCESS);
 }

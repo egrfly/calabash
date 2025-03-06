@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 22:57:09 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 04:11:11 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	process_syntax_tree(
 	if (syntax_tree->contains_unsupported_features)
 		return (print_processing_error(program_name_and_env->name,
 				"unsupported feature", get_first_unsupported_token(
-					tokens_with_status->tokens)), INCORRECT_USAGE);
+					tokens_with_status->tokens)), GENERAL_FAILURE);
 	if (syntax_tree->input_terminated_prematurely)
 		return (print_processing_error(program_name_and_env->name,
 				"unclosed quote",
@@ -106,7 +106,7 @@ int	process_tokens(
 	if (tokens_with_status->contains_unsupported_features)
 		return (print_processing_error(program_name_and_env->name,
 				"unsupported feature", get_first_unsupported_token(
-					tokens_with_status->tokens)), INCORRECT_USAGE);
+					tokens_with_status->tokens)), GENERAL_FAILURE);
 	if (tokens_with_status->input_terminated_prematurely)
 		return (print_processing_error(program_name_and_env->name,
 				"unclosed quote",

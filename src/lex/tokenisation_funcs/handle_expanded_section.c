@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:57:41 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 22:23:02 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 03:50:32 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static const
 [COMMAND_SUBSTITUTION_WITH_BACKTICKS] = "`",
 };
 
-static int	get_expansion_mode(
+static t_expansion_mode	get_expansion_mode(
 				t_input_tracker *input_tracker)
 {
 	size_t	i;
@@ -61,7 +61,7 @@ static int	get_expansion_mode(
 			return (i);
 		i++;
 	}
-	return (0);
+	return (NOT_EXPANDED_OR_SUBSTITUTED);
 }
 
 static void	handle_variable_expansion_without_braces(

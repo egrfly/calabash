@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:50:27 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 03:16:41 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 05:25:09 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	exit_if_command_not_found(
 			t_exec_params *exec_params,
 			t_tokens_and_syntax_tree *tokens_and_syntax_tree)
 {
-	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", program_name, unfound_command,
-		"command not found");
+	ft_dprintf(STDERR_FILENO, "%s: %s: command not found\n", program_name,
+		unfound_command);
 	destroy_exec_params(exec_params);
 	destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
 	exit(NOT_FOUND);
