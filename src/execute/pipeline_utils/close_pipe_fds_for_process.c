@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   option_count_getters.h                             :+:      :+:    :+:   */
+/*   close_pipe_fds_for_process.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:28:13 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 16:48:01 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/06 02:02:35 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/06 02:03:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPTION_COUNT_GETTERS_H
-# define OPTION_COUNT_GETTERS_H
+#include <unistd.h>
+#include "./pipeline_utils.h"
 
-int	get_c_option_count(int argc, char **argv);
-int	get_options_end_count(int argc, char **argv);
+void	close_pipe_fds_for_process(
+			int (*pipe_fds)[2],
+			int pipe_count)
+{
+	int	current_index;
 
-#endif
+	current_index = 0;
+	while (current_index < pipe_count)
+	{
+		close(pipe_fds[current_index][READ_END]);
+		close(pipe_fds[current_index][WRITE_END]);
+		current_index++;
+	}
+}

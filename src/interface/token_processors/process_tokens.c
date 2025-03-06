@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 06:05:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/05 22:57:09 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,60 +63,63 @@ static void	print_processing_error(
 static int	process_syntax_tree(
 				t_tokens_with_status *tokens_with_status,
 				t_syntax_tree *syntax_tree,
-				char *program_name,
-				char **envp)
+				t_multiline_options	*multiline_options,
+				t_program_name_and_env *program_name_and_env)
 {
+	t_tokens_and_syntax_tree	tokens_and_syntax_tree;
+
 	if (!syntax_tree)
-		return (ft_dprintf(STDERR_FILENO,
-				"%s: out of memory\n", program_name),
-			GENERAL_FAILURE);
+		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
+				program_name_and_env->name), GENERAL_FAILURE);
 	if (syntax_tree->contains_unsupported_features)
-		return (print_processing_error(program_name, "unsupported feature",
-				get_first_unsupported_token(tokens_with_status->tokens)),
-			INCORRECT_USAGE);
+		return (print_processing_error(program_name_and_env->name,
+				"unsupported feature", get_first_unsupported_token(
+					tokens_with_status->tokens)), INCORRECT_USAGE);
 	if (syntax_tree->input_terminated_prematurely)
-		return (print_processing_error(program_name, "unclosed quote",
+		return (print_processing_error(program_name_and_env->name,
+				"unclosed quote",
 				get_penultimate_token_with_context_focused_on_quote(
-					tokens_with_status->tokens)),
-			INCORRECT_USAGE);
+					tokens_with_status->tokens)), INCORRECT_USAGE);
 	if (syntax_tree->some_tokens_left_unconsumed)
-		return (print_processing_error(program_name, "syntax error",
-				get_first_unconsumed_token(tokens_with_status->tokens)),
-			INCORRECT_USAGE);
+		return (print_processing_error(program_name_and_env->name,
+				"syntax error", get_first_unconsumed_token(
+					tokens_with_status->tokens)), INCORRECT_USAGE);
 	if (DEBUG_PARSING)
 		return (print_syntax_tree(syntax_tree->tree), SUCCESS);
-	return (execute(syntax_tree->tree, program_name, envp));
+	tokens_and_syntax_tree.tokens_with_status = tokens_with_status;
+	tokens_and_syntax_tree.syntax_tree = syntax_tree;
+	tokens_and_syntax_tree.multiline_options = multiline_options;
+	return (execute(&tokens_and_syntax_tree, program_name_and_env));
 }
 
 int	process_tokens(
 		t_tokens_with_status *tokens_with_status,
 		t_multiline_options *multiline_options,
-		char *program_name,
-		char **envp)
+		t_program_name_and_env *program_name_and_env)
 {
 	t_syntax_tree	*syntax_tree;
-	int				status;
+	int				exit_status;
 
 	if (!tokens_with_status || tokens_with_status->out_of_memory)
-		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n", program_name),
-			GENERAL_FAILURE);
+		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
+				program_name_and_env->name), GENERAL_FAILURE);
 	if (tokens_with_status->contains_unsupported_features)
-		return (print_processing_error(program_name, "unsupported feature",
-				get_first_unsupported_token(tokens_with_status->tokens)),
-			INCORRECT_USAGE);
+		return (print_processing_error(program_name_and_env->name,
+				"unsupported feature", get_first_unsupported_token(
+					tokens_with_status->tokens)), INCORRECT_USAGE);
 	if (tokens_with_status->input_terminated_prematurely)
-		return (print_processing_error(program_name, "unclosed quote",
+		return (print_processing_error(program_name_and_env->name,
+				"unclosed quote",
 				get_penultimate_token_with_context_focused_on_quote(
-					tokens_with_status->tokens)),
-			INCORRECT_USAGE);
+					tokens_with_status->tokens)), INCORRECT_USAGE);
 	if (DEBUG_LEXING)
 	{
 		discard_remaining_lines_if_present(multiline_options);
 		return (print_tokens(tokens_with_status->tokens), SUCCESS);
 	}
 	syntax_tree = parse(tokens_with_status->tokens, multiline_options);
-	status = process_syntax_tree(tokens_with_status, syntax_tree,
-			program_name, envp);
+	exit_status = process_syntax_tree(tokens_with_status, syntax_tree,
+			multiline_options, program_name_and_env);
 	destroy_syntax_tree(syntax_tree);
-	return (status);
+	return (exit_status);
 }

@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_processors.h                                 :+:      :+:    :+:   */
+/*   execution_utils.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:30:21 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 18:33:09 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/05 21:18:29 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/06 02:12:20 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKEN_PROCESSORS_H
-# define TOKEN_PROCESSORS_H
+#ifndef EXECUTION_UTILS_H
+# define EXECUTION_UTILS_H
 
-# include "../../lex/lex.h"
-# include "../interface.h"
+# include "ft_binary_tree.h"
+# include "../../interface/interface.h"
+# include "../execute.h"
 
-int		process_tokens(
-			t_tokens_with_status *tokens_with_status,
-			t_multiline_options *multiline_options,
+# define NO_OPTIONS 0
+
+int		execute_in_child_process(
+			t_execution_func execution_func,
+			t_binary_tree_node *node,
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 			t_program_name_and_env *program_name_and_env);
-t_token	*get_first_unsupported_token(
-			t_list *tokens);
-t_token	*get_first_unconsumed_token(
-			t_list *tokens);
+void	destroy_tokens_and_syntax_tree(
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree);
 
 #endif

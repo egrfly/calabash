@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   option_count_getters.h                             :+:      :+:    :+:   */
+/*   path_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:28:13 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 16:48:01 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/05 19:28:38 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/05 19:58:54 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPTION_COUNT_GETTERS_H
-# define OPTION_COUNT_GETTERS_H
+#ifndef PATH_UTILS_H
+# define PATH_UTILS_H
 
-int	get_c_option_count(int argc, char **argv);
-int	get_options_end_count(int argc, char **argv);
+# include <stdbool.h>
+# include "ft_list.h"
+
+bool	get_full_command_path(
+			char **path,
+			char *command,
+			char *path_variable);
+char	*get_path_variable(
+			t_list *env);
+char	*path_join(
+			char *base,
+			char *command_name);
 
 #endif

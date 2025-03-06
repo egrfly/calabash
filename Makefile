@@ -6,7 +6,7 @@
 #    By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/03 00:45:25 by emflynn           #+#    #+#              #
-#    Updated: 2025/03/02 23:16:24 by emflynn          ###   ########.fr        #
+#    Updated: 2025/03/06 02:17:28 by emflynn          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,6 @@ CFLAGS :=			-Wall -Wextra -Werror -I $(LIBFT_INCLUDE)
 LDFLAGS :=			-L $(LIBFT_LIB)
 LDLIBS :=			-lreadline -lft
 MAKE :=				make
-MAKEFLAGS :=		--no-print-directory
 MKDIR :=			mkdir -p
 RM :=				rm -f
 
@@ -66,7 +65,7 @@ define update_mode_and_rebuild_if_necessary
 	}; \
 	update_using_make() { \
 		TEMP=$$(mktemp); \
-		if ! $(MAKE) $(MAKEFLAGS) $${1} > $${TEMP}; then RETURN_VALUE=2; \
+		if ! $(MAKE) $${1} > $${TEMP}; then RETURN_VALUE=2; \
 		elif cat $${TEMP} | grep -q "up to date"; then RETURN_VALUE=1; \
 		else RETURN_VALUE=0; \
 		fi; \
@@ -77,7 +76,7 @@ define update_mode_and_rebuild_if_necessary
 		update_using_make $(PREPARE); \
 	}; \
 	update_libft() { \
-		update_using_make $(LIBFT); \
+		update_using_make libft; \
 	}; \
 	update_calabash() { \
 		update_using_make $(BUILD_WITH_TIMESTAMP); \
@@ -137,7 +136,10 @@ $(OBJ_DIR)/%.o:		$(SRC_DIR)/%.c | $(OBJ_DIR)
 					@$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):
-					@$(MAKE) $(MAKEFLAGS) -C $(LIBFT_DIR)
+					@$(MAKE) -C $(LIBFT_DIR)
+
+libft:
+					@$(MAKE) -C $(LIBFT_DIR)
 
 $(MODE):
 					@echo "NO_DEBUG" > $@
@@ -148,9 +150,11 @@ $(PREPARE):
 					@touch $@
 
 $(BUILD_WITH_TIMESTAMP):	\
-					$(OBJS)
+					$(PREPARE) $(LIBFT) $(OBJS)
 					@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(NAME) $(LDLIBS)
 					@touch $@
+
+dev:				$(NAME) $(BUILD_WITH_TIMESTAMP)
 
 all:				$(NAME)
 
@@ -168,7 +172,7 @@ turn-off-debugging:
 clean:
 					@git submodule foreach -q \
 						"if [ -f Makefile ]; then \
-							$(MAKE) $(MAKEFLAGS) fclean; \
+							$(MAKE) --no-print-directory fclean; \
 						fi"
 					@$(RM) -R $(OBJ_DIR)
 
@@ -178,6 +182,8 @@ fclean:				clean
 re:					fclean all
 
 .PHONY:				run \
+					dev \
+					libft \
 					all \
 					bonus \
 					debug-lexing \
