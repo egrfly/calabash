@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   option_count_getters.h                             :+:      :+:    :+:   */
+/*   list_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:28:13 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 16:48:01 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/05 19:55:50 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/05 19:56:14 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPTION_COUNT_GETTERS_H
-# define OPTION_COUNT_GETTERS_H
+#ifndef LIST_UTILS_H
+# define LIST_UTILS_H
 
-int	get_c_option_count(int argc, char **argv);
-int	get_options_end_count(int argc, char **argv);
+# include "ft_list.h"
+
+char	**get_values_from_list(
+			t_list *list);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 02:14:14 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/05 19:01:47 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,32 +43,29 @@ static void	print_banner_if_available(void)
 }
 
 int	process_interactive_input(
-		char *program_name,
-		char **envp)
+		t_program_name_and_env *program_name_and_env)
 {
 	t_multiline_options		multiline_options;
 	char					*input;
 	t_tokens_with_status	*tokens_with_status;
-	int						latest_return_value;
+	int						latest_exit_code;
 
 	multiline_options.input_mode_is_interactive = true;
 	multiline_options.get_next_line
 		= interactive_get_next_line_from_standard_input;
 	multiline_options.get_next_line_arg = NO_ARG;
 	print_banner_if_available();
-	latest_return_value = 0;
+	latest_exit_code = SUCCESS;
 	while (true)
 	{
 		input = readline("\033[32mcalabash\033[36m>\033[0m ");
 		if (!input)
 			break ;
-		tokens_with_status
-			= lex(input, &multiline_options, DEFAULT_START_LINE_INDEX);
-		latest_return_value
-			= process_tokens(
-				tokens_with_status, &multiline_options, program_name, envp);
+		tokens_with_status = lex(input, &multiline_options, DEFAULT_LINE_INDEX);
+		latest_exit_code = process_tokens(tokens_with_status,
+				&multiline_options, program_name_and_env);
 		destroy_tokens_with_status(tokens_with_status);
 	}
 	ft_printf("\n");
-	return (latest_return_value);
+	return (latest_exit_code);
 }

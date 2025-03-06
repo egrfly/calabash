@@ -1,19 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   option_count_getters.h                             :+:      :+:    :+:   */
+/*   pipeline_lifecycle.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:28:13 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 16:48:01 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/06 01:55:30 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/06 17:25:16 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPTION_COUNT_GETTERS_H
-# define OPTION_COUNT_GETTERS_H
+#ifndef PIPELINE_LIFECYCLE_H
+# define PIPELINE_LIFECYCLE_H
 
-int	get_c_option_count(int argc, char **argv);
-int	get_options_end_count(int argc, char **argv);
+# define PIPE_FAILURE -1
+
+typedef struct s_pipeline
+{
+	int	*pids;
+	int	(*pipe_fds)[2];
+	int	pipe_count;
+	int	current_index;
+}	t_pipeline;
+
+int		init_pipeline(
+			t_pipeline *pipeline,
+			int pipe_count,
+			char *program_name);
+void	destroy_pipeline(
+			t_pipeline *pipeline);
 
 #endif

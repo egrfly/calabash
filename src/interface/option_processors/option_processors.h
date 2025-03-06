@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:44:09 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 20:11:08 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/05 18:34:35 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,6 @@ int	handle_c_option(int argc, char **argv, char **envp,
 		int option_count);
 int	handle_external_input_file(char **argv, char **envp,
 		int options_end_count);
+int	handle_standard_input(char **argv, char **envp);
 
 #endif

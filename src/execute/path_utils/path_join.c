@@ -1,19 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   option_count_getters.h                             :+:      :+:    :+:   */
+/*   path_join.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:28:13 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 16:48:01 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/05 19:27:25 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/05 19:28:52 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPTION_COUNT_GETTERS_H
-# define OPTION_COUNT_GETTERS_H
+#include <stdlib.h>
+#include "ft_string.h"
 
-int	get_c_option_count(int argc, char **argv);
-int	get_options_end_count(int argc, char **argv);
+char	*path_join(
+			char *base,
+			char *command_name)
+{
+	char	*joined_path;
 
-#endif
+	joined_path = malloc(sizeof(char)
+			* (ft_strlen(base) + ft_strlen("/") + ft_strlen(command_name) + 1));
+	if (!joined_path)
+		return (NULL);
+	ft_strcpy(joined_path, base);
+	ft_strcat(joined_path, "/");
+	ft_strcat(joined_path, command_name);
+	return (joined_path);
+}

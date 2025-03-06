@@ -6,95 +6,64 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 20:55:30 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/06 03:27:45 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <unistd.h>
 #include "ft_binary_tree.h"
-#include "ft_stdio.h"
-#include "ft_stdlib.h"
 #include "../interface/interface.h"
 #include "../parse/parse.h"
+#include "./execute.h"
+#include "./execution_funcs/execution_funcs.h"
 
-static char	**get_arguments_from_list(t_list *arguments_list)
-{
-	char		**arguments;
-	t_list_node	*current_argument_node;
-	size_t		i;
+static const
+	t_execution_func
+	g_execution_funcs[] = {
+[SIMPLE_COMMAND] = execute_simple_command,
+[GROUP] = execute_group,
+[SUBSHELL] = execute_subshell,
+[WHILE_COMMAND] = NULL,
+[UNTIL_COMMAND] = NULL,
+[IF_COMMAND] = NULL,
+[FOR_COMMAND] = NULL,
+[SELECT_COMMAND] = NULL,
+[CASE_COMMAND] = NULL,
+[FUNCTION] = NULL,
+[PIPE] = execute_pipeline,
+[PIPE_BOTH] = NULL,
+[TIME_COMMAND] = NULL,
+[NEGATION] = execute_negation,
+[OR] = execute_conditional_or,
+[AND] = execute_conditional_and,
+[SEQUENCE] = execute_sequence,
+[BACKGROUND] = NULL,
+[COPROCESS] = NULL,
+};
 
-	arguments = ft_calloc(arguments_list->size + 1, sizeof(char *));
-	if (!arguments)
-		return (NULL);
-	current_argument_node = arguments_list->first;
-	i = 0;
-	while (i < arguments_list->size)
-	{
-		arguments[i] = current_argument_node->value;
-		current_argument_node = current_argument_node->next;
-		i++;
-	}
-	return (arguments);
-}
-
-static int	execute_simple_command(
-				t_syntax_tree_node_value *node_value,
-				char *program_name, char **envp, int *status)
-{
-	char	**arguments;
-	pid_t	pid;
-	int		return_value;
-
-	pid = fork();
-	if (pid < 0)
-		return (GENERAL_FAILURE);
-	else if (pid == 0)
-	{
-		arguments = get_arguments_from_list(node_value->arguments);
-		if (!arguments)
-			return (GENERAL_FAILURE);
-		execve(node_value->arguments->first->value, arguments, envp);
-		free(arguments);
-		if (errno == ENOENT)
-			return_value = NOT_FOUND;
-		else if (errno == EACCES)
-			return_value = COULD_NOT_EXECUTE;
-		else
-			return_value = GENERAL_FAILURE;
-		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", program_name,
-			node_value->arguments->first->value, strerror(errno));
-		exit(return_value);
-	}
-	return (waitpid(pid, status, 0), SUCCESS);
-}
-
-static int	execute_recursively(
-				t_binary_tree_node *node,
-				char *program_name, char **envp, int *status)
+int	execute_recursively(
+		t_binary_tree_node *node,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+		t_program_name_and_env *program_name_and_env)
 {
 	t_syntax_tree_node_value	*node_value;
+	t_execution_func			execution_func;
 
 	if (!node)
 		return (SUCCESS);
 	node_value = node->value;
-	if (node_value->type == SIMPLE_COMMAND)
-	{
-		if (node_value->arguments->first)
-			return (execute_simple_command(node_value,
-					program_name, envp, status));
-	}
+	execution_func = g_execution_funcs[node_value->type];
+	if (execution_func)
+		return (execution_func(node, tokens_and_syntax_tree,
+				program_name_and_env));
 	return (SUCCESS);
 }
 
+// TODO: add some default env vars like PWD, OLDPWD, SHELL, SHLVL etc.
 int	execute(
-		t_binary_tree *tree, char *program_name, char **envp)
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+		t_program_name_and_env *program_name_and_env)
 {
-	int	status;
-
-	status = SUCCESS;
-	return (execute_recursively(tree->root, program_name, envp, &status));
+	return (execute_recursively(tokens_and_syntax_tree->syntax_tree->tree->root,
+			tokens_and_syntax_tree, program_name_and_env));
 }

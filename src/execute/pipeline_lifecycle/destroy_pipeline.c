@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   option_count_getters.h                             :+:      :+:    :+:   */
+/*   destroy_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:28:13 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 16:48:01 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/06 01:56:18 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/06 01:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPTION_COUNT_GETTERS_H
-# define OPTION_COUNT_GETTERS_H
+#include <stdlib.h>
+#include "./pipeline_lifecycle.h"
 
-int	get_c_option_count(int argc, char **argv);
-int	get_options_end_count(int argc, char **argv);
-
-#endif
+void	destroy_pipeline(
+			t_pipeline *pipeline)
+{
+	free(pipeline->pipe_fds);
+	free(pipeline->pids);
+}

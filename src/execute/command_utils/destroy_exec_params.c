@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   option_count_getters.h                             :+:      :+:    :+:   */
+/*   destroy_exec_params.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:28:13 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 16:48:01 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/06 03:09:39 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/06 03:10:27 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef OPTION_COUNT_GETTERS_H
-# define OPTION_COUNT_GETTERS_H
+#include <stdlib.h>
+#include "./command_utils.h"
 
-int	get_c_option_count(int argc, char **argv);
-int	get_options_end_count(int argc, char **argv);
-
-#endif
+void	destroy_exec_params(
+			t_exec_params *exec_params)
+{
+	free(exec_params->path);
+	free(exec_params->args);
+	free(exec_params->envp);
+}
