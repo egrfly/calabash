@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:52:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 17:31:27 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/07 07:41:49 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 void	exit_due_to_execve_failure(
 			char *program_name,
-			char *command,
 			t_exec_params *exec_params,
 			t_tokens_and_syntax_tree *tokens_and_syntax_tree)
 {
@@ -34,8 +33,8 @@ void	exit_due_to_execve_failure(
 		exit_status = COULD_NOT_EXECUTE;
 	else
 		exit_status = GENERAL_FAILURE;
-	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", program_name, command,
-		strerror(errno));
+	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", program_name,
+		exec_params->command, strerror(errno));
 	destroy_exec_params(exec_params);
 	destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
 	exit(exit_status);

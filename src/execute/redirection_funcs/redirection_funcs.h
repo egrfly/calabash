@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   argument_utils.h                                   :+:      :+:    :+:   */
+/*   redirection_funcs.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:47:17 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/27 22:07:21 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/07 09:23:56 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/07 09:41:47 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGUMENT_UTILS_H
-# define ARGUMENT_UTILS_H
+#ifndef REDIRECTION_FUNCS_H
+# define REDIRECTION_FUNCS_H
 
-# include <stdbool.h>
+# include "../../parse/parse.h"
 
-bool	has_more_arguments(int argc, int option_count);
+# define OPEN_FAILURE -1
+# define DUP_FAILURE -1
+
+typedef int	(*t_redirection_func)(
+				t_redirection *redirection,
+				char *program_name);
+
+int	perform_write_redirection(
+		t_redirection *redirection,
+		char *program_name);
 
 #endif

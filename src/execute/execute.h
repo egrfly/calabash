@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 02:13:38 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/07 04:18:52 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ typedef struct s_tokens_and_syntax_tree
 typedef int	(*t_execution_func)(
 	t_binary_tree_node *node,
 	t_tokens_and_syntax_tree *tokens_and_syntax_tree,
-	t_program_name_and_env *program_name_and_env);
+	t_program_vars *program_vars);
 
 int	execute(
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
-		t_program_name_and_env *program_name_and_env);
+		t_program_vars *program_vars);
 int	execute_recursively(
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
-		t_program_name_and_env *program_name_and_env);
+		t_program_vars *program_vars);
 
 #endif

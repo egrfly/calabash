@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 17:30:47 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/07 09:32:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,36 +17,38 @@
 #include "../execute.h"
 #include "../command_utils/command_utils.h"
 #include "../execution_utils/execution_utils.h"
+#include "../redirection_utils/redirection_utils.h"
 
 static int	locate_and_execute_command(
 				t_binary_tree_node *node,
 				t_tokens_and_syntax_tree *tokens_and_syntax_tree,
-				t_program_name_and_env *program_name_and_env)
+				t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
 	t_exec_params				exec_params;
 
 	node_value = node->value;
 	if (!init_exec_params(&exec_params, node_value->arguments,
-			program_name_and_env->env))
-		exit_due_to_lack_of_memory(program_name_and_env->name, &exec_params,
+			node_value->assignments, program_vars->env))
+		exit_due_to_lack_of_memory(program_vars->name, &exec_params,
 			tokens_and_syntax_tree);
 	if (!exec_params.path)
-		exit_due_to_unfound_command(program_name_and_env->name,
-			node_value->arguments->first->value, &exec_params,
+		exit_due_to_unfound_command(program_vars->name, &exec_params,
 			tokens_and_syntax_tree);
+	perform_redirections(node_value->redirections, program_vars->name);
 	execve(exec_params.path, exec_params.args, exec_params.envp);
-	exit_due_to_execve_failure(program_name_and_env->name,
-		node_value->arguments->first->value, &exec_params,
+	revert_redirections(node_value->redirections);
+	exit_due_to_execve_failure(program_vars->name, &exec_params,
 		tokens_and_syntax_tree);
 	return (GENERAL_FAILURE);
 }
 
-// TODO: figure out what to do in the case of assignments and redirections only
+// TODO: in the case of assignments and/or redirections only:
+// upsert any assignments to local (or to env if already exported)
 int	execute_simple_command(
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
-		t_program_name_and_env *program_name_and_env)
+		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
 
@@ -55,9 +57,14 @@ int	execute_simple_command(
 	{
 		if (node->parent && node_is_of_type(node->parent->value, PIPE))
 			return (locate_and_execute_command(node,
-					tokens_and_syntax_tree, program_name_and_env));
+					tokens_and_syntax_tree, program_vars));
 		return (execute_in_child_process(locate_and_execute_command, node,
-				tokens_and_syntax_tree, program_name_and_env));
+				tokens_and_syntax_tree, program_vars));
+	}
+	else
+	{
+		perform_redirections(node_value->redirections, program_vars->name);
+		revert_redirections(node_value->redirections);
 	}
 	return (SUCCESS);
 }

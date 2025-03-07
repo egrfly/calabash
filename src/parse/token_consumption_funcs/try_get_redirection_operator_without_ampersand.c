@@ -6,13 +6,14 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:25:02 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:36:58 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/07 05:07:57 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_list.h"
 #include "../../interface/interface.h"
+#include "../../lex/lex.h"
 #include "../parse.h"
 #include "../parsing_utils/parsing_utils.h"
 #include "../tree_update_funcs/tree_update_funcs.h"

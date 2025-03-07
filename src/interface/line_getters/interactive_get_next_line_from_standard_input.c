@@ -6,13 +6,13 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:09:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 23:45:58 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/07 09:56:52 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <stdio.h>
 
 char	*interactive_get_next_line_from_standard_input(void *arg)
 {

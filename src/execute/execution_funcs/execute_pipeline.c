@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:57:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 17:24:53 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/07 04:18:52 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_binary_tree_node	*select_correct_child_to_execute(
 
 static int	execute_section_of_pipeline(
 				t_pipeline *pipeline,
-				t_program_name_and_env *program_name_and_env,
+				t_program_vars *program_vars,
 				t_binary_tree_node *node,
 				t_tokens_and_syntax_tree *tokens_and_syntax_tree)
 {
@@ -48,7 +48,7 @@ static int	execute_section_of_pipeline(
 	{
 		close_pipe_fds_for_process(pipeline->pipe_fds, pipeline->pipe_count);
 		destroy_pipeline(pipeline);
-		return (ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", program_name_and_env
+		return (ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", program_vars
 				->name, "cannot fork", strerror(errno)), GENERAL_FAILURE);
 	}
 	if (pipeline->pids[pipeline->current_index] == CHILD_PROCESS_ID)
@@ -58,7 +58,7 @@ static int	execute_section_of_pipeline(
 		close_pipe_fds_for_process(pipeline->pipe_fds, pipeline->pipe_count);
 		exit_status = execute_recursively(select_correct_child_to_execute(node,
 					pipeline->current_index == pipeline->pipe_count),
-				tokens_and_syntax_tree, program_name_and_env);
+				tokens_and_syntax_tree, program_vars);
 		destroy_pipeline(pipeline);
 		destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
 		exit(exit_status);
@@ -70,20 +70,20 @@ static int	execute_section_of_pipeline(
 int	execute_pipeline(
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
-		t_program_name_and_env *program_name_and_env)
+		t_program_vars *program_vars)
 {
 	int					exit_status;
 	t_pipeline			pipeline;
 
 	exit_status = init_pipeline(&pipeline,
-			count_pipes_in_current_pipeline(node), program_name_and_env->name);
+			count_pipes_in_current_pipeline(node), program_vars->name);
 	if (exit_status != SUCCESS)
 		return (exit_status);
 	pipeline.current_index = 0;
 	while (pipeline.current_index <= pipeline.pipe_count)
 	{
 		exit_status = execute_section_of_pipeline(&pipeline,
-				program_name_and_env, node, tokens_and_syntax_tree);
+				program_vars, node, tokens_and_syntax_tree);
 		if (exit_status != SUCCESS)
 			return (exit_status);
 		pipeline.current_index++;
