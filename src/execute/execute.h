@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 18:08:51 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/07 00:39:13 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ int	execute(
 int	execute_recursively(
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+		t_program_name_and_env *program_name_and_env);
+int	execute_builtin_command(
+		const char *command, const char **argv,
 		t_program_name_and_env *program_name_and_env);
 
 #endif

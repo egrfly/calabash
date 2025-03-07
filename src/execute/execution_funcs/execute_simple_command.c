@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_simple_command.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 17:30:47 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/07 08:35:47 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "../execute.h"
 #include "../command_utils/command_utils.h"
 #include "../execution_utils/execution_utils.h"
+#include "../builtins/builtins.h"
+#include "../list_utils/list_utils.h"
 
 static int	locate_and_execute_command(
 				t_binary_tree_node *node,
@@ -43,6 +45,8 @@ static int	locate_and_execute_command(
 }
 
 // TODO: figure out what to do in the case of assignments and redirections only
+// TODO: Atti - execute_builtin_command - will probably need changing to be
+//				able to handle recursive execution?
 int	execute_simple_command(
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
@@ -53,6 +57,11 @@ int	execute_simple_command(
 	node_value = node->value;
 	if (node_value->arguments->first)
 	{
+		if (is_builtin_command(node_value->arguments->first->value))
+			return (execute_builtin_command(
+					node_value->arguments->first->value,
+					(const char **)get_values_from_list(node_value->arguments),
+					program_name_and_env));
 		if (node->parent && node_is_of_type(node->parent->value, PIPE))
 			return (locate_and_execute_command(node,
 					tokens_and_syntax_tree, program_name_and_env));

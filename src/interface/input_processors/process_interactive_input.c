@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 18:12:35 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/07 08:34:40 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	process_interactive_input(
 		if (g_signal != SIGNAL_FOR_CTRL_C)
 		{
 			latest_exit_code = process_tokens(tokens_with_status,
-				&multiline_options, program_name_and_env);
+					&multiline_options, program_name_and_env);
 		}
 		destroy_tokens_with_status(tokens_with_status);
 		set_global_signal_as_processed();

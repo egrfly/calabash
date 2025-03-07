@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try_get_multiline_whitespace.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:49:50 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 21:09:30 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/07 02:26:18 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "../token_utils/token_utils.h"
 #include "../tree_utils/tree_utils.h"
 #include "./token_consumption_funcs.h"
+#include "../../execute/signals/signals.h"
 
 static void	consume_available_multiline_whitespace_tokens(
 				t_list_node **current_token_node,
@@ -82,6 +83,8 @@ static bool	prompt_more_while_at_end_of_input(
 				ft_printf("\n");
 			break ;
 		}
+		if (g_signal == SIGNAL_FOR_CTRL_C)
+			break ;
 		next_line_tokens
 			= lex(next_line, multiline_options,
 				get_post_token_line_index((*current_token_node)->value));

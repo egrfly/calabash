@@ -6,18 +6,20 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/06 15:16:16 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/07 07:21:08 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <unistd.h>
 #include "builtins.h"
 #include "ft_stdio.h"
 
-int	builtin_pwd(char *const *argv, char *const *envp)
+int	builtin_pwd(
+		const char **argv, t_program_name_and_env *program_name_and_env)
 {
 	(void)argv;
-	(void)envp;
-	ft_dprintf(STDOUT_FILENO, "builtin_pwd\n");
+	(void)program_name_and_env;
+	ft_dprintf(STDOUT_FILENO, "%s\n", getcwd(NULL, 0));
 	return (0);
 }
