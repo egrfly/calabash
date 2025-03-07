@@ -4,10 +4,6 @@ minishell
 .prepare
 .mode
 .build
-last_build_errors
-# the below is my makefile caller (bash script)
-mk
-../Makefile.atti
 
 # Created by https://www.toptal.com/developers/gitignore/api/c,visualstudiocode,jetbrains,macos,linux,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=c,visualstudiocode,jetbrains,macos,linux,windows

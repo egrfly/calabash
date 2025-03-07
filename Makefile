@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aistok <aistok@student.42london.com>       +#+  +:+       +#+         #
+#    By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/03 00:45:25 by emflynn           #+#    #+#              #
-#    Updated: 2025/03/06 18:03:27 by aistok           ###   ########.fr        #
+#    Updated: 2025/03/06 02:17:28 by emflynn          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ LIBFT_INCLUDE :=	$(LIBFT_DIR)/include
 
 CC :=				cc
 CFLAGS :=			-Wall -Wextra -Werror -I $(LIBFT_INCLUDE)
-DFLAGS :=			-g3 -O0 $(CFLAGS)
 LDFLAGS :=			-L $(LIBFT_LIB)
 LDLIBS :=			-lreadline -lft
 MAKE :=				make
@@ -89,7 +88,7 @@ define update_mode_and_rebuild_if_necessary
 	}; \
 	perform_update_if_necessary() { \
 		{ \
-			$$($${1} 2> $(SRC_DIR)/../last_build_errors); \
+			$$($${1} 2> /dev/null); \
 			RETURN_VALUE=$${?}; \
 			if [ $${RETURN_VALUE} -eq 0 ]; then \
 				echo "$${CLEAR}[$${GREEN}$${2}$${END}] $${4}."; \
@@ -170,15 +169,6 @@ debug-parsing:
 turn-off-debugging:
 					@$(call update_mode_and_rebuild_if_necessary,NO_DEBUG)
 
-gdb:				CFLAGS := $(DFLAGS)
-gdb:				$(NAME)
-					echo CFLAGS = $(CFLAGS)
-					gdb $(NAME)
-
-kill:
-					@calabash_pid=$$(ps -ax | grep calabash | grep -v grep | awk '{ print $$1 }'); \
-					kill -9 $$calabash_pid
-
 clean:
 					@git submodule foreach -q \
 						"if [ -f Makefile ]; then \
@@ -191,9 +181,7 @@ fclean:				clean
 
 re:					fclean all
 
-.PHONY:				kill \
-					gdb \
-					run \
+.PHONY:				run \
 					dev \
 					libft \
 					all \
