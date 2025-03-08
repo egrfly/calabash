@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:13:10 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 05:41:24 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 15:52:01 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,6 @@
 # include "ft_list.h"
 # include "../interface/interface.h"
 # include "../lex/lex.h"
-
-# ifndef NO_ARG
-#  define NO_ARG 0
-# endif
 
 # define UPDATE_NO_OP 0
 # define DELETE_NO_OP 0
@@ -125,6 +121,7 @@ typedef struct s_syntax_tree
 	bool				contains_unsupported_features;
 	bool				some_tokens_left_unconsumed;
 	bool				input_terminated_prematurely;
+	bool				here_doc_failure;
 }	t_syntax_tree;
 
 typedef int		(*t_token_consumption_func)(

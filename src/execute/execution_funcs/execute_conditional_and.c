@@ -6,11 +6,12 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:22:18 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 09:03:56 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 16:00:14 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_binary_tree.h"
+#include "../../main.h"
 #include "../../interface/interface.h"
 #include "../execute.h"
 

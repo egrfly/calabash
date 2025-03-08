@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:09:26 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/07 04:31:45 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 12:54:38 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 bool	init_program_vars(
 			t_program_vars *program_vars,
-			char **argv,
 			char **envp);
 void	destroy_program_vars(
 			t_program_vars *program_vars);

@@ -6,12 +6,13 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 22:05:15 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 09:05:41 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 13:37:41 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include "../../lex/tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
+#include "ft_list.h"
+#include "../../lex/token_lifecycle/token_lifecycle.h"
 #include "../../interface/line_getters/line_getters.h"
 #include "../../interface/line_utils/line_utils.h"
 #include "../../parse/tree_lifecycle/tree_lifecycle.h"
@@ -23,7 +24,8 @@ void	destroy_fixed_program_elements(
 {
 	int	fd;
 
-	destroy_tokens_with_status(fixed_program_elements->tokens_with_status);
+	ft_list_destroy(fixed_program_elements->tokens,
+		(t_action_func)destroy_token);
 	destroy_syntax_tree(fixed_program_elements->syntax_tree);
 	destroy_pipeline(fixed_program_elements->active_pipeline);
 	if (fixed_program_elements->multiline_options->get_next_line

@@ -6,23 +6,26 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 09:26:02 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 16:01:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "ft_list.h"
 #include "ft_stdio.h"
 #include "ft_stdlib.h"
 #include "ft_string.h"
+#include "../../main.h"
 #include "../../debug/debug.h"
 #include "../../execute/execute.h"
 #include "../../lex/lex.h"
+#include "../../lex/token_lifecycle/token_lifecycle.h"
 #include "../../lex/token_utils/token_utils.h"
-#include "../../lex/tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
 #include "../../parse/parse.h"
 #include "../../parse/tree_lifecycle/tree_lifecycle.h"
 #include "../interface.h"
 #include "../line_utils/line_utils.h"
+#include "../program_name_utils/program_name_utils.h"
 #include "./token_processors.h"
 
 #ifndef DEBUG_LEXING
@@ -60,37 +63,71 @@ static void	print_processing_error(
 		"^^^^^^^^^^");
 }
 
+static int	handle_parsing_error(
+				t_syntax_tree *syntax_tree,
+				t_list *tokens,
+				char *program_name)
+{
+	if (!syntax_tree || syntax_tree->out_of_memory)
+		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
+				program_name), GENERAL_FAILURE);
+	if (syntax_tree->here_doc_failure)
+		return (GENERAL_FAILURE);
+	if (syntax_tree->contains_unsupported_features)
+		return (print_processing_error(program_name,
+				"unsupported feature", get_first_unsupported_token(
+					tokens)), GENERAL_FAILURE);
+	if (syntax_tree->input_terminated_prematurely)
+		return (print_processing_error(program_name,
+				"unclosed quote",
+				get_penultimate_token_with_context_focused_on_quote(
+					tokens)), INCORRECT_USAGE);
+	if (syntax_tree->some_tokens_left_unconsumed)
+		return (print_processing_error(program_name,
+				"syntax error", get_first_unconsumed_token(
+					tokens)), INCORRECT_USAGE);
+	return (SUCCESS);
+}
+
 static int	process_syntax_tree(
-				t_tokens_with_status *tokens_with_status,
+				t_list *tokens,
 				t_syntax_tree *syntax_tree,
 				t_multiline_options	*multiline_options,
 				t_program_vars *program_vars)
 {
+	int							parsing_status;
 	t_fixed_program_elements	fixed_program_elements;
 
-	if (!syntax_tree)
-		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
-				program_vars->name), GENERAL_FAILURE);
-	if (syntax_tree->contains_unsupported_features)
-		return (print_processing_error(program_vars->name,
-				"unsupported feature", get_first_unsupported_token(
-					tokens_with_status->tokens)), GENERAL_FAILURE);
-	if (syntax_tree->input_terminated_prematurely)
-		return (print_processing_error(program_vars->name,
-				"unclosed quote",
-				get_penultimate_token_with_context_focused_on_quote(
-					tokens_with_status->tokens)), INCORRECT_USAGE);
-	if (syntax_tree->some_tokens_left_unconsumed)
-		return (print_processing_error(program_vars->name,
-				"syntax error", get_first_unconsumed_token(
-					tokens_with_status->tokens)), INCORRECT_USAGE);
+	parsing_status = handle_parsing_error(syntax_tree, tokens,
+			get_program_name());
+	if (parsing_status != SUCCESS)
+		return (parsing_status);
 	if (DEBUG_PARSING)
 		return (print_syntax_tree(syntax_tree->tree), SUCCESS);
 	ft_bzero(&fixed_program_elements, sizeof(fixed_program_elements));
-	fixed_program_elements.tokens_with_status = tokens_with_status;
+	fixed_program_elements.tokens = tokens;
 	fixed_program_elements.syntax_tree = syntax_tree;
 	fixed_program_elements.multiline_options = multiline_options;
 	return (execute(&fixed_program_elements, program_vars));
+}
+
+static int	handle_lexing_error(
+				t_tokens_with_status *tokens_with_status,
+				char *program_name)
+{
+	if (!tokens_with_status || tokens_with_status->out_of_memory)
+		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
+				program_name), GENERAL_FAILURE);
+	if (tokens_with_status->contains_unsupported_features)
+		return (print_processing_error(program_name,
+				"unsupported feature", get_first_unsupported_token(
+					tokens_with_status->tokens)), GENERAL_FAILURE);
+	if (tokens_with_status->input_terminated_prematurely)
+		return (print_processing_error(program_name,
+				"unclosed quote",
+				get_penultimate_token_with_context_focused_on_quote(
+					tokens_with_status->tokens)), INCORRECT_USAGE);
+	return (SUCCESS);
 }
 
 int	process_tokens(
@@ -98,29 +135,25 @@ int	process_tokens(
 		t_multiline_options *multiline_options,
 		t_program_vars *program_vars)
 {
+	int				lexing_status;
+	t_list			*tokens;
 	t_syntax_tree	*syntax_tree;
 	int				exit_status;
 
-	if (!tokens_with_status || tokens_with_status->out_of_memory)
-		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
-				program_vars->name), GENERAL_FAILURE);
-	if (tokens_with_status->contains_unsupported_features)
-		return (print_processing_error(program_vars->name,
-				"unsupported feature", get_first_unsupported_token(
-					tokens_with_status->tokens)), GENERAL_FAILURE);
-	if (tokens_with_status->input_terminated_prematurely)
-		return (print_processing_error(program_vars->name,
-				"unclosed quote",
-				get_penultimate_token_with_context_focused_on_quote(
-					tokens_with_status->tokens)), INCORRECT_USAGE);
+	lexing_status = handle_lexing_error(tokens_with_status, get_program_name());
+	if (lexing_status != SUCCESS)
+		return (lexing_status);
+	tokens = tokens_with_status->tokens;
+	free(tokens_with_status);
 	if (DEBUG_LEXING)
 	{
 		discard_remaining_lines_if_present(multiline_options);
-		return (print_tokens(tokens_with_status->tokens), SUCCESS);
+		return (print_tokens(tokens), SUCCESS);
 	}
-	syntax_tree = parse(tokens_with_status->tokens, multiline_options);
-	exit_status = process_syntax_tree(tokens_with_status, syntax_tree,
+	syntax_tree = parse(tokens, multiline_options);
+	exit_status = process_syntax_tree(tokens, syntax_tree,
 			multiline_options, program_vars);
 	destroy_syntax_tree(syntax_tree);
+	ft_list_destroy(tokens, (t_action_func)destroy_token);
 	return (exit_status);
 }

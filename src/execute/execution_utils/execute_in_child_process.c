@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:11:52 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 09:24:55 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 15:55:46 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include <unistd.h>
 #include "ft_binary_tree.h"
 #include "ft_stdio.h"
+#include "../../main.h"
 #include "../../interface/interface.h"
+#include "../../interface/program_name_utils/program_name_utils.h"
 #include "../../interface/program_vars_lifecycle/program_vars_lifecycle.h"
 #include "../execute.h"
 #include "./execution_utils.h"
@@ -34,7 +36,7 @@ int	execute_in_child_process(
 	pid = fork();
 	if (pid == FORK_FAILURE)
 		return (ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
-				program_vars->name, "cannot fork", strerror(errno)),
+				get_program_name(), "cannot fork", strerror(errno)),
 			GENERAL_FAILURE);
 	else if (pid == CHILD_PROCESS_ID)
 	{

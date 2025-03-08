@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:57:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 09:03:56 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 15:57:25 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 #include <unistd.h>
 #include "ft_binary_tree.h"
 #include "ft_stdio.h"
+#include "../../main.h"
 #include "../../interface/interface.h"
+#include "../../interface/program_name_utils/program_name_utils.h"
 #include "../../parse/parse.h"
 #include "../execute.h"
 #include "../execution_utils/execution_utils.h"
@@ -74,7 +76,7 @@ int	execute_pipeline(
 	t_pipeline			pipeline;
 
 	exit_status = init_pipeline(&pipeline,
-			count_pipes_in_current_pipeline(node), program_vars->name);
+			count_pipes_in_current_pipeline(node));
 	if (exit_status != SUCCESS)
 		return (exit_status);
 	pipeline.current_index = 0;
@@ -83,7 +85,7 @@ int	execute_pipeline(
 		if (!execute_section_of_pipeline(&pipeline,
 				program_vars, node, fixed_program_elements))
 		{
-			ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", program_vars->name,
+			ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", get_program_name(),
 				"cannot fork", strerror(errno));
 			return (destroy_pipeline(&pipeline), GENERAL_FAILURE);
 		}

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:55:08 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 06:18:16 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 16:06:08 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define TOKEN_CONSUMPTION_FUNCS_H
 
 # include "ft_list.h"
+# include "../../main.h"
 # include "../../interface/interface.h"
 # include "../parse.h"
 

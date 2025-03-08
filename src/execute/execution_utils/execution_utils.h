@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:18:29 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 09:03:56 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 15:46:10 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@
 # include "ft_binary_tree.h"
 # include "../../interface/interface.h"
 # include "../execute.h"
-
-# define NO_OPTIONS 0
-
-# define FORK_FAILURE -1
-# define CHILD_PROCESS_ID 0
 
 int		execute_in_child_process(
 			t_execution_func execution_func,

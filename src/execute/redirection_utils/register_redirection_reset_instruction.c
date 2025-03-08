@@ -6,12 +6,13 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 21:08:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/07 21:16:22 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 15:59:42 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <unistd.h>
+#include "../../main.h"
 #include "../../parse/parse.h"
 #include "./redirection_utils.h"
 

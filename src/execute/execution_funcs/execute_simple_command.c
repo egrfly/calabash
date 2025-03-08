@@ -6,12 +6,13 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 09:03:56 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 16:00:26 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "ft_binary_tree.h"
+#include "../../main.h"
 #include "../../interface/interface.h"
 #include "../../parse/tree_node_utils/tree_node_utils.h"
 #include "../execute.h"
@@ -35,7 +36,7 @@ static int	locate_and_execute_command(
 	if (!exec_params.path)
 		exit_due_to_unfound_command(program_vars, &exec_params,
 			fixed_program_elements);
-	if (!perform_redirections(node_value->redirections, program_vars->name))
+	if (!perform_redirections(node_value->redirections))
 		exit_due_to_redirection_failure(program_vars, &exec_params,
 			fixed_program_elements);
 	execve(exec_params.path, exec_params.args, exec_params.envp);
@@ -65,7 +66,7 @@ int	execute_simple_command(
 	}
 	else
 	{
-		perform_redirections(node_value->redirections, program_vars->name);
+		perform_redirections(node_value->redirections);
 		revert_redirections(node_value->redirections);
 	}
 	return (SUCCESS);
