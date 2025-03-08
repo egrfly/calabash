@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 23:52:25 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:26:34 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 06:14:55 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int	try_get_number(
 	(void)multiline_options;
 	current_token = (*current_token_node)->value;
 	if (current_token->type == TYPE_WORD
-		&& ft_all(current_token->content.word, ft_isdigit)
-		&& ft_atoi(current_token->content.word, &number))
+		&& ft_strall(current_token->content.word, ft_isdigit)
+		&& ft_strtoi(current_token->content.word, &number))
 	{
 		current_token->has_been_consumed_at_some_point = true;
 		*current_token_node = (*current_token_node)->next;

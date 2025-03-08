@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:49:50 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/07 02:26:18 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/08 22:15:31 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,6 @@ static void	consume_available_multiline_whitespace_tokens(
 	}
 }
 
-static void	join_tokens(
-				t_list_node *current_token_node,
-				t_tokens_with_status *next_line_tokens)
-{
-	set_token_type(current_token_node->value, TYPE_NEWLINE);
-	ft_list_splicenodes(current_token_node, next_line_tokens->tokens->first);
-	free(next_line_tokens);
-}
-
 static void	propagate_lexing_errors(
 				t_tokens_with_status *next_line_tokens,
 				t_syntax_tree *syntax_tree)
@@ -63,6 +54,24 @@ static void	propagate_lexing_errors(
 		syntax_tree->input_terminated_prematurely = true;
 }
 
+t_tokens_with_status	*do_lexing(
+		char *next_line,
+		t_multiline_options *multiline_options,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree)
+{
+	t_tokens_with_status	*next_line_tokens;
+
+	next_line_tokens
+		= lex(next_line, multiline_options,
+			get_post_token_line_index((*current_token_node)->value));
+	propagate_lexing_errors(next_line_tokens, syntax_tree);
+	if (!next_line_tokens)
+		return (NULL);
+	join_tokens(*current_token_node, next_line_tokens);
+	return (next_line_tokens);
+}
+
 static bool	prompt_more_while_at_end_of_input(
 				t_list_node **current_token_node,
 				t_syntax_tree *syntax_tree,
@@ -70,7 +79,6 @@ static bool	prompt_more_while_at_end_of_input(
 				t_tokens_consumed_counts *whitespace_tokens_consumed_counts)
 {
 	char					*next_line;
-	t_tokens_with_status	*next_line_tokens;
 
 	while (token_is_of_type((*current_token_node)->value, TYPE_END_OF_INPUT)
 		&& !tree_has_errors(syntax_tree))
@@ -85,13 +93,9 @@ static bool	prompt_more_while_at_end_of_input(
 		}
 		if (g_signal == SIGNAL_FOR_CTRL_C)
 			break ;
-		next_line_tokens
-			= lex(next_line, multiline_options,
-				get_post_token_line_index((*current_token_node)->value));
-		propagate_lexing_errors(next_line_tokens, syntax_tree);
-		if (!next_line_tokens)
+		if (!do_lexing(next_line, multiline_options,
+				current_token_node, syntax_tree))
 			return (false);
-		join_tokens(*current_token_node, next_line_tokens);
 		consume_available_multiline_whitespace_tokens(
 			current_token_node, whitespace_tokens_consumed_counts);
 	}

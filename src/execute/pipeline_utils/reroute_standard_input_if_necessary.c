@@ -6,11 +6,12 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:42:42 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 04:43:38 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 15:58:34 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "../../main.h"
 #include "../pipeline_lifecycle/pipeline_lifecycle.h"
 #include "./pipeline_utils.h"
 

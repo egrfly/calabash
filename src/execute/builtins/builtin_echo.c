@@ -6,40 +6,47 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/07 08:38:25 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/08 19:19:23 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include "../../main.h"
 #include "builtins.h"
 #include "ft_stdio.h"
 #include "ft_string.h"
 
 bool	dash_n_is_present(const char *argument)
 {
+	int	i;
+
 	if (!argument)
 		return (false);
 	if (argument
 		&& argument[0] == '-'
-		&& argument[1] == 'n'
-		&& argument[2] == '\0')
-		return (true);
+		&& argument[1] == 'n')
+	{
+		i = 2;
+		while (argument[i] && argument[i] == 'n')
+			i++;
+		if (argument[i] == '\0')
+			return (true);
+	}
 	return (false);
 }
 
-/* TODO: beat the trivial! Such a simple function and it still does not
- *		 want to work, properly??!?
- */
 int	builtin_echo(
-		const char **argv, t_program_name_and_env *program_name_and_env)
+		const char **argv, t_program_vars *program_vars)
 {
-	int	i;
+	int		i;
+	bool	skip_print_last_new_line;
 
-	(void)program_name_and_env;
+	(void)program_vars;
+	skip_print_last_new_line = (argv[1] && dash_n_is_present(argv[1]));
 	i = 1;
-	if (dash_n_is_present(argv[i]))
+	if (argv[1] && dash_n_is_present(argv[i]))
 		i++;
 	while (argv[i])
 	{
@@ -49,8 +56,7 @@ int	builtin_echo(
 		fflush(stdout);
 		i++;
 	}
-	if (argv[1] && (ft_strcmp(argv[1], "-n") != 0))
+	if (!skip_print_last_new_line)
 		ft_dprintf(STDOUT_FILENO, "\n");
-	//ft_dprintf(STDOUT_FILENO, "\n");
 	return (SUCCESS);
 }

@@ -6,21 +6,16 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:08:39 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 01:53:46 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 12:48:54 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LINE_GETTERS_H
 # define LINE_GETTERS_H
 
-# define LATEST_LINE 0
+# include "../interface.h"
 
-typedef enum e_access_mode
-{
-	GET,
-	SET,
-	DELETE,
-}	t_access_mode;
+# define LATEST_LINE 0
 
 char	*access_input_lines(t_access_mode mode, char **new_input_lines);
 char	*noninteractive_get_next_line_from_split_string(void *arg);

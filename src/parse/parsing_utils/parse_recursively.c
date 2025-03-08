@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:07:41 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 19:29:06 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 14:30:13 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ static int	process_tokens_according_to_parsing_option_sequence_step(
 	int					tokens_consumed_this_step_count;
 
 	original_token_node = tracker->current_token_node;
-	tokens_consumed_this_step_count
-		= tracker->step.token_consumption_func(
+	tokens_consumed_this_step_count = tracker->step.token_consumption_func(
 			tracker->step.token_consumption_func_arg,
 			&tracker->current_token_node, syntax_tree, multiline_options);
 	if (tokens_consumed_this_step_count > 0 && !tracker->step.is_supported)
@@ -55,7 +54,8 @@ static int	process_tokens_according_to_parsing_option_sequence_step(
 		&& tracker->step.tree_update_func && !tracker->step.tree_update_func(
 			syntax_tree, tracker->current_token_node->prev))
 	{
-		syntax_tree->out_of_memory = true;
+		if (!syntax_tree->here_doc_failure)
+			syntax_tree->out_of_memory = true;
 		return (0);
 	}
 	return (tokens_consumed_this_step_count);

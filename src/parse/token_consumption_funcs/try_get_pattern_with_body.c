@@ -6,13 +6,14 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 04:18:43 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:32:06 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/07 05:10:25 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_list.h"
 #include "../../interface/interface.h"
+#include "../../lex/lex.h"
 #include "../parse.h"
 #include "../parsing_utils/parsing_utils.h"
 #include "./token_consumption_funcs.h"

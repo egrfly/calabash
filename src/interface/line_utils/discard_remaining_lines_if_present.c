@@ -6,10 +6,11 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 01:40:33 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 01:56:23 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 16:04:12 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../main.h"
 #include "../interface.h"
 #include "../line_getters/line_getters.h"
 

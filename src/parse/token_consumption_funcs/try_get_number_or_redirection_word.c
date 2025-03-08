@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:59:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:26:20 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/07 05:16:08 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static const
 	.tree_update_func
 	= update_command_with_new_redirection_left_redirection_word,
 	.is_optional = MANDATORY,
-	.is_supported = SUPPORTED,
+	.is_supported = UNSUPPORTED,
 }};
 
 static const

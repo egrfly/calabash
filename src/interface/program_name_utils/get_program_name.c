@@ -1,18 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   has_more_arguments.c                               :+:      :+:    :+:   */
+/*   get_program_name.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:46:48 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 19:01:07 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/08 12:46:54 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/08 16:04:41 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
+#include <stdlib.h>
+#include "../../main.h"
+#include "../interface.h"
 
-bool	has_more_arguments(int argc, int option_count)
+char	*access_program_name(
+			t_access_mode mode,
+			char *new_program_name)
 {
-	return (1 + option_count < argc);
+	static char	*program_name;
+
+	if (mode == SET)
+		program_name = new_program_name;
+	else if (mode == GET)
+		return (program_name);
+	return (NULL);
+}
+
+char	*get_program_name(void)
+{
+	return (access_program_name(GET, NO_ARG));
 }
