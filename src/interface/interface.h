@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 18:33:20 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 15:50:21 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,12 @@
 # include <stdbool.h>
 # include "ft_list.h"
 
-# ifndef NO_ARG
-#  define NO_ARG 0
-# endif
-
-# define SUCCESS 0
-# define GENERAL_FAILURE 1
-# define INCORRECT_USAGE 2
-# define COULD_NOT_EXECUTE 126
-# define NOT_FOUND 127
+typedef enum e_access_mode
+{
+	GET,
+	SET,
+	DELETE,
+}	t_access_mode;
 
 typedef struct s_multiline_options
 {
@@ -33,11 +30,11 @@ typedef struct s_multiline_options
 	void	*get_next_line_arg;
 }	t_multiline_options;
 
-typedef struct s_program_name_and_env
+typedef struct s_program_vars
 {
-	char	*name;
 	t_list	*env;
-}	t_program_name_and_env;
+	t_list	*local;
+}	t_program_vars;
 
 int	interface(int argc, char **argv, char **envp);
 

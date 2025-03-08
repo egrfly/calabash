@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   has_more_arguments.c                               :+:      :+:    :+:   */
+/*   list_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:46:48 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 19:01:07 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/05 19:19:40 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/08 09:29:58 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
+#ifndef LIST_UTILS_H
+# define LIST_UTILS_H
 
-bool	has_more_arguments(int argc, int option_count)
-{
-	return (1 + option_count < argc);
-}
+# include "ft_list.h"
+
+t_list	*get_list_from_values(
+			char **values);
+char	**get_values_from_list(
+			t_list *list);
+
+#endif

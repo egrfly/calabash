@@ -6,17 +6,18 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 19:01:47 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 16:00:52 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "ft_stdio.h"
+#include "../../main.h"
 #include "../../lex/lex.h"
 #include "../../lex/tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
 #include "../interface.h"
@@ -43,7 +44,7 @@ static void	print_banner_if_available(void)
 }
 
 int	process_interactive_input(
-		t_program_name_and_env *program_name_and_env)
+		t_program_vars *program_vars)
 {
 	t_multiline_options		multiline_options;
 	char					*input;
@@ -63,8 +64,7 @@ int	process_interactive_input(
 			break ;
 		tokens_with_status = lex(input, &multiline_options, DEFAULT_LINE_INDEX);
 		latest_exit_code = process_tokens(tokens_with_status,
-				&multiline_options, program_name_and_env);
-		destroy_tokens_with_status(tokens_with_status);
+				&multiline_options, program_vars);
 	}
 	ft_printf("\n");
 	return (latest_exit_code);

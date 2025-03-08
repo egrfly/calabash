@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destroy_tokens_with_status.c                       :+:      :+:    :+:   */
+/*   destroy_program_vars.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 15:09:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 02:37:44 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/07 04:10:14 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/07 04:19:43 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "ft_list.h"
-#include "../token_lifecycle/token_lifecycle.h"
-#include "../lex.h"
+#include "../interface.h"
 
-void	destroy_tokens_with_status(
-			t_tokens_with_status *tokens_with_status)
+void	destroy_program_vars(
+			t_program_vars *program_vars)
 {
-	if (!tokens_with_status)
-		return ;
-	if (tokens_with_status->tokens)
-		ft_list_destroy(tokens_with_status->tokens,
-			(t_action_func)destroy_token);
-	free(tokens_with_status);
+	if (program_vars->env)
+		ft_list_destroy(program_vars->env, free);
+	if (program_vars->local)
+		ft_list_destroy(program_vars->local, free);
 }

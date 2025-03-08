@@ -1,20 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   argument_utils.h                                   :+:      :+:    :+:   */
+/*   get_program_name.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:47:17 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/27 22:07:21 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/08 12:46:54 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/08 16:04:41 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGUMENT_UTILS_H
-# define ARGUMENT_UTILS_H
+#include <stdlib.h>
+#include "../../main.h"
+#include "../interface.h"
 
-# include <stdbool.h>
+char	*access_program_name(
+			t_access_mode mode,
+			char *new_program_name)
+{
+	static char	*program_name;
 
-bool	has_more_arguments(int argc, int option_count);
+	if (mode == SET)
+		program_name = new_program_name;
+	else if (mode == GET)
+		return (program_name);
+	return (NULL);
+}
 
-#endif
+char	*get_program_name(void)
+{
+	return (access_program_name(GET, NO_ARG));
+}

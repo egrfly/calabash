@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 03:05:04 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/20 21:57:35 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 05:49:53 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	update_command_with_new_redirection_left_number(
 		return (false);
 	current_token = current_token_node->value;
 	last_redirection->left_type = REDIRECTION_LEFT_NUMBER;
-	ft_atoi(current_token->content.word,
+	ft_strtoi(current_token->content.word,
 		&last_redirection->left_content.number);
 	return (true);
 }

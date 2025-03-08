@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 00:07:51 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/20 22:16:37 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 06:08:16 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	undo_set_redirection_left_redirection_word(
 void	undo_set_redirection_operator(
 			t_syntax_tree *syntax_tree);
 void	undo_set_redirection_right_dash(
+			t_syntax_tree *syntax_tree);
+void	undo_set_redirection_right_number_dash(
 			t_syntax_tree *syntax_tree);
 void	undo_set_redirection_right_number(
 			t_syntax_tree *syntax_tree);

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:59:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:34:28 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 14:43:43 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../../interface/interface.h"
 #include "../parse.h"
 #include "../parsing_utils/parsing_utils.h"
+#include "../tree_update_funcs/tree_update_funcs.h"
 #include "./token_consumption_funcs.h"
 
 static const
@@ -23,7 +24,7 @@ static const
 {
 	.token_consumption_func = try_get_redirection,
 	.token_consumption_func_arg = NO_ARG,
-	.tree_update_func = UPDATE_NO_OP,
+	.tree_update_func = update_redirection_if_here_doc_or_string,
 	.is_optional = MANDATORY,
 	.is_supported = SUPPORTED,
 },

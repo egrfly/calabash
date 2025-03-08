@@ -6,13 +6,14 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 23:25:02 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:36:58 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 12:40:59 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_list.h"
 #include "../../interface/interface.h"
+#include "../../lex/lex.h"
 #include "../parse.h"
 #include "../parsing_utils/parsing_utils.h"
 #include "../tree_update_funcs/tree_update_funcs.h"
@@ -31,7 +32,7 @@ static const
 
 static const
 	t_parsing_option
-	g_indented_here_document_operator_sequence[] = {
+	g_indented_here_doc_operator_sequence[] = {
 {
 	.token_consumption_func = try_get_operator,
 	.token_consumption_func_arg = (void *)LESS_LESS_DASH,
@@ -42,7 +43,7 @@ static const
 
 static const
 	t_parsing_option
-	g_here_document_operator_sequence[] = {
+	g_here_doc_operator_sequence[] = {
 {
 	.token_consumption_func = try_get_operator,
 	.token_consumption_func_arg = (void *)LESS_LESS,
@@ -117,19 +118,19 @@ static const
 
 static const
 	t_parsing_option_sequence_with_count
-	g_indented_here_document_operator_sequence_with_count = {
-	.name = "indented here document operator",
-	.sequence = g_indented_here_document_operator_sequence,
-	.count = sizeof(g_indented_here_document_operator_sequence)
+	g_indented_here_doc_operator_sequence_with_count = {
+	.name = "indented here doc operator",
+	.sequence = g_indented_here_doc_operator_sequence,
+	.count = sizeof(g_indented_here_doc_operator_sequence)
 	/ sizeof(t_parsing_option),
 };
 
 static const
 	t_parsing_option_sequence_with_count
-	g_here_document_operator_sequence_with_count = {
-	.name = "here document operator",
-	.sequence = g_here_document_operator_sequence,
-	.count = sizeof(g_here_document_operator_sequence)
+	g_here_doc_operator_sequence_with_count = {
+	.name = "here doc operator",
+	.sequence = g_here_doc_operator_sequence,
+	.count = sizeof(g_here_doc_operator_sequence)
 	/ sizeof(t_parsing_option),
 };
 
@@ -182,8 +183,8 @@ static const
 	t_parsing_option_sequence_with_count
 	*g_redirection_symbol_without_ampersand_sequences[] = {
 	&g_here_string_operator_sequence_with_count,
-	&g_indented_here_document_operator_sequence_with_count,
-	&g_here_document_operator_sequence_with_count,
+	&g_indented_here_doc_operator_sequence_with_count,
+	&g_here_doc_operator_sequence_with_count,
 	&g_read_write_operator_sequence_with_count,
 	&g_read_operator_sequence_with_count,
 	&g_append_operator_sequence_with_count,
