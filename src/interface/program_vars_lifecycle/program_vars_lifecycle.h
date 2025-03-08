@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   argument_utils.h                                   :+:      :+:    :+:   */
+/*   program_vars_lifecycle.h                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 22:47:17 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/27 22:07:21 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/07 04:09:26 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/07 04:31:45 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ARGUMENT_UTILS_H
-# define ARGUMENT_UTILS_H
+#ifndef PROGRAM_VARS_LIFECYCLE_H
+# define PROGRAM_VARS_LIFECYCLE_H
 
 # include <stdbool.h>
+# include "../interface.h"
 
-bool	has_more_arguments(int argc, int option_count);
+bool	init_program_vars(
+			t_program_vars *program_vars,
+			char **argv,
+			char **envp);
+void	destroy_program_vars(
+			t_program_vars *program_vars);
 
 #endif

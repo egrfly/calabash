@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:13:10 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 13:47:28 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 05:41:24 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef enum e_redirection_right_type
 {
 	NO_REDIRECTION_RIGHT_CONTENT,
 	REDIRECTION_RIGHT_DASH,
+	REDIRECTION_RIGHT_NUMBER_DASH,
 	REDIRECTION_RIGHT_NUMBER,
 	REDIRECTION_RIGHT_WORD,
 }	t_redirection_right_type;
@@ -85,13 +86,22 @@ typedef union u_redirection_right_content
 	char	*word;
 }	t_redirection_right_content;
 
+typedef struct s_redirection_reset_instruction
+{
+	bool	is_active;
+	int		original_fd;
+	int		fd_to_reset;
+}	t_redirection_reset_instruction;
+
 typedef struct s_redirection
 {
-	t_redirection_left_type		left_type;
-	t_redirection_left_content	left_content;
-	t_operator					operator;
-	t_redirection_right_type	right_type;
-	t_redirection_right_content	right_content;
+	t_redirection_left_type			left_type;
+	t_redirection_left_content		left_content;
+	t_operator						operator;
+	t_redirection_right_type		right_type;
+	t_redirection_right_content		right_content;
+	t_redirection_reset_instruction	primary_reset_instruction;
+	t_redirection_reset_instruction	secondary_reset_instruction;
 }	t_redirection;
 
 typedef struct s_syntax_tree_node_value

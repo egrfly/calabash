@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destroy_tokens_and_syntax_tree.c                   :+:      :+:    :+:   */
+/*   destroy_fixed_program_elements.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 22:05:15 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 22:25:46 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 09:05:41 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,27 @@
 #include "../../interface/line_utils/line_utils.h"
 #include "../../parse/tree_lifecycle/tree_lifecycle.h"
 #include "../execute.h"
+#include "../pipeline_lifecycle/pipeline_lifecycle.h"
 
-void	destroy_tokens_and_syntax_tree(
-			t_tokens_and_syntax_tree *tokens_and_syntax_tree)
+void	destroy_fixed_program_elements(
+			t_fixed_program_elements *fixed_program_elements)
 {
 	int	fd;
 
-	destroy_tokens_with_status(tokens_and_syntax_tree->tokens_with_status);
-	destroy_syntax_tree(tokens_and_syntax_tree->syntax_tree);
-	if (tokens_and_syntax_tree->multiline_options->get_next_line
+	destroy_tokens_with_status(fixed_program_elements->tokens_with_status);
+	destroy_syntax_tree(fixed_program_elements->syntax_tree);
+	destroy_pipeline(fixed_program_elements->active_pipeline);
+	if (fixed_program_elements->multiline_options->get_next_line
 		== noninteractive_get_next_line_from_split_string)
 	{
 		discard_remaining_lines_if_present(
-			tokens_and_syntax_tree
+			fixed_program_elements
 			->multiline_options);
 	}
-	else if (tokens_and_syntax_tree->multiline_options->get_next_line
+	else if (fixed_program_elements->multiline_options->get_next_line
 		== noninteractive_get_next_line_from_file_descriptor)
 	{
-		fd = *(int *)tokens_and_syntax_tree
+		fd = *(int *)fixed_program_elements
 			->multiline_options
 			->get_next_line_arg;
 		close(fd);

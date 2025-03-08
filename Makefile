@@ -6,7 +6,7 @@
 #    By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/03 00:45:25 by emflynn           #+#    #+#              #
-#    Updated: 2025/03/06 02:17:28 by emflynn          ###   ########.fr        #
+#    Updated: 2025/03/07 02:35:40 by emflynn          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,17 @@ LDLIBS :=			-lreadline -lft
 MAKE :=				make
 MKDIR :=			mkdir -p
 RM :=				rm -f
+
+ifeq ($(OS),Windows_NT)
+	UNAME :=	Windows
+else
+	UNAME :=	$(shell uname)
+endif
+
+ifeq ($(UNAME),Darwin)
+	CFLAGS +=	-I /usr/local/opt/readline/include
+	LDFLAGS +=	-L /usr/local/opt/readline/lib
+endif
 
 define update_mode_and_rebuild_if_necessary
 	CYAN='\033[36m'; \

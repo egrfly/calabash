@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_values_from_list.c                             :+:      :+:    :+:   */
+/*   destroy_program_vars.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 19:53:17 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 19:55:15 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/07 04:10:14 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/07 04:19:43 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "ft_list.h"
-#include "ft_stdlib.h"
+#include "../interface.h"
 
-char	**get_values_from_list(
-			t_list *list)
+void	destroy_program_vars(
+			t_program_vars *program_vars)
 {
-	char		**values;
-	t_list_node	*current_node;
-	size_t		i;
-
-	values = ft_calloc(list->size + 1, sizeof(char *));
-	if (!values)
-		return (NULL);
-	current_node = list->first;
-	i = 0;
-	while (i < list->size)
-	{
-		values[i] = current_node->value;
-		current_node = current_node->next;
-		i++;
-	}
-	return (values);
+	if (program_vars->env)
+		ft_list_destroy(program_vars->env, free);
+	if (program_vars->local)
+		ft_list_destroy(program_vars->local, free);
 }

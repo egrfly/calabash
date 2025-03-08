@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:59:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:38:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 05:37:55 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static const
 	.is_supported = SUPPORTED,
 },
 {
-	.token_consumption_func = try_get_dash_or_number_or_word,
+	.token_consumption_func = try_get_dash_or_number_dash_or_number_or_word,
 	.token_consumption_func_arg = NO_ARG,
 	.tree_update_func = UPDATE_NO_OP,
 	.is_optional = MANDATORY,
