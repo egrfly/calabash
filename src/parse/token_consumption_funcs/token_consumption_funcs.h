@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:55:08 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 19:28:31 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 06:18:16 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int	try_get_redirection_operator_starting_with_ampersand(
 		t_list_node **current_token_node,
 		t_syntax_tree *syntax_tree,
 		t_multiline_options *multiline_options);
-int	try_get_dash_or_number_or_word(
+int	try_get_dash_or_number_dash_or_number_or_word(
 		void *arg,
 		t_list_node **current_token_node,
 		t_syntax_tree *syntax_tree,
@@ -404,6 +404,11 @@ int	try_get_reserved_word(
 		t_syntax_tree *syntax_tree,
 		t_multiline_options *multiline_options);
 int	try_get_non_reserved_identifier(
+		void *arg,
+		t_list_node **current_token_node,
+		t_syntax_tree *syntax_tree,
+		t_multiline_options *multiline_options);
+int	try_get_number_dash(
 		void *arg,
 		t_list_node **current_token_node,
 		t_syntax_tree *syntax_tree,

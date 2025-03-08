@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_utils.h                                  :+:      :+:    :+:   */
+/*   exit_due_to_redirection_failure.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 21:18:29 by emflynn           #+#    #+#             */
+/*   Created: 2025/03/06 02:52:07 by emflynn           #+#    #+#             */
 /*   Updated: 2025/03/08 09:03:56 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_UTILS_H
-# define EXECUTION_UTILS_H
+#include <stdlib.h>
+#include "../../interface/interface.h"
+#include "../../interface/program_vars_lifecycle/program_vars_lifecycle.h"
+#include "../execute.h"
+#include "../execution_utils/execution_utils.h"
+#include "./command_utils.h"
 
-# include "ft_binary_tree.h"
-# include "../../interface/interface.h"
-# include "../execute.h"
-
-# define NO_OPTIONS 0
-
-# define FORK_FAILURE -1
-# define CHILD_PROCESS_ID 0
-
-int		execute_in_child_process(
-			t_execution_func execution_func,
-			t_binary_tree_node *node,
-			t_fixed_program_elements *fixed_program_elements,
-			t_program_vars *program_vars);
-void	destroy_fixed_program_elements(
-			t_fixed_program_elements *fixed_program_elements);
-
-#endif
+void	exit_due_to_redirection_failure(
+			t_program_vars *program_vars,
+			t_exec_params *exec_params,
+			t_fixed_program_elements *fixed_program_elements)
+{
+	destroy_program_vars(program_vars);
+	destroy_exec_params(exec_params);
+	destroy_fixed_program_elements(fixed_program_elements);
+	exit(GENERAL_FAILURE);
+}

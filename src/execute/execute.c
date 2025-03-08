@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/07 04:18:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 09:03:56 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static const
 
 int	execute_recursively(
 		t_binary_tree_node *node,
-		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+		t_fixed_program_elements *fixed_program_elements,
 		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
@@ -54,16 +54,16 @@ int	execute_recursively(
 	node_value = node->value;
 	execution_func = g_execution_funcs[node_value->type];
 	if (execution_func)
-		return (execution_func(node, tokens_and_syntax_tree,
+		return (execution_func(node, fixed_program_elements,
 				program_vars));
 	return (SUCCESS);
 }
 
 // TODO: add some default env vars like PWD, OLDPWD, SHELL, SHLVL etc.
 int	execute(
-		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+		t_fixed_program_elements *fixed_program_elements,
 		t_program_vars *program_vars)
 {
-	return (execute_recursively(tokens_and_syntax_tree->syntax_tree->tree->root,
-			tokens_and_syntax_tree, program_vars));
+	return (execute_recursively(fixed_program_elements->syntax_tree->tree->root,
+			fixed_program_elements, program_vars));
 }

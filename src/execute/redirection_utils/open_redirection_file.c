@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection_utils.h                                :+:      :+:    :+:   */
+/*   open_redirection_file.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/07 09:27:41 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 05:23:54 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/08 05:16:57 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/08 05:23:43 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REDIRECTION_UTILS_H
-# define REDIRECTION_UTILS_H
-
-# include <stdbool.h>
-# include "ft_list.h"
-# include "../../parse/parse.h"
-
-# define OPEN_FAILURE -1
-# define DUP_FAILURE -1
+#include <errno.h>
+#include <fcntl.h>
+#include <stdbool.h>
+#include <string.h>
+#include <unistd.h>
+#include "ft_stdio.h"
+#include "../redirection_utils/redirection_utils.h"
 
 bool	open_redirection_file(
 			int *fd,
 			char *file_name,
 			int mode,
-			char *program_name);
-void	register_redirection_reset_instruction(
-			t_redirection_reset_instruction *reset_instruction,
-			int fd_to_reset);
-bool	perform_redirections(
-			t_list *redirections,
-			char *program_name);
-void	revert_redirections(
-			t_list *redirections);
-
-#endif
+			char *program_name)
+{
+	*fd = open(file_name, mode, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	if (*fd == OPEN_FAILURE)
+		return (ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", program_name,
+				file_name, strerror(errno)), false);
+	return (true);
+}

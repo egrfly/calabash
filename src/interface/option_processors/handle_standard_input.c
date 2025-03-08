@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 16:57:04 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/07 04:22:49 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 09:20:47 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "ft_list.h"
 #include "ft_stdio.h"
 #include "../interface.h"
-#include "../env_utils/env_utils.h"
 #include "../input_processors/input_processors.h"
 #include "../program_vars_lifecycle/program_vars_lifecycle.h"
 

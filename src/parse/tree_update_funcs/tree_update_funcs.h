@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 04:43:32 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/20 21:50:56 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 06:08:43 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ bool	update_command_with_new_redirection_operator(
 			t_syntax_tree *syntax_tree,
 			t_list_node *current_token_node);
 bool	update_command_with_new_redirection_right_dash(
+			t_syntax_tree *syntax_tree,
+			t_list_node *current_token_node);
+bool	update_command_with_new_redirection_right_number_dash(
 			t_syntax_tree *syntax_tree,
 			t_list_node *current_token_node);
 bool	update_command_with_new_redirection_right_number(

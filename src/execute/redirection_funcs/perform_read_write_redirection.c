@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   perform_write_redirection.c                        :+:      :+:    :+:   */
+/*   perform_read_write_redirection.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 09:23:11 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 07:29:49 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 07:29:31 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "../../parse/parse.h"
 #include "../redirection_utils/redirection_utils.h"
 
-bool	perform_write_redirection(
+bool	perform_read_write_redirection(
 			t_redirection *redirection,
 			char *program_name)
 {
@@ -26,9 +26,9 @@ bool	perform_write_redirection(
 	if (redirection->left_type == REDIRECTION_LEFT_NUMBER)
 		left_fd = redirection->left_content.number;
 	else
-		left_fd = STDOUT_FILENO;
+		left_fd = STDIN_FILENO;
 	if (!open_redirection_file(&right_fd, redirection->right_content.word,
-			O_WRONLY | O_CREAT | O_TRUNC, program_name))
+			O_RDWR | O_CREAT, program_name))
 		return (false);
 	register_redirection_reset_instruction(
 		&redirection->primary_reset_instruction, left_fd);

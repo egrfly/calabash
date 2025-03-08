@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/07 09:32:00 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 09:03:56 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 static int	locate_and_execute_command(
 				t_binary_tree_node *node,
-				t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+				t_fixed_program_elements *fixed_program_elements,
 				t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
@@ -30,16 +30,18 @@ static int	locate_and_execute_command(
 	node_value = node->value;
 	if (!init_exec_params(&exec_params, node_value->arguments,
 			node_value->assignments, program_vars->env))
-		exit_due_to_lack_of_memory(program_vars->name, &exec_params,
-			tokens_and_syntax_tree);
+		exit_due_to_lack_of_memory(program_vars, &exec_params,
+			fixed_program_elements);
 	if (!exec_params.path)
-		exit_due_to_unfound_command(program_vars->name, &exec_params,
-			tokens_and_syntax_tree);
-	perform_redirections(node_value->redirections, program_vars->name);
+		exit_due_to_unfound_command(program_vars, &exec_params,
+			fixed_program_elements);
+	if (!perform_redirections(node_value->redirections, program_vars->name))
+		exit_due_to_redirection_failure(program_vars, &exec_params,
+			fixed_program_elements);
 	execve(exec_params.path, exec_params.args, exec_params.envp);
 	revert_redirections(node_value->redirections);
-	exit_due_to_execve_failure(program_vars->name, &exec_params,
-		tokens_and_syntax_tree);
+	exit_due_to_execve_failure(program_vars, &exec_params,
+		fixed_program_elements);
 	return (GENERAL_FAILURE);
 }
 
@@ -47,7 +49,7 @@ static int	locate_and_execute_command(
 // upsert any assignments to local (or to env if already exported)
 int	execute_simple_command(
 		t_binary_tree_node *node,
-		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+		t_fixed_program_elements *fixed_program_elements,
 		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
@@ -57,9 +59,9 @@ int	execute_simple_command(
 	{
 		if (node->parent && node_is_of_type(node->parent->value, PIPE))
 			return (locate_and_execute_command(node,
-					tokens_and_syntax_tree, program_vars));
+					fixed_program_elements, program_vars));
 		return (execute_in_child_process(locate_and_execute_command, node,
-				tokens_and_syntax_tree, program_vars));
+				fixed_program_elements, program_vars));
 	}
 	else
 	{

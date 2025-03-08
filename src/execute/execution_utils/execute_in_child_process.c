@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:11:52 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/07 04:18:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 09:24:55 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 #include "ft_binary_tree.h"
 #include "ft_stdio.h"
 #include "../../interface/interface.h"
+#include "../../interface/program_vars_lifecycle/program_vars_lifecycle.h"
 #include "../execute.h"
 #include "./execution_utils.h"
 
 int	execute_in_child_process(
 		t_execution_func execution_func,
 		t_binary_tree_node *node,
-		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+		t_fixed_program_elements *fixed_program_elements,
 		t_program_vars *program_vars)
 {
 	int		exit_status;
@@ -37,9 +38,10 @@ int	execute_in_child_process(
 			GENERAL_FAILURE);
 	else if (pid == CHILD_PROCESS_ID)
 	{
-		exit_status = execution_func(node, tokens_and_syntax_tree,
+		exit_status = execution_func(node, fixed_program_elements,
 				program_vars);
-		destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
+		destroy_program_vars(program_vars);
+		destroy_fixed_program_elements(fixed_program_elements);
 		exit(exit_status);
 	}
 	waitpid(pid, &exit_status, NO_OPTIONS);

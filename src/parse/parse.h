@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:13:10 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/07 07:34:48 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 05:41:24 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef enum e_redirection_right_type
 {
 	NO_REDIRECTION_RIGHT_CONTENT,
 	REDIRECTION_RIGHT_DASH,
+	REDIRECTION_RIGHT_NUMBER_DASH,
 	REDIRECTION_RIGHT_NUMBER,
 	REDIRECTION_RIGHT_WORD,
 }	t_redirection_right_type;
