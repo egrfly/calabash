@@ -6,17 +6,19 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:45 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/07 04:42:55 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 16:02:57 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "ft_stdio.h"
+#include "../main.h"
 #include "./interface.h"
 #include "./input_processors/input_processors.h"
 #include "./option_count_getters/option_count_getters.h"
 #include "./option_processors/option_processors.h"
 #include "./option_utils/option_utils.h"
+#include "./program_name_utils/program_name_utils.h"
 
 int	interface(int argc, char **argv, char **envp)
 {
@@ -24,6 +26,7 @@ int	interface(int argc, char **argv, char **envp)
 	char	*next_argument;
 	int		option_count;
 
+	access_program_name(SET, argv[0]);
 	if (argc > 1)
 	{
 		c_option_count = get_c_option_count(argc, argv);
@@ -39,5 +42,5 @@ int	interface(int argc, char **argv, char **envp)
 		if (next_argument)
 			return (handle_external_input_file(argv, envp, option_count));
 	}
-	return (handle_standard_input(argv, envp));
+	return (handle_standard_input(envp));
 }

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 09:03:56 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 12:13:35 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXECUTE_H
 
 # include "ft_binary_tree.h"
+# include "ft_list.h"
 # include "../lex/lex.h"
 # include "../interface/interface.h"
 # include "../parse/parse.h"
@@ -21,7 +22,7 @@
 
 typedef struct s_fixed_program_elements
 {
-	t_tokens_with_status	*tokens_with_status;
+	t_list					*tokens;
 	t_syntax_tree			*syntax_tree;
 	t_multiline_options		*multiline_options;
 	t_pipeline				*active_pipeline;

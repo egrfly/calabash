@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destroy_tokens_with_status.c                       :+:      :+:    :+:   */
+/*   program_name_utils.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 15:09:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 02:37:44 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/08 12:45:17 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/08 12:51:41 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "ft_list.h"
-#include "../token_lifecycle/token_lifecycle.h"
-#include "../lex.h"
+#ifndef PROGRAM_NAME_UTILS_H
+# define PROGRAM_NAME_UTILS_H
 
-void	destroy_tokens_with_status(
-			t_tokens_with_status *tokens_with_status)
-{
-	if (!tokens_with_status)
-		return ;
-	if (tokens_with_status->tokens)
-		ft_list_destroy(tokens_with_status->tokens,
-			(t_action_func)destroy_token);
-	free(tokens_with_status);
-}
+# include "../interface.h"
+
+char	*get_program_name(void);
+char	*access_program_name(
+			t_access_mode mode,
+			char *new_program_name);
+
+#endif

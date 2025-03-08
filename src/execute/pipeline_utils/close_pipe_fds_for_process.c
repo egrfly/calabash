@@ -6,11 +6,12 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:02:35 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 02:03:30 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 16:28:58 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include "../../main.h"
 #include "./pipeline_utils.h"
 
 void	close_pipe_fds_for_process(

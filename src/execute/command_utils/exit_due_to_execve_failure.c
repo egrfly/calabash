@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:52:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 09:03:56 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 16:01:35 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 #include <string.h>
 #include <unistd.h>
 #include "ft_stdio.h"
+#include "../../main.h"
 #include "../../interface/interface.h"
+#include "../../interface/program_name_utils/program_name_utils.h"
 #include "../../interface/program_vars_lifecycle/program_vars_lifecycle.h"
 #include "../execute.h"
 #include "../execution_utils/execution_utils.h"
@@ -34,7 +36,7 @@ void	exit_due_to_execve_failure(
 		exit_status = COULD_NOT_EXECUTE;
 	else
 		exit_status = GENERAL_FAILURE;
-	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", program_vars->name,
+	ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", get_program_name(),
 		exec_params->command, strerror(errno));
 	destroy_program_vars(program_vars);
 	destroy_exec_params(exec_params);

@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path_utils.h                                       :+:      :+:    :+:   */
+/*   get_program_name.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 19:28:38 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 15:46:48 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/08 12:46:54 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/08 16:04:41 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PATH_UTILS_H
-# define PATH_UTILS_H
+#include <stdlib.h>
+#include "../../main.h"
+#include "../interface.h"
 
-# include <stdbool.h>
-# include "ft_list.h"
+char	*access_program_name(
+			t_access_mode mode,
+			char *new_program_name)
+{
+	static char	*program_name;
 
-bool	get_full_command_path(
-			char **path,
-			char *command,
-			char *path_variable);
-char	*get_path_variable(
-			t_list *env);
-char	*path_join(
-			char *base,
-			char *command_name);
+	if (mode == SET)
+		program_name = new_program_name;
+	else if (mode == GET)
+		return (program_name);
+	return (NULL);
+}
 
-#endif
+char	*get_program_name(void)
+{
+	return (access_program_name(GET, NO_ARG));
+}

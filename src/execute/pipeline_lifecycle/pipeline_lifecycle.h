@@ -6,14 +6,12 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 01:55:30 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 17:25:16 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 15:47:04 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPELINE_LIFECYCLE_H
 # define PIPELINE_LIFECYCLE_H
-
-# define PIPE_FAILURE -1
 
 typedef struct s_pipeline
 {
@@ -25,8 +23,7 @@ typedef struct s_pipeline
 
 int		init_pipeline(
 			t_pipeline *pipeline,
-			int pipe_count,
-			char *program_name);
+			int pipe_count);
 void	destroy_pipeline(
 			t_pipeline *pipeline);
 

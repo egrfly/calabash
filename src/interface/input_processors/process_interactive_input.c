@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/07 09:57:16 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 16:00:52 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "ft_stdio.h"
+#include "../../main.h"
 #include "../../lex/lex.h"
 #include "../../lex/tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
 #include "../interface.h"
@@ -64,7 +65,6 @@ int	process_interactive_input(
 		tokens_with_status = lex(input, &multiline_options, DEFAULT_LINE_INDEX);
 		latest_exit_code = process_tokens(tokens_with_status,
 				&multiline_options, program_vars);
-		destroy_tokens_with_status(tokens_with_status);
 	}
 	ft_printf("\n");
 	return (latest_exit_code);
