@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 16:30:29 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 23:15:06 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	dash_n_is_present(const char *argument)
 }
 
 int	builtin_echo(
-		const char **argv, t_program_vars *program_vars)
+		char **argv, t_program_vars *program_vars)
 {
 	int		i;
 	bool	skip_print_last_new_line;

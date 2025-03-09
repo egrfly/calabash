@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 16:30:23 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 23:15:10 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "../execution_funcs/execution_funcs.h"
 
 int	builtin_env(
-		const char **argv, t_program_vars *program_vars)
+		char **argv, t_program_vars *program_vars)
 {
 	t_list_node	*list_node;
 

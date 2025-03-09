@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_funcs.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:54:03 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 16:36:17 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 23:13:23 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,9 @@ int	execute_subshell(
 		t_binary_tree_node *node,
 		t_fixed_program_elements *fixed_program_elements,
 		t_program_vars *program_vars);
-
 int	execute_builtin_command(
 		const char *command,
-		const char **argv,
+		char **argv,
 		t_program_vars *program_vars,
 		t_list *redirections);
 

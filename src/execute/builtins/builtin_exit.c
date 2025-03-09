@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:10:03 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 16:30:20 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 23:15:14 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #define NUMERIC_ARGUMENT_REQUIRED 2
 
 int	builtin_exit(
-		const char **argv, t_program_vars *program_vars)
+		char **argv, t_program_vars *program_vars)
 {
 	int	exit_code;
 

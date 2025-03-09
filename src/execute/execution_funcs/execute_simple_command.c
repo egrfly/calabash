@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_simple_command.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 16:34:51 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 23:13:05 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@
 #include "../../interface/list_utils/list_utils.h"
 #include "../../parse/tree_node_utils/tree_node_utils.h"
 #include "../execute.h"
+#include "../builtins/builtins.h"
 #include "../command_utils/command_utils.h"
 #include "../execution_utils/execution_utils.h"
-#include "../builtins/builtins.h"
-#include "./execution_funcs.h"
-
 #include "../redirection_utils/redirection_utils.h"
+#include "./execution_funcs.h"
 
 static int	locate_and_execute_command(
 				t_binary_tree_node *node,
@@ -65,7 +64,7 @@ int	execute_simple_command(
 		if (is_builtin_command(node_value->arguments->first->value))
 			return (execute_builtin_command(
 					node_value->arguments->first->value,
-					(const char **)get_values_from_list(node_value->arguments),
+					get_values_from_list(node_value->arguments),
 					program_vars, node_value->redirections));
 		if (node->parent && node_is_of_type(node->parent->value, PIPE))
 			return (locate_and_execute_command(node,

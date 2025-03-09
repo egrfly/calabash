@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:27:50 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 19:09:44 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 23:13:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static const
 
 int	execute_builtin_command(
 		const char *command,
-		const char **argv,
+		char **argv,
 		t_program_vars *program_vars,
 		t_list *redirections)
 {
