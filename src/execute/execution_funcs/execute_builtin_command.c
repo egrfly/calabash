@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin_command.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:27:50 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 16:33:07 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:09:44 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 #include "../builtins/builtins.h"
 #include "../redirection_utils/redirection_utils.h"
 
-static const t_builtin_cmd_function	g_builtin_cmd_functions[] = {
+static const
+	t_builtin_cmd_function
+	g_builtin_cmd_functions[] = {
 [BUILTIN_ECHO] = builtin_echo,
 [BUILTIN_CD] = builtin_cd,
 [BUILTIN_PWD] = builtin_pwd,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:36 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 16:23:05 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:09:34 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include "builtins.h"
 #include "ft_string.h"
 
-static const char	*g_builtin_commands[] = {
+static const
+	char
+	*g_builtin_commands[] = {
 [BUILTIN_ECHO] = "echo",
 [BUILTIN_CD] = "cd",
 [BUILTIN_PWD] = "pwd",

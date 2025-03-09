@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   join_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 22:13:12 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/08 22:17:55 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:03:58 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "ft_list.h"
 #include "../../lex/lex.h"
-#include "../token_utils/token_utils.h"
+#include "./token_utils.h"
 
 void	join_tokens(
 			t_list_node *current_token_node,
