@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:57:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 17:34:42 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:45:04 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,26 +51,25 @@ static bool	execute_section_of_pipeline(
 				pipeline->pipe_count), false);
 	else if (pipeline->pids[pipeline->current_index] == CHILD_PROCESS_ID)
 	{
-		fixed_program_elements->active_pipeline = pipeline;
 		reroute_standard_input_if_necessary(pipeline);
 		reroute_standard_output_if_necessary(pipeline);
 		close_pipe_fds_for_process(pipeline->pipe_fds, pipeline->pipe_count);
 		exit_status = execute_recursively(select_correct_child_to_execute(node,
 					pipeline->current_index == pipeline->pipe_count),
 				fixed_program_elements, program_vars);
+		destroy_pipeline(pipeline);
 		destroy_fixed_program_elements(fixed_program_elements);
 		exit(exit_status);
 	}
 	return (true);
 }
 
-void	wait_for_all_child_processes(int *exit_status)
+static void	wait_for_all_child_processes(int *exit_status)
 {
 	while (wait(exit_status) > 0)
 		;
 }
 
-// TODO: look into macros like WIFEXITED, WEXITSTATUS, WIFSIGNALED etc.
 // TODO: check if exit status is random based on order of waiting
 int	execute_pipeline(
 		t_binary_tree_node *node,

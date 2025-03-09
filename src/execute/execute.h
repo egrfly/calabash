@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 16:27:33 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:44:45 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef struct s_fixed_program_elements
 	t_list					*tokens;
 	t_syntax_tree			*syntax_tree;
 	t_multiline_options		*multiline_options;
-	t_pipeline				*active_pipeline;
 }	t_fixed_program_elements;
 
 typedef int	(*t_execution_func)(
