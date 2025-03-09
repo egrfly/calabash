@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline_related.h                                 :+:      :+:    :+:   */
+/*   command_history_utils.h                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:25:18 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/06 18:30:11 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 18:14:09 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef READLINE_RELATED_H
-# define READLINE_RELATED_H
+#ifndef COMMAND_HISTORY_UTILS_H
+# define COMMAND_HISTORY_UTILS_H
 
 # include <stdbool.h>
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_interactive_input.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 17:40:00 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 18:45:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "ft_string.h"
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "ft_stdio.h"
 #include "../../main.h"
 #include "../../lex/lex.h"
 #include "../../lex/tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
+#include "../../execute/command_history_utils/command_history_utils.h"
+#include "../../execute/signals/signals.h"
 #include "../interface.h"
-#include "input_processors.h"
 #include "../line_getters/line_getters.h"
 #include "../token_processors/token_processors.h"
-#include "../../execute/signals/signals.h"
-#include "../../execute/signals/readline_related/readline_related.h"
 
 static void	print_banner_if_available(void)
 {
@@ -48,11 +46,11 @@ static void	print_banner_if_available(void)
 }
 
 static void	inits_for_interactive_input(
-			t_multiline_options *multiline_options,
-			int *latest_exit_code)
+				t_multiline_options *multiline_options,
+				int *latest_exit_code)
 {
 	setup_signals();
-	terminal_disable_echoctl(true);
+	toggle_terminal_echoctl_suppression(true);
 	multiline_options->input_mode_is_interactive = true;
 	multiline_options->get_next_line
 		= interactive_get_next_line_from_standard_input;
@@ -92,7 +90,7 @@ int	process_interactive_input(
 		override_exit_code_is_signal_present(&latest_exit_code);
 		set_global_signal_as_processed();
 	}
-	terminal_disable_echoctl(false);
+	toggle_terminal_echoctl_suppression(false);
 	command_history_update_if_suitable(NULL, DO_CLEANUP);
 	ft_printf("exit\n");
 	return (latest_exit_code);

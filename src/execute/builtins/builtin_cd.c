@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 16:31:40 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 17:51:18 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	builtin_cd(
 	char		*home_dir;
 	int			error_no;
 
+	// Check
 	home_dir = ft_strdup(
 			get_line_starting_with(program_vars->env, "HOME", "="));
 	if (argv[1])
@@ -111,7 +112,7 @@ int	builtin_cd(
 			return (free(home_dir), print_error(get_program_name(),
 					(char *)argv[0], "OLDPWD", "not set"), GENERAL_FAILURE);
 	}
-	else if (home_dir)
+	else
 	{
 		error_no = try_change_dir_to(home_dir, &oldpwd, PATH_FROM_HOME_VAR);
 		if (error_no == HOME_DIR_NOT_SET)

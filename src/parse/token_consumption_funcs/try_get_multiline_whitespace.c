@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try_get_multiline_whitespace.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:49:50 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 01:18:36 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 02:49:48 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,7 @@ static bool	prompt_more_while_at_end_of_input(
 		if (g_signal == SIGINT)
 			(free(next_line), next_line = NULL);
 		if (!next_line)
-		{
-			if (multiline_options->input_mode_is_interactive)
-				ft_printf("\n");
 			break ;
-		}
 		if (!do_lexing(next_line, multiline_options,
 				current_token_node, syntax_tree))
 			return (false);

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 15:34:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 17:00:48 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 18:06:33 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #include "../parse.h"
 #include "../tree_lifecycle/tree_lifecycle.h"
 
-#define BACKUP_TEMP_FILE_PATH "/tmp/.emily_and_attila_were_here"
+#define BACKUP_TEMP_FILE_PATH "/tmp/.emily_and_atti_were_here"
 
 static void	execute_external_mktemp(
 				int pipe_fd[2],

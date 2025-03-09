@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   command_history_update_if_suitable.c               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:53:27 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/06 14:53:58 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 02:51:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <readline/history.h>
 #include "ft_string.h"
 

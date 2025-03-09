@@ -3,18 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_history.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 16:46:40 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 18:46:54 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <unistd.h>
 #include <readline/readline.h>
-#include "../../main.h"
 #include "ft_stdio.h"
 #include "ft_string.h"
+#include "../../main.h"
 #include "../execution_funcs/execution_funcs.h"
 
 int	show_usage(const char *cmd_name)

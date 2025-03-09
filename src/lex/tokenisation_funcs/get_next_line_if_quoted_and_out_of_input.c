@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_if_quoted_and_out_of_input.c         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 00:50:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 02:29:59 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 02:50:13 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,7 @@ static void	update_input_tracker_with_next_line_of_input_if_available(
 		input_tracker->index_in_line = 0;
 	}
 	else
-	{
-		if (multiline_options->input_mode_is_interactive)
-			ft_printf("\n");
 		input_tracker->is_out_of_lines = true;
-	}
 }
 
 static void	process_newline_and_extend_word(

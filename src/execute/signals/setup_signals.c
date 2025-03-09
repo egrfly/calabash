@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   setup_signals.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:41:31 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/08 22:34:39 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 02:51:04 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
+#include <stdio.h>
 #include <readline/readline.h>
 #include "../../interface/interface.h"
 #include "./signals.h"

@@ -12,6 +12,7 @@
 
 #include <signal.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <readline/readline.h>
 #include "ft_stdio.h"
 #include "./signals.h"
