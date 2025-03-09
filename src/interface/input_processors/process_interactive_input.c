@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 19:38:01 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 20:00:22 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 #include "../../main.h"
 #include "../../lex/lex.h"
 #include "../../lex/tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
-#include "../../execute/command_history_utils/command_history_utils.h"
 #include "../../execute/signals/signals.h"
 #include "../interface.h"
+#include "../command_history_utils/command_history_utils.h"
 #include "../line_getters/line_getters.h"
 #include "../token_processors/token_processors.h"
 
@@ -72,7 +72,7 @@ int	process_interactive_input(
 	while (true)
 	{
 		input = readline("\033[32mcalabash\033[36m>\033[0m ");
-		command_history_update_if_suitable(input, DO_NO_CLEANUP);
+		access_command_history(SET, input);
 		if (!input)
 			break ;
 		tokens_with_status = lex(input, &multiline_options,
@@ -85,7 +85,7 @@ int	process_interactive_input(
 		set_global_signal_as_processed();
 	}
 	toggle_terminal_echoctl_suppression(false);
-	command_history_update_if_suitable(NULL, DO_CLEANUP);
+	access_command_history(DELETE, NO_ARG);
 	ft_printf("exit\n");
 	return (latest_exit_code);
 }

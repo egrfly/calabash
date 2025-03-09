@@ -6,19 +6,17 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 14:25:18 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 18:14:09 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 19:59:56 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COMMAND_HISTORY_UTILS_H
 # define COMMAND_HISTORY_UTILS_H
 
-# include <stdbool.h>
+# include "../interface.h"
 
-# define DO_NO_CLEANUP false
-# define DO_CLEANUP true
-
-void	command_history_update_if_suitable(
-			const char *input, bool perform_cleanup);
+void	access_command_history(
+			t_access_mode mode,
+			const char *input);
 
 #endif
