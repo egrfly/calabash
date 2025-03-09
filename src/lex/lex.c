@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 23:05:10 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:13:54 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include "ft_list.h"
 #include "ft_stdlib.h"
 #include "../interface/interface.h"
+#include "../execute/signals/signals.h"
 #include "./lex.h"
 #include "./token_lifecycle/token_lifecycle.h"
 #include "./tokenisation_funcs/tokenisation_funcs.h"
 #include "./tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
-#include "../execute/signals/signals.h"
 
 static const
 	t_tokenisation_func
@@ -108,12 +108,12 @@ static t_tokens_with_status	*get_tokens_with_status(
 				tokens_with_status->input_terminated_prematurely = true;
 			return (tokens_with_status);
 		}
-		if (tokens_with_status->out_of_memory
+		if (g_signal == SIGINT
+			|| tokens_with_status->out_of_memory
 			|| tokens_with_status->contains_unsupported_features
 			|| !any_non_terminating_tokenisation_func_called_without_error(
 				input_tracker, multiline_options,
-				tokens_with_status)
-			|| g_signal == SIGINT)
+				tokens_with_status))
 			break ;
 	}
 	return (tokens_with_status);
