@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 15:12:00 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/08 23:05:10 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,8 @@ static t_tokens_with_status	*get_tokens_with_status(
 			|| tokens_with_status->contains_unsupported_features
 			|| !any_non_terminating_tokenisation_func_called_without_error(
 				input_tracker, multiline_options,
-				tokens_with_status))
-			break ;
-		if (g_signal == SIGNAL_FOR_CTRL_C)
+				tokens_with_status)
+			|| g_signal == SIGINT)
 			break ;
 	}
 	return (tokens_with_status);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_redirection_if_here_doc_or_string.c         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 11:47:25 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 17:04:59 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 02:36:51 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include "../../lex/lex.h"
 #include "../parse.h"
 #include "../temp_file_utils/temp_file_utils.h"
+#include "../../execute/signals/signals.h"
 
 #define SHOULD_STRIP_LEADING_TABS true
 #define SHOULD_NOT_STRIP_LEADING_TABS false
@@ -52,7 +53,8 @@ static bool	add_here_doc_content_to_temp_file(
 		return (ft_dprintf(STDERR_FILENO, "%s: here-document failure\n",
 				get_program_name()), false);
 	line = readline("> ");
-	while (line && ft_strcmp(adjust_line_start_if_necessary(line,
+	while (g_signal != SIGINT && line
+		&& ft_strcmp(adjust_line_start_if_necessary(line,
 				should_strip_leading_tabs), delimiter))
 	{
 		if (ft_dprintf(fd, "%s\n", adjust_line_start_if_necessary(line,
@@ -61,6 +63,8 @@ static bool	add_here_doc_content_to_temp_file(
 					"%s: here-document failure\n", get_program_name()), false);
 		free(line);
 		line = readline("> ");
+		if (g_signal == SIGINT)
+			return (close(fd), free(line), line = NULL, false);
 	}
 	if (!line)
 		ft_dprintf(STDERR_FILENO, "%s: warning: here-document delimited "
@@ -119,7 +123,8 @@ bool	update_redirection_if_here_doc_or_string(
 		|| last_redirection->operator == LESS_LESS)
 	{
 		make_temp_file(temp_file_path, syntax_tree, current_token_node->parent);
-		if (!add_here_doc_or_string_content_to_temp_file(last_redirection,
+		if (g_signal == SIGINT
+			|| !add_here_doc_or_string_content_to_temp_file(last_redirection,
 				temp_file_path))
 		{
 			syntax_tree->here_doc_failure = true;

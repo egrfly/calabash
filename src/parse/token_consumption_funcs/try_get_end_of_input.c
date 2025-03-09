@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try_get_end_of_input.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:37:52 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:04:38 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 01:20:45 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	try_get_end_of_input(
 	(void)arg;
 	(void)syntax_tree;
 	(void)multiline_options;
+	if (!*current_token_node)
+		return (0);
 	current_token = (*current_token_node)->value;
 	if (current_token->type == TYPE_END_OF_INPUT)
 	{

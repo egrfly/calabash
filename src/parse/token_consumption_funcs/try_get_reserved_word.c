@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try_get_reserved_word.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 00:03:57 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:40:02 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 01:20:36 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	try_get_reserved_word(
 	(void)syntax_tree;
 	(void)multiline_options;
 	reserved_word = arg;
+	if (!*current_token_node)
+		return (0);
 	current_token = (*current_token_node)->value;
 	if (current_token->type == TYPE_WORD
 		&& !ft_strcmp(current_token->content.word, reserved_word))

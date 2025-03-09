@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:49:50 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 22:15:31 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 01:18:36 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@ static void	consume_available_multiline_whitespace_tokens(
 				t_list_node **current_token_node,
 				t_tokens_consumed_counts *whitespace_tokens_consumed_counts)
 {
-	while (token_is_of_type((*current_token_node)->value, TYPE_NEWLINE)
-		|| token_is_of_type((*current_token_node)->value, TYPE_WHITESPACE))
+	while (*current_token_node
+		&& (token_is_of_type((*current_token_node)->value, TYPE_NEWLINE)
+			|| token_is_of_type((*current_token_node)->value, TYPE_WHITESPACE)))
 	{
 		consume_token((*current_token_node)->value);
 		whitespace_tokens_consumed_counts->total++;
@@ -80,19 +81,20 @@ static bool	prompt_more_while_at_end_of_input(
 {
 	char					*next_line;
 
-	while (token_is_of_type((*current_token_node)->value, TYPE_END_OF_INPUT)
+	while (*current_token_node
+		&& token_is_of_type((*current_token_node)->value, TYPE_END_OF_INPUT)
 		&& !tree_has_errors(syntax_tree))
 	{
 		next_line = multiline_options->get_next_line(
 				multiline_options->get_next_line_arg);
+		if (g_signal == SIGINT)
+			(free(next_line), next_line = NULL);
 		if (!next_line)
 		{
 			if (multiline_options->input_mode_is_interactive)
 				ft_printf("\n");
 			break ;
 		}
-		if (g_signal == SIGNAL_FOR_CTRL_C)
-			break ;
 		if (!do_lexing(next_line, multiline_options,
 				current_token_node, syntax_tree))
 			return (false);

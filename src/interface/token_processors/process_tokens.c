@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   process_tokens.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 16:01:00 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 01:00:05 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
 #include <unistd.h>
 #include "ft_list.h"
 #include "ft_stdio.h"
@@ -27,6 +28,7 @@
 #include "../line_utils/line_utils.h"
 #include "../program_name_utils/program_name_utils.h"
 #include "./token_processors.h"
+#include "../../execute/signals/signals.h"
 
 #ifndef DEBUG_LEXING
 # define DEBUG_LEXING 0
@@ -77,12 +79,12 @@ static int	handle_parsing_error(
 		return (print_processing_error(program_name,
 				"unsupported feature", get_first_unsupported_token(
 					tokens)), GENERAL_FAILURE);
-	if (syntax_tree->input_terminated_prematurely)
+	if (syntax_tree->input_terminated_prematurely && g_signal != SIGINT)
 		return (print_processing_error(program_name,
 				"unclosed quote",
 				get_penultimate_token_with_context_focused_on_quote(
 					tokens)), INCORRECT_USAGE);
-	if (syntax_tree->some_tokens_left_unconsumed)
+	if (syntax_tree->some_tokens_left_unconsumed && g_signal != SIGINT)
 		return (print_processing_error(program_name,
 				"syntax error", get_first_unconsumed_token(
 					tokens)), INCORRECT_USAGE);

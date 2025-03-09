@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 20:46:16 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 02:00:04 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,15 @@ static int	locate_and_execute_command(
 			node_value->assignments, program_vars->env))
 		exit_due_to_lack_of_memory(program_vars, &exec_params,
 			fixed_program_elements);
-	if (!exec_params.path)
-		exit_due_to_unfound_command(program_vars, &exec_params,
-			fixed_program_elements);
 	if (!perform_redirections(node_value->redirections))
 		exit_due_to_redirection_failure(program_vars, &exec_params,
 			fixed_program_elements);
+	if (!exec_params.path)
+		exit_due_to_unfound_command(program_vars, &exec_params,
+			fixed_program_elements, node_value->redirections);
 	execve(exec_params.path, exec_params.args, exec_params.envp);
-	revert_redirections(node_value->redirections);
 	exit_due_to_execve_failure(program_vars, &exec_params,
-		fixed_program_elements);
+		fixed_program_elements, node_value->redirections);
 	return (GENERAL_FAILURE);
 }
 

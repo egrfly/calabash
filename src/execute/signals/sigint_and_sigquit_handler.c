@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ctrl_c_and_ctrl_backslash_handler.c                :+:      :+:    :+:   */
+/*   sigint_and_sigquit_handler.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,8 +16,8 @@
 #include "ft_stdio.h"
 #include "./signals.h"
 
-void	ctrl_c_and_ctrl_backslash_handler(
-	int signal_received, siginfo_t *info, void *ucontext)
+void	sigint_and_sigquit_handler(
+			int signal_received, siginfo_t *info, void *ucontext)
 {
 	(void)info;
 	(void)ucontext;
@@ -26,7 +26,7 @@ void	ctrl_c_and_ctrl_backslash_handler(
 	{
 		rl_on_new_line();
 		rl_redisplay();
-		if (signal_received == SIGNAL_FOR_CTRL_C)
+		if (signal_received == SIGINT)
 		{
 			ft_printf("^C");
 			rl_replace_line("", 0);
@@ -34,9 +34,9 @@ void	ctrl_c_and_ctrl_backslash_handler(
 	}
 	else
 	{
-		if (signal_received == SIGNAL_FOR_CTRL_C)
+		if (signal_received == SIGINT)
 			ft_printf("^C\n");
-		if (signal_received == SIGNAL_FOR_CTRL_BACKSLASH)
-			ft_printf("^\\Quit (core dumped)\n");
+		if (signal_received == SIGQUIT)
+			ft_printf("^\\Quit\n");
 	}
 }

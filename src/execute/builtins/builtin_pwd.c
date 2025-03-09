@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/08 17:32:13 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 02:06:16 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@
 int	builtin_pwd(
 		const char **argv, t_program_vars *program_vars)
 {
+	char	*path;
+
 	(void)argv;
 	(void)program_vars;
-	ft_dprintf(STDOUT_FILENO, "%s\n", getcwd(NULL, 0));
+	path = getcwd(NULL, 0);
+	ft_dprintf(STDOUT_FILENO, "%s\n", path);
+	free(path);
 	return (0);
 }

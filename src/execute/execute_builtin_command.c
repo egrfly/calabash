@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:27:50 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/08 21:07:05 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 02:22:24 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static const t_builtin_cmd_function	g_builtin_cmd_functions[] = {
 [BUILTIN_EXIT] = builtin_exit,
 };
 
-/* TODO: CTRL+C CTRL+\ return values for builtins??? */
 int	execute_builtin_command(
 		const char *command,
 		const char **argv,
@@ -41,14 +40,14 @@ int	execute_builtin_command(
 	if (index != BUILTIN_NOT_FOUND)
 	{
 		if (!perform_redirections(redirections))
-			return (GENERAL_FAILURE);
+			return (free(argv), GENERAL_FAILURE);
 		else
 		{
 			return_status = g_builtin_cmd_functions[index](argv, program_vars);
 			revert_redirections(redirections);
-			return (return_status);
+			return (free(argv), return_status);
 		}
 	}
 	else
-		return (NOT_FOUND);
+		return (free(argv), NOT_FOUND);
 }

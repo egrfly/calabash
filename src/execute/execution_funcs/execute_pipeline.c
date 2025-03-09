@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pipeline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:57:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 15:57:25 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 01:46:01 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static bool	execute_section_of_pipeline(
 		exit_status = execute_recursively(select_correct_child_to_execute(node,
 					pipeline->current_index == pipeline->pipe_count),
 				fixed_program_elements, program_vars);
-		destroy_pipeline(pipeline);
 		destroy_fixed_program_elements(fixed_program_elements);
 		exit(exit_status);
 	}
@@ -96,5 +95,10 @@ int	execute_pipeline(
 	close_pipe_fds_for_process(pipeline.pipe_fds, pipeline.pipe_count);
 	while (wait(&exit_status) > 0)
 		;
-	return (destroy_pipeline(&pipeline), exit_status);
+	destroy_pipeline(&pipeline);
+	if (WIFEXITED(exit_status))
+		return(WEXITSTATUS(exit_status));
+	if (WIFSIGNALED(exit_status))
+		return(WTERMSIG(exit_status) + 128);
+	return (GENERAL_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/08 21:08:51 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 02:05:00 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,18 +107,18 @@ int	builtin_cd(
 	{
 		error_no = try_change_dir_to(argv[1], &oldpwd, PATH_NOT_FROM_HOME_VAR);
 		if (error_no == OLDPWD_NOT_SET)
-			return (print_error(get_program_name(),
+			return (free(home_dir), print_error(get_program_name(),
 					(char *)argv[0], "OLDPWD", "not set"), GENERAL_FAILURE);
 	}
 	else if (home_dir)
 	{
 		error_no = try_change_dir_to(home_dir, &oldpwd, PATH_FROM_HOME_VAR);
 		if (error_no == HOME_DIR_NOT_SET)
-			return (print_error(get_program_name(),
+			return (free(home_dir), print_error(get_program_name(),
 					(char *)argv[0], "HOME", "not set"), GENERAL_FAILURE);
 	}
 	if (error_no)
-		return (print_error(get_program_name(), (char *)argv[0],
+		return (free(home_dir), print_error(get_program_name(), (char *)argv[0],
 				(char *)argv[1], strerror(error_no)), GENERAL_FAILURE);
-	return (SUCCESS);
+	return (free(home_dir), SUCCESS);
 }

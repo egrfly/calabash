@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:41:31 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/06 15:11:46 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/08 22:34:39 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int	readline_waiting_for_input_event(void)
 {
-	if (g_signal == SIGNAL_FOR_CTRL_C)
+	if (g_signal == SIGINT)
 		rl_done = true;
 	return (0);
 }
@@ -25,10 +25,6 @@ int	readline_waiting_for_input_event(void)
 void	setup_signals(void)
 {
 	rl_event_hook = readline_waiting_for_input_event;
-	setup_signal_handler(
-		SIGNAL_FOR_CTRL_C,
-		ctrl_c_and_ctrl_backslash_handler, false);
-	setup_signal_handler(
-		SIGNAL_FOR_CTRL_BACKSLASH,
-		ctrl_c_and_ctrl_backslash_handler, false);
+	setup_signal_handler(SIGINT, sigint_and_sigquit_handler, false);
+	setup_signal_handler(SIGQUIT, sigint_and_sigquit_handler, false);
 }

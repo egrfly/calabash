@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try_get_non_reserved_word.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 04:38:52 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:25:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 01:20:44 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	try_get_non_reserved_word(
 	(void)arg;
 	(void)syntax_tree;
 	(void)multiline_options;
+	if (!*current_token_node)
+		return (0);
 	current_token = (*current_token_node)->value;
 	if (current_token->type == TYPE_WORD
 		&& !is_reserved(current_token->content.word))

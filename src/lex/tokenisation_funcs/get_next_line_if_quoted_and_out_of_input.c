@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 00:50:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 21:34:34 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 02:29:59 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ bool	get_next_line_if_quoted_and_out_of_input(
 			input_tracker, multiline_options);
 		if (in_escaped_section(input_tracker))
 			leave_escaped_section(input_tracker);
-		if (g_signal == SIGNAL_FOR_CTRL_C)
-			return (false);
 		return (true);
 	}
 	return (false);

@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 21:25:00 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 02:14:10 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,13 @@ int	process_interactive_input(
 			break ;
 		tokens_with_status = lex(input, &multiline_options,
 				DEFAULT_LINE_INDEX);
-		if (g_signal != SIGNAL_FOR_CTRL_C)
-		{
+		if (g_signal != SIGINT)
 			latest_exit_code = process_tokens(tokens_with_status,
 					&multiline_options, program_vars);
-		}
+		if (g_signal == SIGINT)
+			latest_exit_code = TERMINATED_BY_SIGINT;
+		if (g_signal == SIGQUIT)
+			latest_exit_code = TERMINATED_BY_SIGQUIT;
 		set_global_signal_as_processed();
 	}
 	terminal_disable_echoctl(false);
