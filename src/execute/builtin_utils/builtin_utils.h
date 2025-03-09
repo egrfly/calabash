@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 03:21:34 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 06:11:51 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 21:56:55 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_builtin	get_builtin(
 				char *command);
 int			execute_builtin(
 				t_binary_tree_node *node,
-				t_tokens_and_syntax_tree *tokens_and_syntax_tree,
-				t_program_name_and_env *program_name_and_env);
+				t_fixed_program_elements *fixed_program_elements,
+				t_program_vars *program_vars);
 
 #endif

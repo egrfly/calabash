@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:22:48 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 06:11:35 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/08 22:00:10 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include "ft_list.h"
 #include "ft_stdio.h"
 #include "ft_string.h"
+#include "../../main.h"
 #include "../../interface/interface.h"
+#include "../../interface/program_name_utils/program_name_utils.h"
 #include "../../parse/parse.h"
 #include "../../parse/word_utils/word_utils.h"
 #include "../execute.h"
@@ -24,8 +26,8 @@
 
 int	builtin_export(
 		t_binary_tree_node *node,
-		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
-		t_program_name_and_env *program_name_and_env)
+		t_fixed_program_elements *fixed_program_elements,
+		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
 	int							exit_status;
@@ -33,7 +35,7 @@ int	builtin_export(
 	char						*assignment;
 	size_t						identifier_length;
 
-	(void)tokens_and_syntax_tree;
+	(void)fixed_program_elements;
 	node_value = node->value;
 	if (node_value->arguments->size == 1)
 	{
@@ -45,7 +47,7 @@ int	builtin_export(
 		&& ft_strlen(argument_node->value) > 1
 		&& ft_strcmp(argument_node->value, "--"))
 		return (ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
-				program_name_and_env->name, node_value->arguments->first->value,
+				get_program_name(), node_value->arguments->first->value,
 				"options not supported"), GENERAL_FAILURE);
 	if (!ft_strcmp(argument_node->value, "--"))
 		argument_node = argument_node->next;
@@ -59,17 +61,17 @@ int	builtin_export(
 			// TODO: remember to unset variable with same key if exists first!
 			assignment = ft_strdup(argument_node->value);
 			if (!assignment
-				|| !ft_list_append(program_name_and_env->env, assignment))
+				|| !ft_list_append(program_vars->env, assignment))
 			{
 				free(assignment);
 				return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
-						program_name_and_env->name), GENERAL_FAILURE);
+						get_program_name()), GENERAL_FAILURE);
 			}
 		}
 		else
 		{
 			ft_dprintf(STDERR_FILENO, "%s: %s: `%s': %s\n",
-				program_name_and_env->name, node_value->arguments->first->value,
+				get_program_name(), node_value->arguments->first->value,
 				argument_node->value, "not a valid identifier");
 			exit_status = GENERAL_FAILURE;
 		}
