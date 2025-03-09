@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 02:14:10 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 17:40:00 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,14 @@ static void	inits_for_interactive_input(
 	*latest_exit_code = SUCCESS;
 }
 
+void	override_exit_code_is_signal_present(int *exit_code)
+{
+	if (g_signal == SIGINT)
+		*exit_code = TERMINATED_BY_SIGINT;
+	if (g_signal == SIGQUIT)
+		*exit_code = TERMINATED_BY_SIGQUIT;
+}
+
 int	process_interactive_input(
 		t_program_vars *program_vars)
 {
@@ -81,10 +89,7 @@ int	process_interactive_input(
 		if (g_signal != SIGINT)
 			latest_exit_code = process_tokens(tokens_with_status,
 					&multiline_options, program_vars);
-		if (g_signal == SIGINT)
-			latest_exit_code = TERMINATED_BY_SIGINT;
-		if (g_signal == SIGQUIT)
-			latest_exit_code = TERMINATED_BY_SIGQUIT;
+		override_exit_code_is_signal_present(&latest_exit_code);
 		set_global_signal_as_processed();
 	}
 	terminal_disable_echoctl(false);

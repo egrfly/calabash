@@ -6,16 +6,16 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:27:50 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 02:22:24 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 16:33:07 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_list.h"
-#include "../main.h"
-#include "../interface/interface.h"
-#include "../parse/parse.h"
-#include "./builtins/builtins.h"
-#include "./redirection_utils/redirection_utils.h"
+#include "../../main.h"
+#include "../../interface/interface.h"
+#include "../../parse/parse.h"
+#include "../builtins/builtins.h"
+#include "../redirection_utils/redirection_utils.h"
 
 static const t_builtin_cmd_function	g_builtin_cmd_functions[] = {
 [BUILTIN_ECHO] = builtin_echo,
@@ -25,6 +25,7 @@ static const t_builtin_cmd_function	g_builtin_cmd_functions[] = {
 [BUILTIN_UNSET] = builtin_unset,
 [BUILTIN_ENV] = builtin_env,
 [BUILTIN_EXIT] = builtin_exit,
+[BUILTIN_HISTORY] = builtin_history,
 };
 
 int	execute_builtin_command(

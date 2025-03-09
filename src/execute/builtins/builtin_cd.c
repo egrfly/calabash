@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 02:05:00 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 16:31:40 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "ft_stdio.h"
 #include "ft_string.h"
 #include "ft_stdlib.h"
+#include "../execution_funcs/execution_funcs.h"
 
 #define OLDPWD_NOT_SET -100
 #define HOME_DIR_NOT_SET -200

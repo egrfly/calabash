@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:36 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/06 15:24:39 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 16:23:05 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static const char	*g_builtin_commands[] = {
 [BUILTIN_UNSET] = "unset",
 [BUILTIN_ENV] = "env",
 [BUILTIN_EXIT] = "exit",
+[BUILTIN_HISTORY] = "history",
 };
 
 t_builtins	get_builtin_cmd_index(const char *command)

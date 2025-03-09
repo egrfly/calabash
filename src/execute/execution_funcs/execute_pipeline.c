@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:57:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 01:46:01 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 17:34:42 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,12 @@ static bool	execute_section_of_pipeline(
 	return (true);
 }
 
+void	wait_for_all_child_processes(int *exit_status)
+{
+	while (wait(exit_status) > 0)
+		;
+}
+
 // TODO: look into macros like WIFEXITED, WEXITSTATUS, WIFSIGNALED etc.
 // TODO: check if exit status is random based on order of waiting
 int	execute_pipeline(
@@ -93,12 +99,7 @@ int	execute_pipeline(
 			node = node->primary_child;
 	}
 	close_pipe_fds_for_process(pipeline.pipe_fds, pipeline.pipe_count);
-	while (wait(&exit_status) > 0)
-		;
+	wait_for_all_child_processes(&exit_status);
 	destroy_pipeline(&pipeline);
-	if (WIFEXITED(exit_status))
-		return(WEXITSTATUS(exit_status));
-	if (WIFSIGNALED(exit_status))
-		return(WTERMSIG(exit_status) + 128);
-	return (GENERAL_FAILURE);
+	return (try_decode_exit_status(exit_status, GENERAL_FAILURE));
 }

@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 02:00:04 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 16:34:51 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "../command_utils/command_utils.h"
 #include "../execution_utils/execution_utils.h"
 #include "../builtins/builtins.h"
+#include "./execution_funcs.h"
 
 #include "../redirection_utils/redirection_utils.h"
 

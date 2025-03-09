@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:11:52 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 01:52:04 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 17:15:03 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,5 @@ int	execute_in_child_process(
 		exit(exit_status);
 	}
 	waitpid(pid, &exit_status, NO_OPTIONS);
-	if (WIFEXITED(exit_status))
-		return(WEXITSTATUS(exit_status));
-	if (WIFSIGNALED(exit_status))
-		return(WTERMSIG(exit_status) + 128);
-	return (GENERAL_FAILURE);
+	return (try_decode_exit_status(exit_status, GENERAL_FAILURE));
 }

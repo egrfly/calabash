@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:10:03 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/08 17:37:36 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 16:30:20 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "builtins.h"
 #include "ft_stdlib.h"
 #include "ft_stdio.h"
+#include "../execution_funcs/execution_funcs.h"
 
 #define TOO_MANY_ARGUMENTS 1
 #define NUMERIC_ARGUMENT_REQUIRED 2

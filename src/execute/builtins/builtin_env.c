@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/08 17:36:48 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 16:30:23 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "builtins.h"
 #include "ft_stdio.h"
 #include "ft_list.h"
+#include "../execution_funcs/execution_funcs.h"
 
 int	builtin_env(
 		const char **argv, t_program_vars *program_vars)

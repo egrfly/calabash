@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   try_decode_exit_status.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 16:30:45 by aistok           ###   ########.fr       */
+/*   Created: 2025/03/09 17:06:12 by aistok            #+#    #+#             */
+/*   Updated: 2025/03/09 17:16:20 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include "builtins.h"
-#include "ft_stdio.h"
-#include "../execution_funcs/execution_funcs.h"
+#include <sys/wait.h>
 
-int	builtin_pwd(
-		const char **argv, t_program_vars *program_vars)
+int	try_decode_exit_status(
+		int exit_status,
+		int alternative_exit_status)
 {
-	char	*path;
-
-	(void)argv;
-	(void)program_vars;
-	path = getcwd(NULL, 0);
-	ft_dprintf(STDOUT_FILENO, "%s\n", path);
-	free(path);
-	return (0);
+	if (WIFEXITED(exit_status))
+		return (WEXITSTATUS(exit_status));
+	if (WIFSIGNALED(exit_status))
+		return (WTERMSIG(exit_status) + 128);
+	return (alternative_exit_status);
 }

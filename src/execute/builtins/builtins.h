@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 17:32:13 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 16:05:18 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef enum e_builtins
 	BUILTIN_UNSET,
 	BUILTIN_ENV,
 	BUILTIN_EXIT,
+	BUILTIN_HISTORY,
 }	t_builtins;
 
 typedef int	(*t_builtin_cmd_function)(
@@ -50,6 +51,9 @@ int			builtin_env(
 				const char **argv,
 				t_program_vars *program_vars);
 int			builtin_exit(
+				const char **argv,
+				t_program_vars *program_vars);
+int			builtin_history(
 				const char **argv,
 				t_program_vars *program_vars);
 
