@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 19:16:12 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 19:38:01 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,6 @@ static void	inits_for_interactive_input(
 	*latest_exit_code = SUCCESS;
 }
 
-void	override_exit_code_is_signal_present(int *exit_code)
-{
-	if (g_signal == SIGINT)
-		*exit_code = TERMINATED_BY_SIGINT;
-	if (g_signal == SIGQUIT)
-		*exit_code = TERMINATED_BY_SIGQUIT;
-}
-
 int	process_interactive_input(
 		t_program_vars *program_vars)
 {
@@ -88,7 +80,8 @@ int	process_interactive_input(
 		if (g_signal != SIGINT)
 			latest_exit_code = process_tokens(tokens_with_status,
 					&multiline_options, program_vars);
-		override_exit_code_is_signal_present(&latest_exit_code);
+		// Check if this is needed given try_decode_exit_status
+		// override_exit_code_is_signal_present(&latest_exit_code);
 		set_global_signal_as_processed();
 	}
 	toggle_terminal_echoctl_suppression(false);

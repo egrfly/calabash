@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 15:45:32 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 22:41:33 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:36:11 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@
 # define INCORRECT_USAGE 2
 # define COULD_NOT_EXECUTE 126
 # define NOT_FOUND 127
-# define TERMINATED_BY_SIGINT 130
-# define TERMINATED_BY_SIGQUIT 131
+# define SIGNAL_BASE 128
 
 #endif
