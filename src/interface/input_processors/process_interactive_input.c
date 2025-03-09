@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 21:15:25 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 21:31:58 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	enter_interactive_mode(
 	multiline_options->get_next_line
 		= interactive_get_next_line_from_standard_input;
 	multiline_options->get_next_line_arg = NO_ARG;
-	setup_signals();
+	install_signal_handlers();
 	toggle_terminal_echoctl_suppression(true);
 	print_banner_if_available();
 }
@@ -87,7 +87,7 @@ int	process_interactive_input(
 					&multiline_options, program_vars);
 		else
 			latest_exit_code = SIGNAL_BASE + g_signal;
-		set_global_signal_as_processed();
+		mark_global_signal_as_processed();
 	}
 	exit_interactive_mode();
 	return (latest_exit_code);
