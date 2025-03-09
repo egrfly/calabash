@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_redirection_if_here_doc_or_string.c         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 11:47:25 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 02:36:51 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 18:57:38 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 #include "ft_stdio.h"
 #include "ft_string.h"
 #include "../../main.h"
+#include "../../execute/signals/signals.h"
 #include "../../interface/program_name_utils/program_name_utils.h"
 #include "../../lex/lex.h"
 #include "../parse.h"
 #include "../temp_file_utils/temp_file_utils.h"
-#include "../../execute/signals/signals.h"
 
 #define SHOULD_STRIP_LEADING_TABS true
 #define SHOULD_NOT_STRIP_LEADING_TABS false
@@ -63,9 +63,9 @@ static bool	add_here_doc_content_to_temp_file(
 					"%s: here-document failure\n", get_program_name()), false);
 		free(line);
 		line = readline("> ");
-		if (g_signal == SIGINT)
-			return (close(fd), free(line), line = NULL, false);
 	}
+	if (g_signal == SIGINT)
+		return (free(line), close(fd), false);
 	if (!line)
 		ft_dprintf(STDERR_FILENO, "%s: warning: here-document delimited "
 			"by end-of-file (wanted `%s')\n", get_program_name(), delimiter);
