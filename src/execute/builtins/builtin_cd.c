@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 17:51:18 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 20:33:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 #include <dirent.h>
 #include <string.h>
 #include <errno.h>
+#include "ft_stdio.h"
+#include "ft_stdlib.h"
+#include "ft_string.h"
 #include "../../main.h"
 #include "../../interface/list_utils/list_utils.h"
 #include "../../interface/program_name_utils/program_name_utils.h"
-#include "builtins.h"
-#include "ft_stdio.h"
-#include "ft_string.h"
-#include "ft_stdlib.h"
 #include "../execution_funcs/execution_funcs.h"
+#include "../variable_utils/variable_utils.h"
+#include "./builtins.h"
 
 #define OLDPWD_NOT_SET -100
 #define HOME_DIR_NOT_SET -200
@@ -103,8 +104,7 @@ int	builtin_cd(
 	int			error_no;
 
 	// Check
-	home_dir = ft_strdup(
-			get_line_starting_with(program_vars->env, "HOME", "="));
+	home_dir = ft_strdup(get_variable_value(program_vars->env, "HOME"));
 	if (argv[1])
 	{
 		error_no = try_change_dir_to(argv[1], &oldpwd, PATH_NOT_FROM_HOME_VAR);

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 03:00:45 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 09:21:38 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 20:28:56 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "../../interface/list_utils/list_utils.h"
 #include "../assignment_utils/assignment_utils.h"
 #include "../path_utils/path_utils.h"
+#include "../variable_utils/variable_utils.h"
 #include "./command_utils.h"
 
 static const
@@ -93,7 +94,7 @@ bool	init_exec_params(
 	ft_bzero(exec_params, sizeof(t_exec_params));
 	exec_params->command = arguments->first->value;
 	if (!get_full_command_path(&exec_params->path, exec_params->command,
-			get_path_variable(env)))
+			get_variable_value(env, "PATH")))
 		return (false);
 	arguments_with_colourisation = get_arguments_with_colourisation(
 			exec_params->path, arguments);

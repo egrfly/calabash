@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:19:40 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 19:57:27 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 20:33:51 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,5 @@ t_list	*get_list_from_values(
 			char **values);
 char	**get_values_from_list(
 			t_list *list);
-char	*get_line_starting_with(
-			t_list *list, char *starting_with, char *delim_char);
 
 #endif

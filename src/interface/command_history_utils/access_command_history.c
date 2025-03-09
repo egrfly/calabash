@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:53:27 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 20:00:44 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 20:35:50 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	access_command_history(
 	{
 		if (!input
 			|| !ft_strlen(input)
-			|| last_input && !ft_strcmp(input, last_input))
+			|| (last_input && !ft_strcmp(input, last_input)))
 			return ;
 		if (last_input)
 			free(last_input);
