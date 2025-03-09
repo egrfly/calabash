@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interface.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 17:30:49 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:16:52 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <stdbool.h>
 # include "ft_list.h"
 
-//define CTRL+C in the main
-//update CTRL+C to SIGINT...
 typedef enum e_access_mode
 {
 	GET,

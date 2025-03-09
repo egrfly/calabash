@@ -6,12 +6,13 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 11:47:25 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 18:57:38 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 19:17:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <limits.h>
+#include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>

@@ -6,10 +6,11 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 19:13:54 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 19:17:05 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
 #include <stdlib.h>
 #include "ft_list.h"
 #include "ft_stdlib.h"
