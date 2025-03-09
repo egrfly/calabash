@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 00:50:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 19:21:37 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 20:55:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,6 @@ static void	update_input_tracker_with_next_line_of_input_if_available(
 		input_tracker->is_out_of_lines = true;
 }
 
-static void	process_newline_and_extend_word(
-				t_input_tracker *input_tracker,
-				t_tokens_with_status *tokens_with_status,
-				t_token	*last_token)
-{
-	handle_newline_in_token_context(input_tracker, last_token);
-	extend_word_token_content(input_tracker, last_token,
-		in_escaped_section(input_tracker),
-		&tokens_with_status->out_of_memory);
-	if (!in_escaped_section(input_tracker))
-		add_newline_to_word_token_content(last_token,
-			&tokens_with_status->out_of_memory);
-}
-
 bool	get_next_line_if_quoted_and_out_of_input(
 			t_input_tracker *input_tracker,
 			t_tokens_with_status *tokens_with_status,
@@ -68,8 +54,13 @@ bool	get_next_line_if_quoted_and_out_of_input(
 		last_token = get_last_token(tokens_with_status->tokens);
 		if (last_token && !last_token->is_delimited)
 		{
-			process_newline_and_extend_word(
-				input_tracker, tokens_with_status, last_token);
+			handle_newline_in_token_context(input_tracker, last_token);
+			extend_word_token_content(input_tracker, last_token,
+				in_escaped_section(input_tracker),
+				&tokens_with_status->out_of_memory);
+			if (!in_escaped_section(input_tracker))
+				add_newline_to_word_token_content(last_token,
+					&tokens_with_status->out_of_memory);
 			if (tokens_with_status->out_of_memory)
 				return (false);
 		}
