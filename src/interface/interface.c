@@ -6,12 +6,11 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:45 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 20:58:18 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 21:01:18 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <signal.h>
 #include "ft_stdio.h"
 #include "../main.h"
 #include "./interface.h"
