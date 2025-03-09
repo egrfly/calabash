@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_tokens.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 01:00:05 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/09 19:23:11 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "../../main.h"
 #include "../../debug/debug.h"
 #include "../../execute/execute.h"
+#include "../../execute/signals/signals.h"
 #include "../../lex/lex.h"
 #include "../../lex/token_lifecycle/token_lifecycle.h"
 #include "../../lex/token_utils/token_utils.h"
@@ -28,7 +29,6 @@
 #include "../line_utils/line_utils.h"
 #include "../program_name_utils/program_name_utils.h"
 #include "./token_processors.h"
-#include "../../execute/signals/signals.h"
 
 #ifndef DEBUG_LEXING
 # define DEBUG_LEXING 0

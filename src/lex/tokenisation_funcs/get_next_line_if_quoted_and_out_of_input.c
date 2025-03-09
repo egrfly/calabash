@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 00:50:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 02:50:13 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 19:21:37 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include "../context_utils/context_utils.h"
 #include "../input_utils/input_utils.h"
 #include "../token_utils/token_utils.h"
-#include "../../execute/signals/signals.h"
 
 static void	update_input_tracker_with_next_line_of_input_if_available(
 				t_input_tracker *input_tracker,
