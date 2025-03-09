@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 20:00:22 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 21:15:25 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,23 @@ static void	print_banner_if_available(void)
 	}
 }
 
-static void	inits_for_interactive_input(
-				t_multiline_options *multiline_options,
-				int *latest_exit_code)
+static void	enter_interactive_mode(
+				t_multiline_options *multiline_options)
 {
-	setup_signals();
-	toggle_terminal_echoctl_suppression(true);
 	multiline_options->input_mode_is_interactive = true;
 	multiline_options->get_next_line
 		= interactive_get_next_line_from_standard_input;
 	multiline_options->get_next_line_arg = NO_ARG;
+	setup_signals();
+	toggle_terminal_echoctl_suppression(true);
 	print_banner_if_available();
-	*latest_exit_code = SUCCESS;
+}
+
+static void	exit_interactive_mode(void)
+{
+	toggle_terminal_echoctl_suppression(false);
+	access_command_history(DELETE, NO_ARG);
+	ft_printf("exit\n");
 }
 
 int	process_interactive_input(
@@ -68,24 +73,22 @@ int	process_interactive_input(
 	t_tokens_with_status	*tokens_with_status;
 	int						latest_exit_code;
 
-	inits_for_interactive_input(&multiline_options, &latest_exit_code);
+	enter_interactive_mode(&multiline_options);
+	latest_exit_code = SUCCESS;
 	while (true)
 	{
 		input = readline("\033[32mcalabash\033[36m>\033[0m ");
 		access_command_history(SET, input);
 		if (!input)
 			break ;
-		tokens_with_status = lex(input, &multiline_options,
-				DEFAULT_LINE_INDEX);
+		tokens_with_status = lex(input, &multiline_options, DEFAULT_LINE_INDEX);
 		if (g_signal != SIGINT)
 			latest_exit_code = process_tokens(tokens_with_status,
 					&multiline_options, program_vars);
-		// Check if this is needed given try_decode_exit_status
-		// override_exit_code_is_signal_present(&latest_exit_code);
+		else
+			latest_exit_code = SIGNAL_BASE + g_signal;
 		set_global_signal_as_processed();
 	}
-	toggle_terminal_echoctl_suppression(false);
-	access_command_history(DELETE, NO_ARG);
-	ft_printf("exit\n");
+	exit_interactive_mode();
 	return (latest_exit_code);
 }
