@@ -1,0 +1,70 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_history.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
+/*   Updated: 2025/03/10 00:33:30 by emflynn          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <readline/readline.h>
+#include "ft_binary_tree.h"
+#include "ft_list.h"
+#include "ft_stdio.h"
+#include "ft_string.h"
+#include "../../main.h"
+#include "../../interface/interface.h"
+#include "../../interface/program_name_utils/program_name_utils.h"
+#include "../../parse/parse.h"
+#include "../execute.h"
+
+static bool	is_dash_c_sequence(const char *argument)
+{
+	size_t	i;
+
+	if (ft_strstarts(argument, "-c"))
+	{
+		i = ft_strlen("-c");
+		while (argument[i] && argument[i] == 'c')
+			i++;
+		if (!argument[i])
+			return (true);
+	}
+	return (false);
+}
+
+static void	show_history_command_usage(void)
+{
+	ft_printf("%s: history: supported usage: history -c\n", get_program_name());
+	ft_printf("Options:\n");
+	ft_printf("  -c\t(mandatory) clear the command history list\n");
+}
+
+int	builtin_history(
+		t_binary_tree_node *node,
+		t_fixed_program_elements *fixed_program_elements,
+		t_program_vars *program_vars)
+{
+	t_syntax_tree_node_value	*node_value;
+	t_list_node					*argument_node;
+
+	(void)fixed_program_elements;
+	(void)program_vars;
+	node_value = node->value;
+	argument_node = node_value->arguments->first->next;
+	if (!argument_node || !is_dash_c_sequence(argument_node->value))
+	{
+		show_history_command_usage();
+		return (INCORRECT_USAGE);
+	}
+	rl_clear_history();
+	ft_printf("Command history list now cleared.\n");
+	return (SUCCESS);
+}

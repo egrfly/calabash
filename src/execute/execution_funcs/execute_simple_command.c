@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 23:13:05 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 00:31:40 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "../../interface/list_utils/list_utils.h"
 #include "../../parse/tree_node_utils/tree_node_utils.h"
 #include "../execute.h"
-#include "../builtins/builtins.h"
+#include "../builtin_utils/builtin_utils.h"
 #include "../command_utils/command_utils.h"
 #include "../execution_utils/execution_utils.h"
 #include "../redirection_utils/redirection_utils.h"
@@ -61,11 +61,9 @@ int	execute_simple_command(
 	node_value = node->value;
 	if (node_value->arguments->first)
 	{
-		if (is_builtin_command(node_value->arguments->first->value))
-			return (execute_builtin_command(
-					node_value->arguments->first->value,
-					get_values_from_list(node_value->arguments),
-					program_vars, node_value->redirections));
+		if (get_builtin(node_value->arguments->first->value))
+			return (execute_builtin(node,
+					fixed_program_elements, program_vars));
 		if (node->parent && node_is_of_type(node->parent->value, PIPE))
 			return (locate_and_execute_command(node,
 					fixed_program_elements, program_vars));
