@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 03:24:37 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 10:49:43 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "../../interface/program_name_utils/program_name_utils.h"
 #include "../execute.h"
 #include "../builtin_funcs/builtin_funcs.h"
+#include "../redirection_utils/redirection_utils.h"
 #include "./builtin_utils.h"
 
 static const
@@ -88,13 +89,20 @@ int	execute_builtin(
 	t_syntax_tree_node_value	*node_value;
 	t_builtin					builtin;
 	t_execution_func			builtin_func;
+	int							exit_status;
 
 	node_value = node->value;
+	if (!perform_redirections(node_value->redirections))
+		return (GENERAL_FAILURE);
 	builtin = get_builtin(node_value->arguments->first->value);
 	builtin_func = g_builtin_funcs[builtin];
 	if (!builtin_func)
-		return (ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
-				get_program_name(), node_value->arguments->first->value,
-				"builtin not supported"), GENERAL_FAILURE);
-	return (builtin_func(node, tokens_and_syntax_tree, program_vars));
+	{
+		ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
+			get_program_name(), node_value->arguments->first->value,
+			"builtin not supported");
+		return (revert_redirections(node_value->redirections), GENERAL_FAILURE);
+	}
+	exit_status = builtin_func(node, tokens_and_syntax_tree, program_vars);
+	return (revert_redirections(node_value->redirections), exit_status);
 }

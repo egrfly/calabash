@@ -6,70 +6,37 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/10 10:19:45 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 11:15:06 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include "ft_stdio.h"
 #include "ft_string.h"
 #include "../../main.h"
+#include "../../interface/option_utils/option_utils.h"
 #include "../../interface/program_name_utils/program_name_utils.h"
 #include "../execution_funcs/execution_funcs.h"
-
-static bool	is_dash_n_sequence(const char *argument)
-{
-	size_t	i;
-
-	if (ft_strstarts(argument, "-n"))
-	{
-		i = ft_strlen("-n");
-		while (argument[i] && argument[i] == 'n')
-			i++;
-		if (!argument[i])
-			return (true);
-	}
-	return (false);
-}
-
-static bool	is_unsupported_option_sequence(const char *argument)
-{
-	bool	contains_unsupported_option;
-	size_t	i;
-
-	if (ft_strstarts(argument, "-n")
-		|| ft_strstarts(argument, "-e")
-		|| ft_strstarts(argument, "-E"))
-	{
-		contains_unsupported_option = false;
-		i = 1;
-		while (argument[i] && ft_strchr("neE", argument[i]))
-		{
-			if (ft_strchr("eE", argument[i]))
-				contains_unsupported_option = true;
-			i++;
-		}
-		if (!argument[i])
-			return (contains_unsupported_option);
-	}
-	return (false);
-}
 
 static bool	handle_echo_options(
 				t_list_node **argument_node,
 				bool *print_last_newline)
 {
 	while (*argument_node
-		&& is_dash_n_sequence((*argument_node)->value))
+		&& is_option_sequence_consisting_of_chars(
+			(*argument_node)->value, "n"))
 	{
 		*print_last_newline = false;
 		*argument_node = (*argument_node)->next;
 	}
 	if (*argument_node
-		&& is_unsupported_option_sequence((*argument_node)->value))
+		&& is_option_sequence_consisting_of_chars(
+			(*argument_node)->value, "neE"))
 		return (false);
 	if (*argument_node
 		&& !ft_strcmp((*argument_node)->value, "--"))
@@ -96,12 +63,15 @@ int	builtin_echo(
 				"options other than -n not supported"), GENERAL_FAILURE);
 	while (argument_node)
 	{
-		ft_printf("%s", argument_node->value);
+		if (ft_printf("%s", argument_node->value) == WRITE_FAILURE)
+			return (ft_dprintf(STDERR_FILENO, "%s: echo: %s\n",
+					get_program_name(), strerror(errno)), GENERAL_FAILURE);
 		if (argument_node->next)
 			ft_printf(" ");
 		argument_node = argument_node->next;
 	}
-	if (print_last_newline)
-		ft_printf("\n");
+	if (print_last_newline && ft_printf("\n") == WRITE_FAILURE)
+		return (ft_dprintf(STDERR_FILENO, "%s: echo: %s\n",
+				get_program_name(), strerror(errno)), GENERAL_FAILURE);
 	return (SUCCESS);
 }
