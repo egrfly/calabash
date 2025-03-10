@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:39:37 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 09:10:44 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "ft_list.h"
 #include "ft_stdlib.h"
 #include "../interface/interface.h"
+#include "../interface/line_getters/line_getters.h"
 #include "../execute/signals/signals.h"
 #include "./lex.h"
 #include "./token_lifecycle/token_lifecycle.h"
@@ -138,7 +139,8 @@ t_tokens_with_status	*lex(
 	tokens_with_status
 		= get_tokens_with_status(input_tracker,
 			multiline_options);
-	free(input_tracker->original_input);
+	if (multiline_options->get_next_line != noninteractive_get_null_line)
+		free(input_tracker->original_input);
 	free(input_tracker);
 	return (tokens_with_status);
 }

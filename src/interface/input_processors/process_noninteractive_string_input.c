@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:15 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 06:03:22 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 09:09:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,14 @@ int	process_noninteractive_string_input(
 		char *input,
 		t_program_vars *program_vars)
 {
-	char					*dynamically_allocated_input;
 	t_multiline_options		multiline_options;
 	t_tokens_with_status	*tokens_with_status;
 	int						exit_status;
 
-	dynamically_allocated_input = ft_strdup(input);
-	if (!dynamically_allocated_input)
-		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
-				get_program_name()), GENERAL_FAILURE);
 	multiline_options.input_mode_is_interactive = false;
 	multiline_options.get_next_line = noninteractive_get_null_line;
 	multiline_options.get_next_line_arg = NO_ARG;
-	tokens_with_status = lex(dynamically_allocated_input, &multiline_options,
+	tokens_with_status = lex(input, &multiline_options,
 			DEFAULT_LINE_INDEX);
 	exit_status = process_tokens(tokens_with_status, &multiline_options,
 			program_vars);
