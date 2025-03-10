@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 15:34:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 18:06:33 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 04:16:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "ft_string.h"
 #include "../../main.h"
 #include "../../execute/execution_utils/execution_utils.h"
+#include "../../execute/path_utils/path_utils.h"
 #include "../../execute/pipeline_utils/pipeline_utils.h"
 #include "../../lex/token_lifecycle/token_lifecycle.h"
 #include "../parse.h"
@@ -32,12 +33,13 @@ static void	execute_external_mktemp(
 				t_syntax_tree *syntax_tree,
 				t_list *tokens)
 {
-	static char	*argv[] = {"mktemp", NULL};
-	static char	*envp[] = {NULL};
+	char	*path;
 
 	dup2(pipe_fd[WRITE_END], STDOUT_FILENO);
 	close_pipe_fds_for_process((int (*)[2])pipe_fd, SINGLE_PIPE);
-	execve("/usr/bin/mktemp", argv, envp);
+	if (!get_full_command_path(&path, "mktemp", "/usr/local/bin:/usr/bin:/bin"))
+		exit(GENERAL_FAILURE);
+	execve(path, (char *[]){"mktemp", NULL}, (char *[]){NULL});
 	destroy_syntax_tree(syntax_tree);
 	ft_list_destroy(tokens, (t_action_func)destroy_token);
 	exit(GENERAL_FAILURE);
@@ -64,6 +66,7 @@ bool	make_temp_file(
 {
 	int	pipe_fd[2];
 	int	pid;
+	int	exit_status;
 	int	chars_read;
 
 	if (pipe(pipe_fd) == PIPE_FAILURE)
@@ -76,10 +79,12 @@ bool	make_temp_file(
 	}
 	if (pid == CHILD_PROCESS_ID)
 		execute_external_mktemp(pipe_fd, syntax_tree, tokens);
-	waitpid(pid, NULL, NO_OPTIONS);
+	waitpid(pid, &exit_status, NO_OPTIONS);
+	if (!WIFEXITED(exit_status) || WEXITSTATUS(exit_status) != SUCCESS)
+		return (try_open_backup_temp_file(temp_file_path));
 	chars_read = read(pipe_fd[READ_END], temp_file_path, PATH_MAX);
 	close_pipe_fds_for_process((int (*)[2])pipe_fd, SINGLE_PIPE);
-	if (chars_read <= 1)
+	if (chars_read <= 2)
 		return (try_open_backup_temp_file(temp_file_path));
 	temp_file_path[chars_read - 1] = '\0';
 	return (true);

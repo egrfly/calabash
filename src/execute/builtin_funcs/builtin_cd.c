@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/10 01:25:34 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 04:23:19 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ static int	try_change_to_dir(
 	exit_status = chdir(target_path);
 	*oldpwd = current_dir;
 	if (exit_status != SUCCESS)
-		ft_dprintf(STDERR_FILENO, "%s: cd: %s: %s\n", get_program_name(),
-			target_path, strerror(errno));
-	return (exit_status);
+		return (ft_dprintf(STDERR_FILENO, "%s: cd: %s: %s\n",
+				get_program_name(), target_path, strerror(errno)),
+			GENERAL_FAILURE);
+	return (SUCCESS);
 }
 
 // TODO: change OLDPWD to use env

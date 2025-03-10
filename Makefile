@@ -6,7 +6,7 @@
 #    By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/03 00:45:25 by emflynn           #+#    #+#              #
-#    Updated: 2025/03/07 02:35:40 by emflynn          ###   ########.fr        #
+#    Updated: 2025/03/10 02:12:01 by emflynn          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,11 +55,11 @@ ifeq ($(UNAME),Darwin)
 endif
 
 define update_mode_and_rebuild_if_necessary
-	CYAN='\033[36m'; \
-	GREEN='\033[32m'; \
-	RED='\033[31m'; \
-	END='\033[0m'; \
-	CLEAR='\033[K'; \
+	CYAN='\001\033[36m\002'; \
+	GREEN='\001\033[32m\002'; \
+	RED='\001\033[31m\002'; \
+	END='\001\033[0m\002'; \
+	CLEAR='\001\033[K\002'; \
 	CHAR='|'; \
 	advance_char() { \
 		if [ $${CHAR} = '|' ]; then CHAR='/'; sleep 0.15; \

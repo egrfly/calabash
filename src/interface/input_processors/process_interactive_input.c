@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 01:26:50 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 03:43:20 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@
 #include "../interface.h"
 #include "../command_history_utils/command_history_utils.h"
 #include "../line_getters/line_getters.h"
+#include "../prompt_utils/prompt_utils.h"
 #include "../token_processors/token_processors.h"
+
+#define PROMPT_MAX 256
 
 static void	print_banner_if_available(void)
 {
@@ -67,75 +70,11 @@ static void	exit_interactive_mode(void)
 	ft_printf("exit\n");
 }
 
-#include "ft_string.h"
-static void	update_command_prompt(char *prompt, int exit_code)
-{
-	char	*username;
-	char	*hostname;
-	char	*pwd;
-	char	exit_code_string[4];
-
-	// Change
-	username = "Emily";
-	hostname = "MacBook-Flynn";
-	pwd = "/home/emily";
-	ft_strcpy(prompt, "----------------------------------------"
-		"----------------------------------------\n");
-	if (pwd)
-	{
-		ft_strcat(prompt, "[\033[32m");
-		if (ft_strlen(pwd) < 32)
-			ft_strcat(prompt, pwd);
-		else
-		{
-			ft_strcat(prompt, "...");
-			ft_strcat(prompt, pwd + ft_strlen(pwd) - 32 + ELLIPSIS_LENGTH);
-		}
-		ft_strcat(prompt, "\033[0m]\n");
-	}
-	ft_strcat(prompt, "\033[36m");
-	if (username)
-	{
-		if (ft_strlen(username) <= 16)
-			ft_strcat(prompt, username);
-		else
-		{
-			ft_strncat(prompt, username, 16 - ELLIPSIS_LENGTH);
-			ft_strcat(prompt, "...");
-		}
-	}
-	if (username && hostname)
-		ft_strcat(prompt, "@");
-	if (hostname)
-	{
-		if (ft_strlen(hostname) <= 16)
-			ft_strcat(prompt, hostname);
-		else
-		{
-			ft_strncat(prompt, hostname, 16 - ELLIPSIS_LENGTH);
-			ft_strcat(prompt, "...");
-		}
-	}
-	if (username || hostname)
-		ft_strcat(prompt, " ");
-	ft_strcat(prompt, "\033[32mcalabash\033[0m[");
-	if (exit_code == SUCCESS)
-		ft_strcat(prompt, "\033[32m");
-	else
-		ft_strcat(prompt, "\033[31m");
-	exit_code_string[0] = (exit_code / 100) % 10 + '0';
-	exit_code_string[1] = (exit_code / 10) % 10 + '0';
-	exit_code_string[2] = (exit_code / 1) % 10 + '0';
-	exit_code_string[3] = '\0';
-	ft_strcat(prompt, exit_code_string);
-	ft_strcat(prompt, "\033[0m]\033[36m>\033[0m ");
-}
-
 int	process_interactive_input(
 		t_program_vars *program_vars)
 {
 	t_multiline_options		multiline_options;
-	char					prompt[256];
+	char					prompt[PROMPT_MAX];
 	char					*input;
 	t_tokens_with_status	*tokens_with_status;
 	int						latest_exit_code;
@@ -144,8 +83,8 @@ int	process_interactive_input(
 	latest_exit_code = SUCCESS;
 	while (true)
 	{
-		update_command_prompt(prompt, latest_exit_code); // TODO: Sort out
-		input = readline("\033[32mcalabash\033[36m>\033[0m ");
+		update_command_prompt(prompt, latest_exit_code);
+		input = readline(prompt);
 		access_command_history(SET, input);
 		if (!input)
 			break ;
