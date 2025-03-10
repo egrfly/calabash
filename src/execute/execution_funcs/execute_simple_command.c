@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 00:31:40 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 static int	locate_and_execute_command(
 				t_binary_tree_node *node,
-				t_fixed_program_elements *fixed_program_elements,
+				t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 				t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
@@ -35,16 +35,16 @@ static int	locate_and_execute_command(
 	if (!init_exec_params(&exec_params, node_value->arguments,
 			node_value->assignments, program_vars->env))
 		exit_due_to_lack_of_memory(program_vars, &exec_params,
-			fixed_program_elements);
+			tokens_and_syntax_tree);
 	if (!perform_redirections(node_value->redirections))
 		exit_due_to_redirection_failure(program_vars, &exec_params,
-			fixed_program_elements);
+			tokens_and_syntax_tree);
 	if (!exec_params.path)
 		exit_due_to_unfound_command(program_vars, &exec_params,
-			fixed_program_elements, node_value->redirections);
+			tokens_and_syntax_tree, node_value->redirections);
 	execve(exec_params.path, exec_params.args, exec_params.envp);
 	exit_due_to_execve_failure(program_vars, &exec_params,
-		fixed_program_elements, node_value->redirections);
+		tokens_and_syntax_tree, node_value->redirections);
 	return (GENERAL_FAILURE);
 }
 
@@ -53,7 +53,7 @@ static int	locate_and_execute_command(
 // upsert any assignments to local (or to env if already exported)
 int	execute_simple_command(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
@@ -63,12 +63,12 @@ int	execute_simple_command(
 	{
 		if (get_builtin(node_value->arguments->first->value))
 			return (execute_builtin(node,
-					fixed_program_elements, program_vars));
+					tokens_and_syntax_tree, program_vars));
 		if (node->parent && node_is_of_type(node->parent->value, PIPE))
 			return (locate_and_execute_command(node,
-					fixed_program_elements, program_vars));
+					tokens_and_syntax_tree, program_vars));
 		return (execute_in_child_process(locate_and_execute_command, node,
-				fixed_program_elements, program_vars));
+				tokens_and_syntax_tree, program_vars));
 	}
 	else
 	{

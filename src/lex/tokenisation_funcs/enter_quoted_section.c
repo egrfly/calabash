@@ -6,12 +6,11 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:29:35 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 06:23:48 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 08:50:52 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
-#include "ft_list.h"
 #include "ft_string.h"
 #include "../../interface/interface.h"
 #include "../lex.h"
@@ -55,7 +54,8 @@ static bool	reached_backslash_newline_sequence(
 				t_input_tracker *input_tracker)
 {
 	return (get_current_char(input_tracker) == '\\'
-		&& !get_next_char(input_tracker));
+		&& (!get_next_char(input_tracker)
+			|| get_next_char(input_tracker) == '\n'));
 }
 
 bool	enter_quoted_section(
@@ -81,10 +81,11 @@ bool	enter_quoted_section(
 		if (input_tracker->quote_mode != ESCAPED)
 			update_last_opening_quote_details(input_tracker, last_token);
 		if (last_token && !last_token->is_delimited)
-			add_to_token_context_and_advance(input_tracker, last_token);
+			add_to_token_context_and_advance(input_tracker, last_token,
+				&tokens_with_status->out_of_memory);
 		else
 			input_tracker->index_in_line++;
-		return (true);
+		return (!tokens_with_status->out_of_memory);
 	}
 	return (false);
 }

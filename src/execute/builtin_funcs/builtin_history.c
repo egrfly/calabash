@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/10 00:33:30 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ static void	show_history_command_usage(void)
 
 int	builtin_history(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
 	t_list_node					*argument_node;
 
-	(void)fixed_program_elements;
+	(void)tokens_and_syntax_tree;
 	(void)program_vars;
 	node_value = node->value;
 	argument_node = node_value->arguments->first->next;

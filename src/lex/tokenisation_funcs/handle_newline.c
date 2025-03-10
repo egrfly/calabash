@@ -1,46 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   continue_operator.c                                :+:      :+:    :+:   */
+/*   handle_newline.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 14:44:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 08:14:44 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/10 05:05:15 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/10 06:14:08 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "../../interface/interface.h"
 #include "../lex.h"
-#include "../content_utils/content_utils.h"
+#include "../input_utils/input_utils.h"
+#include "../token_lifecycle/token_lifecycle.h"
 #include "../token_utils/token_utils.h"
 
-static bool	is_valid_operator_continuation(
-			t_input_tracker *input_tracker,
-			t_token *last_token)
+static bool	is_valid_newline_start_opportunity(
+				t_input_tracker *input_tracker)
 {
-	return (last_token->type == TYPE_OPERATOR
-		&& input_tracker->quote_mode == UNQUOTED
-		&& some_operator_starts_with_chars(input_tracker->current_input_line,
-			last_token->start_index_in_start_line,
-			input_tracker->index_in_line
-			- last_token->start_index_in_start_line
-			+ 1));
+	return (input_tracker->quote_mode == UNQUOTED
+		&& get_current_char(input_tracker) == '\n');
 }
 
-bool	continue_operator(
+bool	handle_newline(
 			t_input_tracker *input_tracker,
 			t_tokens_with_status *tokens_with_status,
 			t_multiline_options *multiline_options)
 {
-	t_token	*last_token;
-
 	(void)multiline_options;
-	last_token = get_last_token(tokens_with_status->tokens);
-	return (continue_token(
-			input_tracker,
-			last_token,
-			is_valid_operator_continuation,
-			&tokens_with_status->out_of_memory));
+	if (is_valid_newline_start_opportunity(input_tracker)
+		&& start_token(input_tracker,
+			tokens_with_status,
+			create_newline_token))
+	{
+		input_tracker->current_input_line
+			= get_next_char_pointer(input_tracker);
+		input_tracker->line_index++;
+		input_tracker->index_in_line = 0;
+		return (true);
+	}
+	return (false);
 }

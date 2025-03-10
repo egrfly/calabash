@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 19:23:11 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:58 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #include "../../parse/parse.h"
 #include "../../parse/tree_lifecycle/tree_lifecycle.h"
 #include "../interface.h"
-#include "../line_utils/line_utils.h"
+#include "../line_getters/line_getters.h"
 #include "../program_name_utils/program_name_utils.h"
 #include "./token_processors.h"
 
@@ -94,11 +94,10 @@ static int	handle_parsing_error(
 static int	process_syntax_tree(
 				t_list *tokens,
 				t_syntax_tree *syntax_tree,
-				t_multiline_options	*multiline_options,
 				t_program_vars *program_vars)
 {
 	int							parsing_status;
-	t_fixed_program_elements	fixed_program_elements;
+	t_tokens_and_syntax_tree	tokens_and_syntax_tree;
 
 	parsing_status = handle_parsing_error(syntax_tree, tokens,
 			get_program_name());
@@ -106,11 +105,10 @@ static int	process_syntax_tree(
 		return (parsing_status);
 	if (DEBUG_PARSING)
 		return (print_syntax_tree(syntax_tree->tree), SUCCESS);
-	ft_bzero(&fixed_program_elements, sizeof(fixed_program_elements));
-	fixed_program_elements.tokens = tokens;
-	fixed_program_elements.syntax_tree = syntax_tree;
-	fixed_program_elements.multiline_options = multiline_options;
-	return (execute(&fixed_program_elements, program_vars));
+	ft_bzero(&tokens_and_syntax_tree, sizeof(tokens_and_syntax_tree));
+	tokens_and_syntax_tree.tokens = tokens;
+	tokens_and_syntax_tree.syntax_tree = syntax_tree;
+	return (execute(&tokens_and_syntax_tree, program_vars));
 }
 
 static int	handle_lexing_error(
@@ -137,24 +135,27 @@ int	process_tokens(
 		t_multiline_options *multiline_options,
 		t_program_vars *program_vars)
 {
+	int				input_fd;
 	int				lexing_status;
 	t_list			*tokens;
 	t_syntax_tree	*syntax_tree;
 	int				exit_status;
 
+	if (multiline_options->get_next_line
+		== noninteractive_get_next_line_from_file_descriptor)
+		input_fd = *(int *)multiline_options->get_next_line_arg;
+	else
+		input_fd = -1;
 	lexing_status = handle_lexing_error(tokens_with_status, get_program_name());
 	if (lexing_status != SUCCESS)
-		return (lexing_status);
+		return (close(input_fd), lexing_status);
 	tokens = tokens_with_status->tokens;
 	free(tokens_with_status);
 	if (DEBUG_LEXING)
-	{
-		discard_remaining_lines_if_present(multiline_options);
-		return (print_tokens(tokens), SUCCESS);
-	}
+		return (close(input_fd), print_tokens(tokens), SUCCESS);
 	syntax_tree = parse(tokens, multiline_options);
-	exit_status = process_syntax_tree(tokens, syntax_tree,
-			multiline_options, program_vars);
+	close(input_fd);
+	exit_status = process_syntax_tree(tokens, syntax_tree, program_vars);
 	destroy_syntax_tree(syntax_tree);
 	ft_list_destroy(tokens, (t_action_func)destroy_token);
 	return (exit_status);

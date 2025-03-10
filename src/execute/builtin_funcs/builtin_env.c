@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:14:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 01:38:08 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 
 int	builtin_env(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
 	t_list_node					*current_env_node;
 
-	(void)fixed_program_elements;
+	(void)tokens_and_syntax_tree;
 	node_value = node->value;
 	if (node_value->arguments->size > 1
 		&& ft_strcmp(node_value->arguments->first->next->value, "--"))

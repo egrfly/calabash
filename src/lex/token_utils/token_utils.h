@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 04:27:10 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 03:23:33 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 08:14:33 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ bool	continue_token(
 			t_token *last_token,
 			bool (*is_valid_token_continuation)(
 				t_input_tracker *input_tracker,
-				t_token *last_token));
+				t_token *last_token),
+			bool *out_of_memory);
 int		get_token_start_index_in_current_line(
 			int current_line_index,
 			int start_line_index,

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 20:53:57 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 03:10:49 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:31:37 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	delimit_last_token_if_exists(
 	{
 		add_token_trailing_context(
 			token,
-			input_tracker->input,
+			input_tracker->current_input_line,
 			input_tracker->index_in_line);
 		if (token->type == TYPE_WORD)
 			extend_word_token_content(input_tracker,
@@ -32,7 +32,7 @@ void	delimit_last_token_if_exists(
 		if (token->type == TYPE_OPERATOR)
 			token->content.operator
 				= get_operator_token_content(
-					input_tracker->input,
+					input_tracker->current_input_line,
 					token->start_index_in_start_line,
 					input_tracker->index_in_line
 					- token->start_index_in_start_line);

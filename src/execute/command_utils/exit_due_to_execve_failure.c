@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_due_to_execve_failure.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:52:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 01:38:32 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 void	exit_due_to_execve_failure(
 			t_program_vars *program_vars,
 			t_exec_params *exec_params,
-			t_fixed_program_elements *fixed_program_elements,
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 			t_list *redirections)
 {
 	int	exit_status;
@@ -44,6 +44,6 @@ void	exit_due_to_execve_failure(
 	revert_redirections(redirections);
 	destroy_program_vars(program_vars);
 	destroy_exec_params(exec_params);
-	destroy_fixed_program_elements(fixed_program_elements);
+	destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
 	exit(exit_status);
 }

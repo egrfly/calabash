@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 19:17:05 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:39:37 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static const
 	handle_backslash_in_double_quotes,
 	enter_quoted_section,
 	start_operator,
+	handle_newline,
 	continue_whitespace,
 	start_whitespace,
 	continue_word,
@@ -131,12 +132,13 @@ t_tokens_with_status	*lex(
 	input_tracker = ft_calloc(1, sizeof(t_input_tracker));
 	if (!input_tracker)
 		return (NULL);
-	input_tracker->input = input;
+	input_tracker->original_input = input;
+	input_tracker->current_input_line = input;
 	input_tracker->line_index = start_line_index;
 	tokens_with_status
 		= get_tokens_with_status(input_tracker,
 			multiline_options);
-	free(input_tracker->input);
+	free(input_tracker->original_input);
 	free(input_tracker);
 	return (tokens_with_status);
 }

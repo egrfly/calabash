@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   line_utils.h                                       :+:      :+:    :+:   */
+/*   get_next_char_pointer.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/01 01:56:50 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 01:57:18 by emflynn          ###   ########.fr       */
+/*   Created: 2025/02/08 03:54:00 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/10 06:52:46 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LINE_UTILS_H
-# define LINE_UTILS_H
+#include "../lex.h"
 
-# include "../interface.h"
-
-void	discard_remaining_lines_if_present(
-			t_multiline_options *multiline_options);
-
-#endif
+char	*get_next_char_pointer(
+			t_input_tracker *input_tracker)
+{
+	return (&input_tracker->current_input_line[
+			input_tracker->index_in_line + 1]);
+}

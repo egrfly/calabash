@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_due_to_unfound_command.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:50:27 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 01:50:23 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 void	exit_due_to_unfound_command(
 			t_program_vars *program_vars,
 			t_exec_params *exec_params,
-			t_fixed_program_elements *fixed_program_elements,
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 			t_list *redirections)
 {
 	ft_dprintf(STDERR_FILENO, "%s: %s: command not found\n", get_program_name(),
@@ -34,6 +34,6 @@ void	exit_due_to_unfound_command(
 	revert_redirections(redirections);
 	destroy_program_vars(program_vars);
 	destroy_exec_params(exec_params);
-	destroy_fixed_program_elements(fixed_program_elements);
+	destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
 	exit(NOT_FOUND);
 }

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/10 04:23:19 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	try_change_to_dir(
 // TODO: change OLDPWD to use env
 int	builtin_cd(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	static char					*oldpwd = NULL;
@@ -64,7 +64,7 @@ int	builtin_cd(
 	t_list_node					*argument_node;
 	char						*target_path;
 
-	(void)fixed_program_elements;
+	(void)tokens_and_syntax_tree;
 	home_dir = get_variable_value(program_vars->env, "HOME");
 	node_value = node->value;
 	argument_node = node_value->arguments->first->next;

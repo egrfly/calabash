@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 23:33:27 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 
 int	builtin_pwd(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	char	*path;
 
 	(void)node;
-	(void)fixed_program_elements;
+	(void)tokens_and_syntax_tree;
 	(void)program_vars;
 	path = getcwd(NULL, 0);
 	ft_printf("%s\n", path);

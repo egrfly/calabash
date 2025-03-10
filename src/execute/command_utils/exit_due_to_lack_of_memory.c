@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:48:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 16:01:43 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 void	exit_due_to_lack_of_memory(
 			t_program_vars *program_vars,
 			t_exec_params *exec_params,
-			t_fixed_program_elements *fixed_program_elements)
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree)
 {
 	ft_dprintf(STDERR_FILENO, "%s: out of memory\n", get_program_name());
 	destroy_program_vars(program_vars);
 	destroy_exec_params(exec_params);
-	destroy_fixed_program_elements(fixed_program_elements);
+	destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
 	exit(GENERAL_FAILURE);
 }

@@ -6,12 +6,11 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 20:26:28 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 22:23:02 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 08:14:53 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
-#include "ft_list.h"
 #include "../../interface/interface.h"
 #include "../lex.h"
 #include "../token_utils/token_utils.h"
@@ -36,5 +35,6 @@ bool	continue_word(
 	return (continue_token(
 			input_tracker,
 			last_token,
-			is_valid_word_continuation));
+			is_valid_word_continuation,
+			&tokens_with_status->out_of_memory));
 }

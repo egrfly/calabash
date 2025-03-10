@@ -6,12 +6,11 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:26:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 12:18:09 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:31:37 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
-#include "ft_list.h"
 #include "../../interface/interface.h"
 #include "../lex.h"
 #include "../content_utils/content_utils.h"
@@ -22,7 +21,7 @@ static bool	is_valid_operator_start_opportunity(
 				t_input_tracker *input_tracker)
 {
 	return (input_tracker->quote_mode == UNQUOTED
-		&& some_operator_starts_with_chars(input_tracker->input,
+		&& some_operator_starts_with_chars(input_tracker->current_input_line,
 			input_tracker->index_in_line,
 			1));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_in_child_process.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:11:52 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 17:15:03 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 int	execute_in_child_process(
 		t_execution_func execution_func,
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	int		exit_status;
@@ -40,10 +40,10 @@ int	execute_in_child_process(
 			GENERAL_FAILURE);
 	else if (pid == CHILD_PROCESS_ID)
 	{
-		exit_status = execution_func(node, fixed_program_elements,
+		exit_status = execution_func(node, tokens_and_syntax_tree,
 				program_vars);
 		destroy_program_vars(program_vars);
-		destroy_fixed_program_elements(fixed_program_elements);
+		destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
 		exit(exit_status);
 	}
 	waitpid(pid, &exit_status, NO_OPTIONS);

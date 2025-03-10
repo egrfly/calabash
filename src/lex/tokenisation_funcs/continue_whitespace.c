@@ -6,13 +6,12 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:12:05 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 22:24:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 08:14:51 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include "ft_ctype.h"
-#include "ft_list.h"
 #include "../../interface/interface.h"
 #include "../lex.h"
 #include "../input_utils/input_utils.h"
@@ -39,5 +38,6 @@ bool	continue_whitespace(
 	return (continue_token(
 			input_tracker,
 			last_token,
-			is_valid_whitespace_continuation));
+			is_valid_whitespace_continuation,
+			&tokens_with_status->out_of_memory));
 }

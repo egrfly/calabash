@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 03:24:37 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 01:18:10 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static const
 
 int	execute_builtin(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
@@ -96,5 +96,5 @@ int	execute_builtin(
 		return (ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
 				get_program_name(), node_value->arguments->first->value,
 				"builtin not supported"), GENERAL_FAILURE);
-	return (builtin_func(node, fixed_program_elements, program_vars));
+	return (builtin_func(node, tokens_and_syntax_tree, program_vars));
 }

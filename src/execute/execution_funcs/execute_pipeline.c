@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:57:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 19:45:04 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static bool	execute_section_of_pipeline(
 				t_pipeline *pipeline,
 				t_program_vars *program_vars,
 				t_binary_tree_node *node,
-				t_fixed_program_elements *fixed_program_elements)
+				t_tokens_and_syntax_tree *tokens_and_syntax_tree)
 {
 	int	exit_status;
 
@@ -56,9 +56,9 @@ static bool	execute_section_of_pipeline(
 		close_pipe_fds_for_process(pipeline->pipe_fds, pipeline->pipe_count);
 		exit_status = execute_recursively(select_correct_child_to_execute(node,
 					pipeline->current_index == pipeline->pipe_count),
-				fixed_program_elements, program_vars);
+				tokens_and_syntax_tree, program_vars);
 		destroy_pipeline(pipeline);
-		destroy_fixed_program_elements(fixed_program_elements);
+		destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
 		exit(exit_status);
 	}
 	return (true);
@@ -73,7 +73,7 @@ static void	wait_for_all_child_processes(int *exit_status)
 // TODO: check if exit status is random based on order of waiting
 int	execute_pipeline(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	int					exit_status;
@@ -87,7 +87,7 @@ int	execute_pipeline(
 	while (pipeline.current_index <= pipeline.pipe_count)
 	{
 		if (!execute_section_of_pipeline(&pipeline,
-				program_vars, node, fixed_program_elements))
+				program_vars, node, tokens_and_syntax_tree))
 		{
 			ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", get_program_name(),
 				"cannot fork", strerror(errno));

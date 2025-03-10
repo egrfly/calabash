@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/10 01:16:55 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ static bool	is_unsupported_option_sequence(const char *argument)
 
 int	builtin_echo(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
 	t_list_node					*argument_node;
 	bool						print_last_newline;
 
-	(void)fixed_program_elements;
+	(void)tokens_and_syntax_tree;
 	(void)program_vars;
 	node_value = node->value;
 	argument_node = node_value->arguments->first->next;

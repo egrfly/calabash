@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:22:48 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 00:16:11 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 int	builtin_export(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
@@ -35,7 +35,7 @@ int	builtin_export(
 	char						*assignment;
 	size_t						identifier_length;
 
-	(void)fixed_program_elements;
+	(void)tokens_and_syntax_tree;
 	node_value = node->value;
 	if (node_value->arguments->size == 1)
 	{

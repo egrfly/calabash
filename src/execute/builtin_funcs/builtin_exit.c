@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:10:03 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/10 00:13:59 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 int	builtin_exit(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
@@ -53,7 +53,7 @@ int	builtin_exit(
 	else
 	{
 		ft_printf("exit\n");
-		destroy_fixed_program_elements(fixed_program_elements);
+		destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
 		destroy_program_vars(program_vars);
 		exit(exit_code);
 	}

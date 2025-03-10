@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 05:37:03 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 22:01:45 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 int	builtin_unset(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
@@ -33,7 +33,7 @@ int	builtin_unset(
 	size_t						argument_length;
 	size_t						identifier_length;
 
-	(void)fixed_program_elements;
+	(void)tokens_and_syntax_tree;
 	node_value = node->value;
 	argument_node = node_value->arguments->first->next;
 	if (ft_strstarts(argument_node->value, "-")

@@ -6,13 +6,12 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 00:50:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 20:55:00 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 07:20:36 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include "ft_list.h"
 #include "ft_stdio.h"
 #include "../../interface/interface.h"
 #include "../lex.h"
@@ -32,8 +31,9 @@ static void	update_input_tracker_with_next_line_of_input_if_available(
 			multiline_options->get_next_line_arg);
 	if (next_line_of_input)
 	{
-		free(input_tracker->input);
-		input_tracker->input = next_line_of_input;
+		free(input_tracker->original_input);
+		input_tracker->original_input = next_line_of_input;
+		input_tracker->current_input_line = next_line_of_input;
 		input_tracker->line_index++;
 		input_tracker->index_in_line = 0;
 	}
@@ -54,7 +54,6 @@ bool	get_next_line_if_quoted_and_out_of_input(
 		last_token = get_last_token(tokens_with_status->tokens);
 		if (last_token && !last_token->is_delimited)
 		{
-			handle_newline_in_token_context(input_tracker, last_token);
 			extend_word_token_content(input_tracker, last_token,
 				in_escaped_section(input_tracker),
 				&tokens_with_status->out_of_memory);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_utils.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:40:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 01:39:39 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,20 @@ void	destroy_exec_params(
 void	exit_due_to_lack_of_memory(
 			t_program_vars *program_vars,
 			t_exec_params *exec_params,
-			t_fixed_program_elements *fixed_program_elements);
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree);
 void	exit_due_to_redirection_failure(
 			t_program_vars *program_vars,
 			t_exec_params *exec_params,
-			t_fixed_program_elements *fixed_program_elements);
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree);
 void	exit_due_to_unfound_command(
 			t_program_vars *program_vars,
 			t_exec_params *exec_params,
-			t_fixed_program_elements *fixed_program_elements,
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 			t_list *redirections);
 void	exit_due_to_execve_failure(
 			t_program_vars *program_vars,
 			t_exec_params *exec_params,
-			t_fixed_program_elements *fixed_program_elements,
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 			t_list *redirections);
 
 #endif
