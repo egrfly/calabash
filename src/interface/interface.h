@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 19:16:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 11:57:01 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ typedef struct s_multiline_options
 
 typedef struct s_program_vars
 {
-	t_list	*env;
-	t_list	*local;
+	t_list	*vars;
 }	t_program_vars;
 
 int	interface(int argc, char **argv, char **envp);

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:40:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 11:57:01 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ bool	init_exec_params(
 			t_exec_params *exec_params,
 			t_list *arguments,
 			t_list *assignments,
-			t_list *env);
+			t_list *vars);
 void	destroy_exec_params(
 			t_exec_params *exec_params);
 void	exit_due_to_lack_of_memory(

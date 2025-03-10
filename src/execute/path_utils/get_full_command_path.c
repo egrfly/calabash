@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 16:53:16 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 12:13:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static bool	use_regular_file(char **path, char *full_command_path)
 bool	get_full_command_path(
 			char **path,
 			char *command,
-			char *path_variable)
+			char *path_var)
 {
 	char	**path_options;
 	int		i;
@@ -55,9 +55,9 @@ bool	get_full_command_path(
 
 	if (ft_strchr(command, '/'))
 		return (keep_absolute_or_relative_path(path, command));
-	if (!path_variable)
+	if (!path_var)
 		return (COMMAND_NOT_FOUND);
-	path_options = ft_split(path_variable, ":");
+	path_options = ft_split(path_var, ":");
 	if (!path_options)
 		return (OUT_OF_MEMORY);
 	i = 0;

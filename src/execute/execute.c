@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 09:17:37 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 15:35:17 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	execute_recursively(
 	return (SUCCESS);
 }
 
-// TODO: add some default env vars like PWD, OLDPWD, SHELL, SHLVL etc.
 int	execute(
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)

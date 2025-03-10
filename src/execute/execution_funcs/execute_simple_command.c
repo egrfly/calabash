@@ -6,10 +6,11 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 09:17:13 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 14:59:10 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
 #include <unistd.h>
 #include "ft_binary_tree.h"
 #include "../../main.h"
@@ -21,7 +22,25 @@
 #include "../command_utils/command_utils.h"
 #include "../execution_utils/execution_utils.h"
 #include "../redirection_utils/redirection_utils.h"
+#include "../var_utils/var_utils.h"
 #include "./execution_funcs.h"
+
+static bool	perform_assignments(
+				t_list *assignments,
+				t_list *vars)
+{
+	t_list_node	*current_assignment_node;
+
+	current_assignment_node = assignments->first;
+	while (current_assignment_node)
+	{
+		if (!upsert_var(current_assignment_node->value, vars,
+				UNCHANGED_OR_NOT_EXPORTED))
+			return (false);
+		current_assignment_node = current_assignment_node->next;
+	}
+	return (true);
+}
 
 static int	locate_and_execute_command(
 				t_binary_tree_node *node,
@@ -33,7 +52,7 @@ static int	locate_and_execute_command(
 
 	node_value = node->value;
 	if (!init_exec_params(&exec_params, node_value->arguments,
-			node_value->assignments, program_vars->env))
+			node_value->assignments, program_vars->vars))
 		exit_due_to_lack_of_memory(program_vars, &exec_params,
 			tokens_and_syntax_tree);
 	if (!perform_redirections(node_value->redirections))
@@ -48,9 +67,6 @@ static int	locate_and_execute_command(
 	return (GENERAL_FAILURE);
 }
 
-// TODO: figure out what to do in the case of assignments and redirections only
-// TODO: in the case of assignments and/or redirections only:
-// upsert any assignments to local (or to env if already exported)
 int	execute_simple_command(
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
@@ -72,10 +88,9 @@ int	execute_simple_command(
 		return (execute_in_child_process(locate_and_execute_command, node,
 				tokens_and_syntax_tree, program_vars));
 	}
-	else
-	{
-		perform_redirections(node_value->redirections);
-		revert_redirections(node_value->redirections);
-	}
-	return (SUCCESS);
+	if (!perform_redirections(node_value->redirections))
+		return (GENERAL_FAILURE);
+	if (!perform_assignments(node_value->assignments, program_vars->vars))
+		return (revert_redirections(node_value->redirections), GENERAL_FAILURE);
+	return (revert_redirections(node_value->redirections), SUCCESS);
 }
