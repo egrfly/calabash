@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:10:03 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 23:15:23 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ int	builtin_exit(
 {
 	t_syntax_tree_node_value	*node_value;
 	t_list_node					*argument_node;
-	int							exit_code;
+	long						exit_code;
 
 	node_value = node->value;
 	argument_node = node_value->arguments->first->next;
 	exit_code = SUCCESS;
-	if (argument_node && !ft_strtoi(argument_node->value, &exit_code))
+	if (argument_node && !ft_strtol(argument_node->value, &exit_code))
 	{
 		return (ft_dprintf(STDERR_FILENO,
 				"%s: exit: numeric argument required\n",

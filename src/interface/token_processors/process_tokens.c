@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:58 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 23:03:45 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include "../../parse/parse.h"
 #include "../../parse/tree_lifecycle/tree_lifecycle.h"
 #include "../interface.h"
+#include "../file_utils/file_utils.h"
 #include "../line_getters/line_getters.h"
 #include "../program_name_utils/program_name_utils.h"
 #include "./token_processors.h"
@@ -148,13 +149,13 @@ int	process_tokens(
 		input_fd = -1;
 	lexing_status = handle_lexing_error(tokens_with_status, get_program_name());
 	if (lexing_status != SUCCESS)
-		return (close(input_fd), lexing_status);
+		return (close_if_opened(input_fd), lexing_status);
 	tokens = tokens_with_status->tokens;
 	free(tokens_with_status);
 	if (DEBUG_LEXING)
-		return (close(input_fd), print_tokens(tokens), SUCCESS);
+		return (close_if_opened(input_fd), print_tokens(tokens), SUCCESS);
 	syntax_tree = parse(tokens, multiline_options);
-	close(input_fd);
+	close_if_opened(input_fd);
 	exit_status = process_syntax_tree(tokens, syntax_tree, program_vars);
 	destroy_syntax_tree(syntax_tree);
 	ft_list_destroy(tokens, (t_action_func)destroy_token);
