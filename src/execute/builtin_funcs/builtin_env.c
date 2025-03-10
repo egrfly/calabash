@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:14:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 21:58:42 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 01:38:08 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	builtin_env(
 	(void)fixed_program_elements;
 	node_value = node->value;
 	if (node_value->arguments->size > 1
-		&& !ft_strcmp(node_value->arguments->first->next->value, "--"))
+		&& ft_strcmp(node_value->arguments->first->next->value, "--"))
 		return (ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
 				get_program_name(), node_value->arguments->first->value,
 				"options/arguments not supported"), GENERAL_FAILURE);
