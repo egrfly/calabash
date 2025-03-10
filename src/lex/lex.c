@@ -6,14 +6,17 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/02 19:10:58 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 09:10:44 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <signal.h>
 #include <stdlib.h>
 #include "ft_list.h"
 #include "ft_stdlib.h"
 #include "../interface/interface.h"
+#include "../interface/line_getters/line_getters.h"
+#include "../execute/signals/signals.h"
 #include "./lex.h"
 #include "./token_lifecycle/token_lifecycle.h"
 #include "./tokenisation_funcs/tokenisation_funcs.h"
@@ -37,6 +40,7 @@ static const
 	handle_backslash_in_double_quotes,
 	enter_quoted_section,
 	start_operator,
+	handle_newline,
 	continue_whitespace,
 	start_whitespace,
 	continue_word,
@@ -107,7 +111,8 @@ static t_tokens_with_status	*get_tokens_with_status(
 				tokens_with_status->input_terminated_prematurely = true;
 			return (tokens_with_status);
 		}
-		if (tokens_with_status->out_of_memory
+		if (g_signal == SIGINT
+			|| tokens_with_status->out_of_memory
 			|| tokens_with_status->contains_unsupported_features
 			|| !any_non_terminating_tokenisation_func_called_without_error(
 				input_tracker, multiline_options,
@@ -128,12 +133,14 @@ t_tokens_with_status	*lex(
 	input_tracker = ft_calloc(1, sizeof(t_input_tracker));
 	if (!input_tracker)
 		return (NULL);
-	input_tracker->input = input;
+	input_tracker->original_input = input;
+	input_tracker->current_input_line = input;
 	input_tracker->line_index = start_line_index;
 	tokens_with_status
 		= get_tokens_with_status(input_tracker,
 			multiline_options);
-	free(input_tracker->input);
+	if (multiline_options->get_next_line != noninteractive_get_null_line)
+		free(input_tracker->original_input);
 	free(input_tracker);
 	return (tokens_with_status);
 }

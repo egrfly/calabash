@@ -6,12 +6,11 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 00:52:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 02:33:05 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:31:37 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
-#include "ft_list.h"
 #include "../../interface/interface.h"
 #include "../lex.h"
 #include "../input_utils/input_utils.h"
@@ -23,7 +22,7 @@ static bool	is_valid_end_of_input_instance(
 {
 	return (input_tracker->is_out_of_lines
 		|| (input_tracker->quote_mode == UNQUOTED
-			&& (!input_tracker->input
+			&& (!input_tracker->current_input_line
 				|| !get_current_char(input_tracker))));
 }
 

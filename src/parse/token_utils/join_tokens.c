@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_path_variable.c                                :+:      :+:    :+:   */
+/*   join_tokens.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 19:57:40 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/05 20:46:01 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/08 22:13:12 by aistok            #+#    #+#             */
+/*   Updated: 2025/03/09 19:03:58 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_list.h"
-#include "ft_string.h"
+#include "../../lex/lex.h"
+#include "./token_utils.h"
 
-char	*get_path_variable(
-			t_list *env)
+void	join_tokens(
+			t_list_node *current_token_node,
+			t_tokens_with_status *next_line_tokens)
 {
-	t_list_node	*env_node;
-
-	env_node = env->first;
-	while (env_node)
-	{
-		if (ft_strstarts(env_node->value, "PATH="))
-			return (&ft_strchr(env_node->value, '=')[1]);
-		env_node = env_node->next;
-	}
-	return (NULL);
+	set_token_type(current_token_node->value, TYPE_NEWLINE);
+	ft_list_splicenodes(current_token_node, next_line_tokens->tokens->first);
+	free(next_line_tokens);
 }

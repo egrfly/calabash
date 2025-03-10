@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 03:00:45 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 09:21:38 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 15:18:38 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include "ft_list.h"
 #include "ft_string.h"
 #include "../../interface/list_utils/list_utils.h"
-#include "../assignment_utils/assignment_utils.h"
 #include "../path_utils/path_utils.h"
+#include "../var_utils/var_utils.h"
 #include "./command_utils.h"
 
 static const
@@ -31,22 +31,23 @@ static const
 };
 
 static t_list	*get_env_with_new_assignments(
-					t_list *env,
+					t_list *vars,
 					t_list *assignments)
 {
-	t_list	*env_with_new_assignments;
-	t_list	*new_assignments;
+	t_list		*env_with_new_assignments;
+	t_list_node	*new_assignment_node;
 
-	env_with_new_assignments = ft_list_shallowcopy(env);
-	new_assignments = ft_list_shallowcopy(assignments);
-	if (!env_with_new_assignments || !new_assignments)
-	{
-		ft_list_destroy(env_with_new_assignments, NULL);
-		ft_list_destroy(new_assignments, NULL);
+	env_with_new_assignments = get_exported_vars(vars);
+	if (!env_with_new_assignments)
 		return (NULL);
+	new_assignment_node = assignments->first;
+	while (new_assignment_node)
+	{
+		if (!upsert_var(new_assignment_node->value, env_with_new_assignments,
+				EXPORTED))
+			return (ft_list_destroy(env_with_new_assignments, NULL), NULL);
+		new_assignment_node = new_assignment_node->next;
 	}
-	ft_list_merge(env_with_new_assignments, new_assignments);
-	filter_out_duplicate_assignments(env_with_new_assignments);
 	return (env_with_new_assignments);
 }
 
@@ -85,7 +86,7 @@ bool	init_exec_params(
 			t_exec_params *exec_params,
 			t_list *arguments,
 			t_list *assignments,
-			t_list *env)
+			t_list *vars)
 {
 	t_list	*arguments_with_colourisation;
 	t_list	*env_with_new_assignments;
@@ -93,11 +94,11 @@ bool	init_exec_params(
 	ft_bzero(exec_params, sizeof(t_exec_params));
 	exec_params->command = arguments->first->value;
 	if (!get_full_command_path(&exec_params->path, exec_params->command,
-			get_path_variable(env)))
+			get_var_value("PATH", vars)))
 		return (false);
 	arguments_with_colourisation = get_arguments_with_colourisation(
 			exec_params->path, arguments);
-	env_with_new_assignments = get_env_with_new_assignments(env, assignments);
+	env_with_new_assignments = get_env_with_new_assignments(vars, assignments);
 	if (arguments_with_colourisation && env_with_new_assignments)
 	{
 		exec_params->args = get_values_from_list(arguments_with_colourisation);

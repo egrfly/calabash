@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:49:50 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 21:09:30 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 20:51:44 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include "ft_list.h"
 #include "ft_stdio.h"
+#include "../../execute/signals/signals.h"
 #include "../../interface/interface.h"
 #include "../../lex/lex.h"
 #include "../parse.h"
@@ -25,8 +26,9 @@ static void	consume_available_multiline_whitespace_tokens(
 				t_list_node **current_token_node,
 				t_tokens_consumed_counts *whitespace_tokens_consumed_counts)
 {
-	while (token_is_of_type((*current_token_node)->value, TYPE_NEWLINE)
-		|| token_is_of_type((*current_token_node)->value, TYPE_WHITESPACE))
+	while (*current_token_node
+		&& (token_is_of_type((*current_token_node)->value, TYPE_NEWLINE)
+			|| token_is_of_type((*current_token_node)->value, TYPE_WHITESPACE)))
 	{
 		consume_token((*current_token_node)->value);
 		whitespace_tokens_consumed_counts->total++;
@@ -34,15 +36,6 @@ static void	consume_available_multiline_whitespace_tokens(
 			whitespace_tokens_consumed_counts->newlines++;
 		*current_token_node = (*current_token_node)->next;
 	}
-}
-
-static void	join_tokens(
-				t_list_node *current_token_node,
-				t_tokens_with_status *next_line_tokens)
-{
-	set_token_type(current_token_node->value, TYPE_NEWLINE);
-	ft_list_splicenodes(current_token_node, next_line_tokens->tokens->first);
-	free(next_line_tokens);
 }
 
 static void	propagate_lexing_errors(
@@ -71,19 +64,18 @@ static bool	prompt_more_while_at_end_of_input(
 	char					*next_line;
 	t_tokens_with_status	*next_line_tokens;
 
-	while (token_is_of_type((*current_token_node)->value, TYPE_END_OF_INPUT)
+	while (*current_token_node
+		&& token_is_of_type((*current_token_node)->value, TYPE_END_OF_INPUT)
 		&& !tree_has_errors(syntax_tree))
 	{
 		next_line = multiline_options->get_next_line(
 				multiline_options->get_next_line_arg);
-		if (!next_line)
+		if (g_signal == SIGINT || !next_line)
 		{
-			if (multiline_options->input_mode_is_interactive)
-				ft_printf("\n");
+			free(next_line);
 			break ;
 		}
-		next_line_tokens
-			= lex(next_line, multiline_options,
+		next_line_tokens = lex(next_line, multiline_options,
 				get_post_token_line_index((*current_token_node)->value));
 		propagate_lexing_errors(next_line_tokens, syntax_tree);
 		if (!next_line_tokens)

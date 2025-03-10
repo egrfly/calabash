@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:21:28 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/04 04:51:11 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:31:46 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ t_tokens_with_status	*lex(char *input,
 
 typedef struct s_input_tracker
 {
-	char			*input;
+	char			*original_input;
+	char			*current_input_line;
 	int				line_index;
 	int				index_in_line;
 	t_quote_mode	quote_mode;

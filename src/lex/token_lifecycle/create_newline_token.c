@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_newline_in_token_context.c                  :+:      :+:    :+:   */
+/*   create_newline_token.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 17:42:44 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/11 20:01:57 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/10 05:11:44 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/10 05:23:53 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
+#include <stdbool.h>
 #include "../lex.h"
-#include "../input_utils/input_utils.h"
+#include "./token_lifecycle.h"
 
-static void	remove_last_backslash_from_token_context(
-				t_token *token)
+static bool	set_newline_specific_properties(t_token *token)
 {
-	token->surrounding_context[ft_strlen(token->surrounding_context) - 1]
-		= '\0';
-	token->length_in_context--;
+	token->type = TYPE_NEWLINE;
+	token->length_in_context = BLANK_TOKEN_LENGTH_IN_CONTEXT;
+	token->is_delimited = true;
+	token->end_line_index = token->start_line_index;
+	return (true);
 }
 
-void	handle_newline_in_token_context(
+t_token	*create_newline_token(
 			t_input_tracker *input_tracker,
-			t_token *token)
+			bool *out_of_memory)
 {
-	if (in_escaped_section(input_tracker))
-		remove_last_backslash_from_token_context(token);
-	else
-		token->context_was_truncated = true;
+	return (create_token(input_tracker,
+			set_newline_specific_properties,
+			out_of_memory));
 }

@@ -6,12 +6,11 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:44:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 22:23:27 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 08:14:44 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
-#include "ft_list.h"
 #include "../../interface/interface.h"
 #include "../lex.h"
 #include "../content_utils/content_utils.h"
@@ -23,7 +22,7 @@ static bool	is_valid_operator_continuation(
 {
 	return (last_token->type == TYPE_OPERATOR
 		&& input_tracker->quote_mode == UNQUOTED
-		&& some_operator_starts_with_chars(input_tracker->input,
+		&& some_operator_starts_with_chars(input_tracker->current_input_line,
 			last_token->start_index_in_start_line,
 			input_tracker->index_in_line
 			- last_token->start_index_in_start_line
@@ -42,5 +41,6 @@ bool	continue_operator(
 	return (continue_token(
 			input_tracker,
 			last_token,
-			is_valid_operator_continuation));
+			is_valid_operator_continuation,
+			&tokens_with_status->out_of_memory));
 }

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 16:00:41 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 15:35:17 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static const
 [CASE_COMMAND] = NULL,
 [FUNCTION] = NULL,
 [PIPE] = execute_pipeline,
-[PIPE_BOTH] = NULL,
+[PIPE_BOTH] = execute_pipeline,
 [TIME_COMMAND] = NULL,
 [NEGATION] = execute_negation,
 [OR] = execute_conditional_or,
@@ -44,7 +44,7 @@ static const
 
 int	execute_recursively(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	t_syntax_tree_node_value	*node_value;
@@ -55,16 +55,15 @@ int	execute_recursively(
 	node_value = node->value;
 	execution_func = g_execution_funcs[node_value->type];
 	if (execution_func)
-		return (execution_func(node, fixed_program_elements,
+		return (execution_func(node, tokens_and_syntax_tree,
 				program_vars));
 	return (SUCCESS);
 }
 
-// TODO: add some default env vars like PWD, OLDPWD, SHELL, SHLVL etc.
 int	execute(
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
-	return (execute_recursively(fixed_program_elements->syntax_tree->tree->root,
-			fixed_program_elements, program_vars));
+	return (execute_recursively(tokens_and_syntax_tree->syntax_tree->tree->root,
+			tokens_and_syntax_tree, program_vars));
 }

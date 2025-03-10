@@ -6,21 +6,32 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:25:48 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 09:03:56 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 09:44:46 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_binary_tree.h"
+#include "../../main.h"
 #include "../../interface/interface.h"
 #include "../execute.h"
+#include "../command_utils/command_utils.h"
 #include "../execution_utils/execution_utils.h"
+#include "../redirection_utils/redirection_utils.h"
 
-// TODO: these can have redirections
 int	execute_subshell(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
-	return (execute_in_child_process(execute_recursively, node->primary_child,
-			fixed_program_elements, program_vars));
+	t_syntax_tree_node_value	*node_value;
+	int							exit_status;
+
+	node_value = node->value;
+	if (!perform_redirections(node_value->redirections))
+		exit_due_to_redirection_failure(program_vars, NO_ARG,
+			tokens_and_syntax_tree);
+	exit_status = execute_in_child_process(execute_recursively,
+			node->primary_child, tokens_and_syntax_tree, program_vars);
+	revert_redirections(node_value->redirections);
+	return (exit_status);
 }

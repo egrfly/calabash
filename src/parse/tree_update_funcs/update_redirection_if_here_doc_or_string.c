@@ -6,12 +6,13 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 11:47:25 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 17:04:59 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 19:17:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <limits.h>
+#include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,6 +22,7 @@
 #include "ft_stdio.h"
 #include "ft_string.h"
 #include "../../main.h"
+#include "../../execute/signals/signals.h"
 #include "../../interface/program_name_utils/program_name_utils.h"
 #include "../../lex/lex.h"
 #include "../parse.h"
@@ -52,7 +54,8 @@ static bool	add_here_doc_content_to_temp_file(
 		return (ft_dprintf(STDERR_FILENO, "%s: here-document failure\n",
 				get_program_name()), false);
 	line = readline("> ");
-	while (line && ft_strcmp(adjust_line_start_if_necessary(line,
+	while (g_signal != SIGINT && line
+		&& ft_strcmp(adjust_line_start_if_necessary(line,
 				should_strip_leading_tabs), delimiter))
 	{
 		if (ft_dprintf(fd, "%s\n", adjust_line_start_if_necessary(line,
@@ -62,6 +65,8 @@ static bool	add_here_doc_content_to_temp_file(
 		free(line);
 		line = readline("> ");
 	}
+	if (g_signal == SIGINT)
+		return (free(line), close(fd), false);
 	if (!line)
 		ft_dprintf(STDERR_FILENO, "%s: warning: here-document delimited "
 			"by end-of-file (wanted `%s')\n", get_program_name(), delimiter);
@@ -119,7 +124,8 @@ bool	update_redirection_if_here_doc_or_string(
 		|| last_redirection->operator == LESS_LESS)
 	{
 		make_temp_file(temp_file_path, syntax_tree, current_token_node->parent);
-		if (!add_here_doc_or_string_content_to_temp_file(last_redirection,
+		if (g_signal == SIGINT
+			|| !add_here_doc_or_string_content_to_temp_file(last_redirection,
 				temp_file_path))
 		{
 			syntax_tree->here_doc_failure = true;

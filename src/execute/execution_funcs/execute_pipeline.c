@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:57:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 15:57:25 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 09:20:57 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ static bool	execute_section_of_pipeline(
 				t_pipeline *pipeline,
 				t_program_vars *program_vars,
 				t_binary_tree_node *node,
-				t_fixed_program_elements *fixed_program_elements)
+				t_tokens_and_syntax_tree *tokens_and_syntax_tree)
 {
-	int	exit_status;
+	t_syntax_tree_node_value	*node_value;
+	int							exit_status;
 
 	pipeline->pids[pipeline->current_index] = fork();
 	if (pipeline->pids[pipeline->current_index] == FORK_FAILURE)
@@ -51,25 +52,32 @@ static bool	execute_section_of_pipeline(
 				pipeline->pipe_count), false);
 	else if (pipeline->pids[pipeline->current_index] == CHILD_PROCESS_ID)
 	{
-		fixed_program_elements->active_pipeline = pipeline;
+		node_value = node->value;
 		reroute_standard_input_if_necessary(pipeline);
 		reroute_standard_output_if_necessary(pipeline);
+		if (node_value->type == PIPE_BOTH)
+			reroute_standard_error_if_necessary(pipeline);
 		close_pipe_fds_for_process(pipeline->pipe_fds, pipeline->pipe_count);
 		exit_status = execute_recursively(select_correct_child_to_execute(node,
 					pipeline->current_index == pipeline->pipe_count),
-				fixed_program_elements, program_vars);
+				tokens_and_syntax_tree, program_vars);
 		destroy_pipeline(pipeline);
-		destroy_fixed_program_elements(fixed_program_elements);
+		destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
 		exit(exit_status);
 	}
 	return (true);
 }
 
-// TODO: look into macros like WIFEXITED, WEXITSTATUS, WIFSIGNALED etc.
+static void	wait_for_all_child_processes(int *exit_status)
+{
+	while (wait(exit_status) > 0)
+		;
+}
+
 // TODO: check if exit status is random based on order of waiting
 int	execute_pipeline(
 		t_binary_tree_node *node,
-		t_fixed_program_elements *fixed_program_elements,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars)
 {
 	int					exit_status;
@@ -83,7 +91,7 @@ int	execute_pipeline(
 	while (pipeline.current_index <= pipeline.pipe_count)
 	{
 		if (!execute_section_of_pipeline(&pipeline,
-				program_vars, node, fixed_program_elements))
+				program_vars, node, tokens_and_syntax_tree))
 		{
 			ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", get_program_name(),
 				"cannot fork", strerror(errno));
@@ -94,7 +102,7 @@ int	execute_pipeline(
 			node = node->primary_child;
 	}
 	close_pipe_fds_for_process(pipeline.pipe_fds, pipeline.pipe_count);
-	while (wait(&exit_status) > 0)
-		;
-	return (destroy_pipeline(&pipeline), exit_status);
+	wait_for_all_child_processes(&exit_status);
+	destroy_pipeline(&pipeline);
+	return (try_decode_exit_status(exit_status, GENERAL_FAILURE));
 }

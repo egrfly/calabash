@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try_get_redirection_word.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 04:43:57 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:37:11 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 01:20:39 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	try_get_redirection_word(
 	(void)arg;
 	(void)syntax_tree;
 	(void)multiline_options;
+	if (!*current_token_node)
+		return (0);
 	current_token = (*current_token_node)->value;
 	if (current_token->type == TYPE_WORD)
 	{

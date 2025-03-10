@@ -6,11 +6,12 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 16:00:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 03:43:20 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -20,9 +21,14 @@
 #include "../../main.h"
 #include "../../lex/lex.h"
 #include "../../lex/tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
+#include "../../execute/signals/signals.h"
 #include "../interface.h"
+#include "../command_history_utils/command_history_utils.h"
 #include "../line_getters/line_getters.h"
+#include "../prompt_utils/prompt_utils.h"
 #include "../token_processors/token_processors.h"
+
+#define PROMPT_MAX 256
 
 static void	print_banner_if_available(void)
 {
@@ -32,6 +38,8 @@ static void	print_banner_if_available(void)
 	banner_file_fd = open("calabash.txt", O_RDONLY);
 	if (banner_file_fd > -1)
 	{
+		ft_printf("----------------------------------------"
+			"----------------------------------------\n");
 		banner_file_line = ft_getline(banner_file_fd);
 		while (banner_file_line)
 		{
@@ -43,29 +51,51 @@ static void	print_banner_if_available(void)
 	}
 }
 
+static void	enter_interactive_mode(
+				t_multiline_options *multiline_options)
+{
+	multiline_options->input_mode_is_interactive = true;
+	multiline_options->get_next_line
+		= interactive_get_next_line_from_standard_input;
+	multiline_options->get_next_line_arg = NO_ARG;
+	install_signal_handlers();
+	toggle_terminal_echoctl_suppression(true);
+	print_banner_if_available();
+}
+
+static void	exit_interactive_mode(void)
+{
+	toggle_terminal_echoctl_suppression(false);
+	access_command_history(DELETE, NO_ARG);
+	ft_printf("exit\n");
+}
+
 int	process_interactive_input(
 		t_program_vars *program_vars)
 {
 	t_multiline_options		multiline_options;
+	char					prompt[PROMPT_MAX];
 	char					*input;
 	t_tokens_with_status	*tokens_with_status;
 	int						latest_exit_code;
 
-	multiline_options.input_mode_is_interactive = true;
-	multiline_options.get_next_line
-		= interactive_get_next_line_from_standard_input;
-	multiline_options.get_next_line_arg = NO_ARG;
-	print_banner_if_available();
+	enter_interactive_mode(&multiline_options);
 	latest_exit_code = SUCCESS;
 	while (true)
 	{
-		input = readline("\033[32mcalabash\033[36m>\033[0m ");
+		update_command_prompt(prompt, latest_exit_code);
+		input = readline(prompt);
+		access_command_history(SET, input);
 		if (!input)
 			break ;
 		tokens_with_status = lex(input, &multiline_options, DEFAULT_LINE_INDEX);
-		latest_exit_code = process_tokens(tokens_with_status,
-				&multiline_options, program_vars);
+		if (g_signal != SIGINT)
+			latest_exit_code = process_tokens(tokens_with_status,
+					&multiline_options, program_vars);
+		else
+			latest_exit_code = SIGNAL_BASE + g_signal;
+		mark_global_signal_as_processed();
 	}
-	ft_printf("\n");
+	exit_interactive_mode();
 	return (latest_exit_code);
 }

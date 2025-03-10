@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 04:50:53 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 12:46:48 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:35:40 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ bool	enter_quoted_section(
 			t_tokens_with_status *tokens_with_status,
 			t_multiline_options *multiline_options);
 bool	start_operator(
+			t_input_tracker *input_tracker,
+			t_tokens_with_status *tokens_with_status,
+			t_multiline_options *multiline_options);
+bool	handle_newline(
 			t_input_tracker *input_tracker,
 			t_tokens_with_status *tokens_with_status,
 			t_multiline_options *multiline_options);

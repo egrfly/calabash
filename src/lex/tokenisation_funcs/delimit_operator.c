@@ -6,12 +6,11 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 15:44:21 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/25 22:23:27 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 05:31:37 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
-#include "ft_list.h"
 #include "../../interface/interface.h"
 #include "../lex.h"
 #include "../content_utils/content_utils.h"
@@ -23,7 +22,7 @@ static bool	is_not_valid_operator_continuation(
 			t_token *last_token)
 {
 	return (last_token->type == TYPE_OPERATOR
-		&& !some_operator_starts_with_chars(input_tracker->input,
+		&& !some_operator_starts_with_chars(input_tracker->current_input_line,
 			last_token->start_index_in_start_line,
 			input_tracker->index_in_line
 			- last_token->start_index_in_start_line
@@ -43,11 +42,11 @@ bool	delimit_operator(
 		&& is_not_valid_operator_continuation(input_tracker, last_token))
 	{
 		add_token_trailing_context(last_token,
-			input_tracker->input,
+			input_tracker->current_input_line,
 			input_tracker->index_in_line);
 		last_token->content.operator
 			= get_operator_token_content(
-				input_tracker->input,
+				input_tracker->current_input_line,
 				last_token->start_index_in_start_line,
 				input_tracker->index_in_line
 				- last_token->start_index_in_start_line);

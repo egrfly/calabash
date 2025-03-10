@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 01:20:56 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/01 20:55:39 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 08:30:24 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,18 @@ t_token	*create_token(
 	t_token	*new_token;
 
 	new_token = ft_calloc(1, sizeof(t_token));
-	if (!new_token)
-	{
-		*out_of_memory = true;
-		return (NULL);
-	}
-	new_token->start_line_index = input_tracker->line_index;
-	new_token->start_index_in_start_line = input_tracker->index_in_line;
-	add_token_leading_context(new_token,
-		input_tracker->input, input_tracker->index_in_line);
-	new_token->start_index_in_context
-		= get_token_start_index_in_context(input_tracker->index_in_line);
-	new_token->is_supported = true;
-	if (!set_type_specific_properties(new_token))
+	if (!new_token || !set_type_specific_properties(new_token))
 	{
 		*out_of_memory = true;
 		destroy_token(new_token);
 		return (NULL);
 	}
+	new_token->start_line_index = input_tracker->line_index;
+	new_token->start_index_in_start_line = input_tracker->index_in_line;
+	add_token_leading_context(new_token,
+		input_tracker->current_input_line, input_tracker->index_in_line);
+	new_token->start_index_in_context
+		= get_token_start_index_in_context(input_tracker->index_in_line);
+	new_token->is_supported = true;
 	return (new_token);
 }

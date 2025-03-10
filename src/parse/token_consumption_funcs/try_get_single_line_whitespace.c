@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try_get_single_line_whitespace.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 04:31:29 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:47:30 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/09 01:20:06 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	try_get_single_line_whitespace(
 	(void)syntax_tree;
 	(void)multiline_options;
 	tokens_consumed_count = 0;
+	if (!*current_token_node)
+		return (0);
 	current_token = (*current_token_node)->value;
 	while (current_token->type == TYPE_WHITESPACE)
 	{

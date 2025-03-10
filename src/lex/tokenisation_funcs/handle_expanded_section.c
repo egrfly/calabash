@@ -6,14 +6,13 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:57:41 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 03:50:32 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 09:03:10 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stdlib.h>
 #include "ft_ctype.h"
-#include "ft_list.h"
 #include "ft_string.h"
 #include "../../interface/interface.h"
 #include "../lex.h"
@@ -66,7 +65,8 @@ static t_expansion_mode	get_expansion_mode(
 
 static void	handle_variable_expansion_without_braces(
 				t_input_tracker *input_tracker,
-				t_token *last_token)
+				t_token *last_token,
+				bool *out_of_memory)
 {
 	size_t	i;
 
@@ -74,25 +74,30 @@ static void	handle_variable_expansion_without_braces(
 	while (i < ft_strlen(g_expansion_opening_symbols[
 				VARIABLE_EXPANSION_WITHOUT_BRACES]))
 	{
-		add_to_token_context_and_advance(input_tracker, last_token);
+		add_to_token_context_and_advance(input_tracker, last_token,
+			out_of_memory);
 		i++;
 	}
-	if (get_current_char(input_tracker)
+	if (!get_current_char(input_tracker)
 		&& ft_strchr("@*#?-$!0123456789", get_current_char(input_tracker)))
-		add_to_token_context_and_advance(input_tracker, last_token);
-	else if (ft_isalpha(get_current_char(input_tracker))
-		|| get_current_char(input_tracker) == '_')
+		add_to_token_context_and_advance(input_tracker, last_token,
+			out_of_memory);
+	else if ((ft_isalpha(get_current_char(input_tracker))
+			|| get_current_char(input_tracker) == '_'))
 	{
-		add_to_token_context_and_advance(input_tracker, last_token);
-		while (ft_isalnum(get_current_char(input_tracker))
-			|| get_current_char(input_tracker) == '_')
-			add_to_token_context_and_advance(input_tracker, last_token);
+		add_to_token_context_and_advance(input_tracker, last_token,
+			out_of_memory);
+		while ((ft_isalnum(get_current_char(input_tracker))
+				|| get_current_char(input_tracker) == '_'))
+			add_to_token_context_and_advance(input_tracker, last_token,
+				out_of_memory);
 	}
 }
 
 static void	handle_variable_expansion_with_braces(
 				t_input_tracker *input_tracker,
-				t_token *last_token)
+				t_token *last_token,
+				bool *out_of_memory)
 {
 	size_t	i;
 
@@ -100,18 +105,19 @@ static void	handle_variable_expansion_with_braces(
 	while (i < ft_strlen(g_expansion_opening_symbols[
 				VARIABLE_EXPANSION_WITH_BRACES]))
 	{
-		add_to_token_context_and_advance(input_tracker, last_token);
+		add_to_token_context_and_advance(input_tracker, last_token,
+			out_of_memory);
 		i++;
 	}
-	while (get_current_char(input_tracker)
-		&& !ft_strstarts(
-			get_current_char_pointer(input_tracker),
+	while (!*out_of_memory && get_current_char(input_tracker)
+		&& !ft_strstarts(get_current_char_pointer(input_tracker),
 			g_expansion_closing_symbols[
 				VARIABLE_EXPANSION_WITH_BRACES]))
-		add_to_token_context_and_advance(input_tracker, last_token);
+		add_to_token_context_and_advance(input_tracker, last_token,
+			out_of_memory);
 }
 
-static void	handle_unsupported_expansion_mode(
+static bool	handle_unsupported_expansion_mode(
 				t_expansion_mode expansion_mode,
 				t_input_tracker *input_tracker,
 				t_token *last_token,
@@ -123,18 +129,23 @@ static void	handle_unsupported_expansion_mode(
 		&tokens_with_status->out_of_memory);
 	start_token(input_tracker, tokens_with_status, create_word_token);
 	if (tokens_with_status->out_of_memory)
-		return ;
+		return (false);
 	last_token = get_last_token(tokens_with_status->tokens);
 	i = 0;
-	while (i < ft_strlen(g_expansion_opening_symbols[expansion_mode]))
+	while (!tokens_with_status->out_of_memory
+		&& i < ft_strlen(g_expansion_opening_symbols[expansion_mode]))
 	{
-		add_to_token_context_and_advance(input_tracker, last_token);
+		add_to_token_context_and_advance(input_tracker, last_token,
+			&tokens_with_status->out_of_memory);
 		i++;
 	}
+	if (tokens_with_status->out_of_memory)
+		return (false);
 	last_token->is_supported = false;
 	tokens_with_status->contains_unsupported_features = true;
 	delimit_last_token_if_exists(input_tracker, last_token,
 		&tokens_with_status->out_of_memory);
+	return (!tokens_with_status->out_of_memory);
 }
 
 bool	handle_expanded_section(
@@ -158,11 +169,11 @@ bool	handle_expanded_section(
 				&last_token, tokens_with_status))
 			return (false);
 		if (expansion_mode == VARIABLE_EXPANSION_WITHOUT_BRACES)
-			return (handle_variable_expansion_without_braces(
-					input_tracker, last_token), true);
+			return (handle_variable_expansion_without_braces(input_tracker,
+					last_token, &tokens_with_status->out_of_memory), true);
 		if (expansion_mode == VARIABLE_EXPANSION_WITH_BRACES)
-			return (handle_variable_expansion_with_braces(
-					input_tracker, last_token), true);
+			return (handle_variable_expansion_with_braces(input_tracker,
+					last_token, &tokens_with_status->out_of_memory), true);
 		return (handle_unsupported_expansion_mode(expansion_mode,
 				input_tracker, last_token, tokens_with_status), false);
 	}

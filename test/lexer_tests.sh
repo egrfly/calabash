@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "NOTE: in DEBUG_LEXING mode, input past first complete line is ignored."
-
 shopt -s nocasematch
 
 RETURN_VALUE=0
@@ -110,7 +108,7 @@ Type: word         | line index 0, char index 0
 Word content: \`'abc
 def
 ghi'\`
-Context: 'abc...
+Context: 'abc
          ^^^^
 Type: end of input | line index 2, char index 4
 Context: ghi'
@@ -124,8 +122,8 @@ ghi"
 export EXPECTED_RESULT="\
 Type: word         | line index 0, char index 0
 Word content: \`abcdefghi\`
-Context: abcdefghi
-         ^^^^^^^^^
+Context: abc\\
+         ^^^^
 Type: end of input | line index 2, char index 3
 Context: ghi
             ^^^
