@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 10:19:45 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,25 @@ static bool	is_unsupported_option_sequence(const char *argument)
 	return (false);
 }
 
+static bool	handle_echo_options(
+				t_list_node **argument_node,
+				bool *print_last_newline)
+{
+	while (*argument_node
+		&& is_dash_n_sequence((*argument_node)->value))
+	{
+		*print_last_newline = false;
+		*argument_node = (*argument_node)->next;
+	}
+	if (*argument_node
+		&& is_unsupported_option_sequence((*argument_node)->value))
+		return (false);
+	if (*argument_node
+		&& !ft_strcmp((*argument_node)->value, "--"))
+		*argument_node = (*argument_node)->next;
+	return (true);
+}
+
 int	builtin_echo(
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
@@ -72,17 +91,9 @@ int	builtin_echo(
 	node_value = node->value;
 	argument_node = node_value->arguments->first->next;
 	print_last_newline = true;
-	while (argument_node
-		&& is_dash_n_sequence(argument_node->value))
-	{
-		print_last_newline = false;
-		argument_node = argument_node->next;
-	}
-	if (argument_node
-		&& is_unsupported_option_sequence(argument_node->value))
-		return (ft_dprintf(STDERR_FILENO, "%s: %s: %s\n",
-				get_program_name(), node_value->arguments->first->value,
-				"option other than -n not supported"), GENERAL_FAILURE);
+	if (!handle_echo_options(&argument_node, &print_last_newline))
+		return (ft_dprintf(STDERR_FILENO, "%s: echo: %s\n", get_program_name(),
+				"options other than -n not supported"), GENERAL_FAILURE);
 	while (argument_node)
 	{
 		ft_printf("%s", argument_node->value);

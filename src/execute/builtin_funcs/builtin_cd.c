@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 10:05:34 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,21 @@ static int	print_usage_or_environment_error(
 // TODO: consider memory when using env
 // TODO: update PWD and OLDPWD when using env
 static int	try_change_to_dir(
-				const char *target_path,
+				const char *target_dir_path,
 				char **oldpwd)
 {
 	char	*current_dir;
 	int		exit_status;
 
 	current_dir = getcwd(NULL, 0);
-	exit_status = chdir(target_path);
+	if (!current_dir)
+		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
+				get_program_name()), GENERAL_FAILURE);
+	exit_status = chdir(target_dir_path);
 	*oldpwd = current_dir;
 	if (exit_status != SUCCESS)
 		return (ft_dprintf(STDERR_FILENO, "%s: cd: %s: %s\n",
-				get_program_name(), target_path, strerror(errno)),
+				get_program_name(), target_dir_path, strerror(errno)),
 			GENERAL_FAILURE);
 	return (SUCCESS);
 }
@@ -62,7 +65,7 @@ int	builtin_cd(
 	char						*home_dir;
 	t_syntax_tree_node_value	*node_value;
 	t_list_node					*argument_node;
-	char						*target_path;
+	char						*target_dir_path;
 
 	(void)tokens_and_syntax_tree;
 	home_dir = get_variable_value(program_vars->env, "HOME");
@@ -71,14 +74,14 @@ int	builtin_cd(
 	if (argument_node && argument_node->next)
 		return (print_usage_or_environment_error("too many arguments"));
 	else if (argument_node && !ft_strcmp(argument_node->value, "-") && oldpwd)
-		target_path = oldpwd;
+		target_dir_path = oldpwd;
 	else if (argument_node && !ft_strcmp(argument_node->value, "-"))
 		return (print_usage_or_environment_error("OLDPWD not set"));
 	else if (argument_node)
-		target_path = argument_node->value;
+		target_dir_path = argument_node->value;
 	else if (home_dir)
-		target_path = home_dir;
+		target_dir_path = home_dir;
 	else
 		return (print_usage_or_environment_error("HOME not set"));
-	return (try_change_to_dir(target_path, &oldpwd));
+	return (try_change_to_dir(target_dir_path, &oldpwd));
 }
