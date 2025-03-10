@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:31:49 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 15:41:49 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 23:21:39 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ bool	upsert_var(
 	var_name_length = ft_strcspn(var, "=");
 	if (!range_is_identifier(var, 0, var_name_length))
 		return (ft_dprintf(STDERR_FILENO,
-				"%s: export: `%.*s': not a valid identifier\n",
-				get_program_name(), var_name_length, var), false);
+				"%s: export: `%s': not a valid identifier\n",
+				get_program_name(), var), false);
 	current_var_node = vars->first;
 	while (current_var_node)
 	{
