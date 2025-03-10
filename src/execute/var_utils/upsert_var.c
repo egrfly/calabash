@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:31:49 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 15:34:25 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 15:41:49 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ bool	upsert_var(
 	{
 		if (vars_have_same_name(var, current_var_node->value))
 		{
-			if (!ft_strchr(var, '='))
-				return (change_var_export_mode(mode, current_var_node));
-			else
+			if (var[var_name_length] == '=')
 				return (update_var(mode, current_var_node, var));
+			else
+				return (change_var_export_mode(mode, current_var_node));
 		}
 		current_var_node = current_var_node->next;
 	}
