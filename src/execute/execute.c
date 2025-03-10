@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 09:17:37 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static const
 [CASE_COMMAND] = NULL,
 [FUNCTION] = NULL,
 [PIPE] = execute_pipeline,
-[PIPE_BOTH] = NULL,
+[PIPE_BOTH] = execute_pipeline,
 [TIME_COMMAND] = NULL,
 [NEGATION] = execute_negation,
 [OR] = execute_conditional_or,

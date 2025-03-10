@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 09:17:13 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,9 @@ int	execute_simple_command(
 		if (get_builtin(node_value->arguments->first->value))
 			return (execute_builtin(node,
 					tokens_and_syntax_tree, program_vars));
-		if (node->parent && node_is_of_type(node->parent->value, PIPE))
+		if (node->parent
+			&& (node_is_of_type(node->parent->value, PIPE)
+				|| node_is_of_type(node->parent->value, PIPE_BOTH)))
 			return (locate_and_execute_command(node,
 					tokens_and_syntax_tree, program_vars));
 		return (execute_in_child_process(locate_and_execute_command, node,

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:57:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 09:20:57 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static bool	execute_section_of_pipeline(
 				t_binary_tree_node *node,
 				t_tokens_and_syntax_tree *tokens_and_syntax_tree)
 {
-	int	exit_status;
+	t_syntax_tree_node_value	*node_value;
+	int							exit_status;
 
 	pipeline->pids[pipeline->current_index] = fork();
 	if (pipeline->pids[pipeline->current_index] == FORK_FAILURE)
@@ -51,8 +52,11 @@ static bool	execute_section_of_pipeline(
 				pipeline->pipe_count), false);
 	else if (pipeline->pids[pipeline->current_index] == CHILD_PROCESS_ID)
 	{
+		node_value = node->value;
 		reroute_standard_input_if_necessary(pipeline);
 		reroute_standard_output_if_necessary(pipeline);
+		if (node_value->type == PIPE_BOTH)
+			reroute_standard_error_if_necessary(pipeline);
 		close_pipe_fds_for_process(pipeline->pipe_fds, pipeline->pipe_count);
 		exit_status = execute_recursively(select_correct_child_to_execute(node,
 					pipeline->current_index == pipeline->pipe_count),

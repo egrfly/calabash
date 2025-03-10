@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:01:16 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 15:47:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 09:20:42 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int		count_pipes_in_current_pipeline(
 void	reroute_standard_input_if_necessary(
 			t_pipeline *pipeline);
 void	reroute_standard_output_if_necessary(
+			t_pipeline *pipeline);
+void	reroute_standard_error_if_necessary(
 			t_pipeline *pipeline);
 void	close_pipe_fds_for_process(
 			int (*pipe_fds)[2],

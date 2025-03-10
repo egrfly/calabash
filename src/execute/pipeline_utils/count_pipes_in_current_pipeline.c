@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:04:25 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/06 02:05:04 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 09:16:46 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	count_pipes_in_current_pipeline(
 	current_node = node;
 	current_node_value = current_node->value;
 	count = 0;
-	while (current_node_value->type == PIPE)
+	while (current_node_value->type == PIPE
+		|| current_node_value->type == PIPE_BOTH)
 	{
 		current_node = current_node->primary_child;
 		current_node_value = current_node->value;
