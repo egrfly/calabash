@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 05:16:57 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 15:58:58 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <unistd.h>
 #include "ft_stdio.h"
 #include "../../main.h"
-#include "../../interface/program_name_utils/program_name_utils.h"
+#include "../../interface/program_property_utils/program_property_utils.h"
 #include "../redirection_utils/redirection_utils.h"
 
 bool	open_redirection_file(

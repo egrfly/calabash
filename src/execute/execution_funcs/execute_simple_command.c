@@ -6,16 +6,20 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 14:59:10 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/11 02:14:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include <stdbool.h>
 #include <unistd.h>
 #include "ft_binary_tree.h"
+#include "ft_stdlib.h"
+#include "ft_string.h"
 #include "../../main.h"
 #include "../../interface/interface.h"
 #include "../../interface/list_utils/list_utils.h"
+#include "../../interface/program_property_utils/program_property_utils.h"
 #include "../../parse/tree_node_utils/tree_node_utils.h"
 #include "../execute.h"
 #include "../builtin_utils/builtin_utils.h"
@@ -42,6 +46,30 @@ static bool	perform_assignments(
 	return (true);
 }
 
+static void	try_execute_as_shell_script(
+				char **args,
+				char **envp)
+{
+	size_t	i;
+	char	**args_with_program_name;
+
+	i = 1;
+	while (args[i - 1])
+		i++;
+	args_with_program_name = ft_calloc(i + 1, sizeof(char *));
+	if (!args_with_program_name)
+		return ;
+	args_with_program_name[0] = get_program_name();
+	i = 1;
+	while (args[i - 1])
+	{
+		args_with_program_name[i] = args[i - 1];
+		i++;
+	}
+	execve(get_program_path(), args_with_program_name, envp);
+	free(args_with_program_name);
+}
+
 static int	locate_and_execute_command(
 				t_binary_tree_node *node,
 				t_tokens_and_syntax_tree *tokens_and_syntax_tree,
@@ -62,6 +90,8 @@ static int	locate_and_execute_command(
 		exit_due_to_unfound_command(program_vars, &exec_params,
 			tokens_and_syntax_tree, node_value->redirections);
 	execve(exec_params.path, exec_params.args, exec_params.envp);
+	if (errno == ENOEXEC)
+		try_execute_as_shell_script(exec_params.args, exec_params.envp);
 	exit_due_to_execve_failure(program_vars, &exec_params,
 		tokens_and_syntax_tree, node_value->redirections);
 	return (GENERAL_FAILURE);

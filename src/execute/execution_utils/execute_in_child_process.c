@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:11:52 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/11 02:07:14 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "ft_stdio.h"
 #include "../../main.h"
 #include "../../interface/interface.h"
-#include "../../interface/program_name_utils/program_name_utils.h"
+#include "../../interface/program_property_utils/program_property_utils.h"
 #include "../../interface/program_vars_lifecycle/program_vars_lifecycle.h"
 #include "../execute.h"
 #include "./execution_utils.h"

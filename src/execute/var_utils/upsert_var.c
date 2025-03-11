@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:31:49 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 23:21:39 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "ft_list.h"
 #include "ft_stdio.h"
 #include "ft_string.h"
-#include "../../interface/program_name_utils/program_name_utils.h"
+#include "../../interface/program_property_utils/program_property_utils.h"
 #include "../../parse/word_utils/word_utils.h"
 #include "./var_utils.h"
 

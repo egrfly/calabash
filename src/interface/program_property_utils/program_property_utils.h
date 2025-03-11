@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   program_name_utils.h                               :+:      :+:    :+:   */
+/*   program_property_utils.h                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 12:45:17 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 12:51:41 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/11 02:01:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROGRAM_NAME_UTILS_H
-# define PROGRAM_NAME_UTILS_H
+#ifndef PROGRAM_PROPERTY_UTILS_H
+# define PROGRAM_PROPERTY_UTILS_H
 
 # include "../interface.h"
 
 char	*get_program_name(void);
-char	*access_program_name(
-			t_access_mode mode,
+void	set_program_name(
 			char *new_program_name);
+char	*get_program_path(void);
+void	set_program_path(
+			char *new_program_name,
+			char **envp);
 
 #endif

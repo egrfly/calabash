@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:39:44 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 16:02:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "../../main.h"
 #include "../interface.h"
 #include "../input_processors/input_processors.h"
-#include "../program_name_utils/program_name_utils.h"
+#include "../program_property_utils/program_property_utils.h"
 #include "../program_vars_lifecycle/program_vars_lifecycle.h"
 
 int	handle_external_input_file(char **argv, char **envp,

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:42:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 16:02:19 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "../interface.h"
 #include "../input_processors/input_processors.h"
 #include "../option_utils/option_utils.h"
-#include "../program_name_utils/program_name_utils.h"
+#include "../program_property_utils/program_property_utils.h"
 #include "../program_vars_lifecycle/program_vars_lifecycle.h"
 
 int	handle_c_option(char **argv, char **envp, int option_count)

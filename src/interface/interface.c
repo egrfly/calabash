@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:45 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 21:01:18 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/11 00:59:43 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "./option_count_getters/option_count_getters.h"
 #include "./option_processors/option_processors.h"
 #include "./option_utils/option_utils.h"
-#include "./program_name_utils/program_name_utils.h"
+#include "./program_property_utils/program_property_utils.h"
 
 int	interface(int argc, char **argv, char **envp)
 {
@@ -26,7 +26,8 @@ int	interface(int argc, char **argv, char **envp)
 	char	*next_argument;
 	int		option_count;
 
-	access_program_name(SET, argv[0]);
+	set_program_name(argv[0]);
+	set_program_path(argv[0], envp);
 	if (argc > 1)
 	{
 		c_option_count = get_c_option_count(argc, argv);

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:10:03 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/10 23:15:23 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/11 02:06:57 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "ft_stdio.h"
 #include "../../main.h"
 #include "../../interface/interface.h"
-#include "../../interface/program_name_utils/program_name_utils.h"
+#include "../../interface/program_property_utils/program_property_utils.h"
 #include "../../interface/program_vars_lifecycle/program_vars_lifecycle.h"
 #include "../../parse/parse.h"
 #include "../execute.h"
@@ -40,16 +40,12 @@ int	builtin_exit(
 	argument_node = node_value->arguments->first->next;
 	exit_code = SUCCESS;
 	if (argument_node && !ft_strtol(argument_node->value, &exit_code))
-	{
 		return (ft_dprintf(STDERR_FILENO,
 				"%s: exit: numeric argument required\n",
 				get_program_name()), NUMERIC_ARGUMENT_REQUIRED);
-	}
 	else if (argument_node && argument_node->next)
-	{
 		return (ft_dprintf(STDERR_FILENO, "%s: exit: too many arguments\n",
 				get_program_name()), TOO_MANY_ARGUMENTS);
-	}
 	else
 	{
 		ft_printf("exit\n");
