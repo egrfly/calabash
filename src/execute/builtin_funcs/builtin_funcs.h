@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_funcs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:14:06 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/10 19:50:35 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ int	builtin_history(
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars);
 int	builtin_exit(
+		t_binary_tree_node *node,
+		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+		t_program_vars *program_vars);
+int	builtin_expand(
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 		t_program_vars *program_vars);

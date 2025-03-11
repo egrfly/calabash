@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
+/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 03:24:37 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/11 06:34:44 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static const
 [BUILTIN_UNALIAS] = NULL,
 [BUILTIN_UNSET] = builtin_unset,
 [BUILTIN_WAIT] = NULL,
+[BUILTIN_EXPAND] = builtin_expand,
 };
 
 int	execute_builtin(
