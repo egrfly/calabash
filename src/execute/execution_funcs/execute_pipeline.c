@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:57:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 15:14:56 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 16:09:46 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,9 @@ int	execute_pipeline(
 	{
 		if (!execute_section_of_pipeline(&pipeline,
 				node, tokens_and_syntax_tree, program_vars))
-		{
-			ft_dprintf(STDERR_FILENO, "%s: %s: %s\n", get_program_name(),
-				"cannot fork", strerror(errno));
-			return (destroy_pipeline(&pipeline), GENERAL_FAILURE);
-		}
+			return (ft_dprintf(STDERR_FILENO, "%s: cannot fork: %s\n",
+					get_program_name(), strerror(errno)),
+				destroy_pipeline(&pipeline), GENERAL_FAILURE);
 		pipeline.current_index--;
 		if (pipeline.current_index > 0)
 			node = node->primary_child;

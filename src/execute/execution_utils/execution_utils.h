@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:18:29 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 15:30:06 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 16:01:13 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,8 @@ void	destroy_tokens_and_syntax_tree(
 int		try_decode_exit_status(
 			int exit_status,
 			int backup_exit_status);
+int		update_last_exit_status(
+			int exit_status,
+			t_program_vars *program_vars);
 
 #endif

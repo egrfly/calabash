@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 15:31:03 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 16:08:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "../parse/parse.h"
 #include "./execute.h"
 #include "./execution_funcs/execution_funcs.h"
+#include "./execution_utils/execution_utils.h"
 
 static const
 	t_execution_func
@@ -51,13 +52,14 @@ int	execute_recursively(
 	t_execution_func			execution_func;
 
 	if (!node)
-		return (SUCCESS);
+		return (update_last_exit_status(SUCCESS, program_vars));
 	node_value = node->value;
 	execution_func = g_execution_funcs[node_value->type];
 	if (execution_func && !program_vars->should_exit)
-		return (execution_func(node, tokens_and_syntax_tree,
+		return (update_last_exit_status(
+				execution_func(node, tokens_and_syntax_tree, program_vars),
 				program_vars));
-	return (SUCCESS);
+	return (update_last_exit_status(SUCCESS, program_vars));
 }
 
 int	execute(

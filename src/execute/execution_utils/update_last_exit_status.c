@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_negation.c                                 :+:      :+:    :+:   */
+/*   update_last_exit_status.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 21:20:52 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 16:08:56 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/16 15:58:58 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/16 16:01:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_binary_tree.h"
 #include "../../interface/interface.h"
-#include "../execute.h"
 
-int	execute_negation(
-		t_binary_tree_node *node,
-		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+int	update_last_exit_status(
+		int exit_status,
 		t_program_vars *program_vars)
 {
-	int	exit_status;
-
-	exit_status = !execute_recursively(node->primary_child,
-			tokens_and_syntax_tree, program_vars);
+	program_vars->last_exit_status = exit_status;
 	return (exit_status);
 }

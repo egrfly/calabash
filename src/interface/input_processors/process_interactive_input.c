@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 15:31:55 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 16:12:04 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,23 +91,23 @@ int	process_interactive_input(
 		t_program_vars *program_vars)
 {
 	t_multiline_options		multiline_options;
-	int						latest_exit_code;
+	int						last_exit_status;
 	char					prompt[PROMPT_MAX];
 	char					*input;
 
 	enter_interactive_mode(&multiline_options);
-	latest_exit_code = SUCCESS;
+	last_exit_status = SUCCESS;
 	while (!program_vars->should_exit)
 	{
-		update_command_prompt(prompt, latest_exit_code);
+		update_command_prompt(prompt, last_exit_status);
 		input = readline(prompt);
 		add_last_command(input);
 		if (!input)
 			break ;
-		latest_exit_code = process_input(input, &multiline_options,
+		last_exit_status = process_input(input, &multiline_options,
 				program_vars);
 		mark_signal_as_processed();
 	}
 	exit_interactive_mode();
-	return (latest_exit_code);
+	return (last_exit_status);
 }
