@@ -6,12 +6,11 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:10:03 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/16 16:16:23 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 16:33:25 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
-#include <stdlib.h>
 #include <unistd.h>
 #include "ft_binary_tree.h"
 #include "ft_list.h"
