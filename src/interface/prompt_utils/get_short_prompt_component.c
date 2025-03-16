@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 04:25:14 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/11 02:07:17 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/14 13:50:05 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include "../../main.h"
 #include "../../execute/path_utils/path_utils.h"
 #include "../../execute/pipeline_utils/pipeline_utils.h"
-#include "../../interface/program_property_utils/program_property_utils.h"
+#include "../command_history_utils/command_history_utils.h"
+#include "../program_property_utils/program_property_utils.h"
 #include "./prompt_utils.h"
 
 static void	execute_external_command(
@@ -31,6 +32,7 @@ static void	execute_external_command(
 	close_pipe_fds_for_process((int (*)[2])pipe_fd, SINGLE_PIPE);
 	if (get_full_command_path(&path, command, "/usr/local/bin:/usr/bin:/bin"))
 		execve(path, argv, (char *[]){NULL});
+	clear_command_history();
 	exit(GENERAL_FAILURE);
 }
 

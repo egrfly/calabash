@@ -6,12 +6,13 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:10:03 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/11 02:06:57 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 15:03:32 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <stdbool.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "ft_binary_tree.h"
 #include "ft_list.h"
 #include "ft_stdlib.h"
@@ -19,7 +20,6 @@
 #include "../../main.h"
 #include "../../interface/interface.h"
 #include "../../interface/program_property_utils/program_property_utils.h"
-#include "../../interface/program_vars_lifecycle/program_vars_lifecycle.h"
 #include "../../parse/parse.h"
 #include "../execute.h"
 #include "../execution_utils/execution_utils.h"
@@ -36,6 +36,7 @@ int	builtin_exit(
 	t_list_node					*argument_node;
 	long						exit_code;
 
+	(void)tokens_and_syntax_tree;
 	node_value = node->value;
 	argument_node = node_value->arguments->first->next;
 	exit_code = SUCCESS;
@@ -48,9 +49,7 @@ int	builtin_exit(
 				get_program_name()), TOO_MANY_ARGUMENTS);
 	else
 	{
-		ft_printf("exit\n");
-		destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
-		destroy_program_vars(program_vars);
-		exit(exit_code);
+		program_vars->should_exit = true;
+		return (exit_code);
 	}
 }

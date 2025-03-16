@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 05:37:03 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 15:06:59 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	builtin_unset(
 	node_value = node->value;
 	argument_node = node_value->arguments->first->next;
 	if (!handle_unset_options(&argument_node))
-		return (ft_dprintf(STDERR_FILENO, "%s: unset: %s\n",
-				get_program_name(), "options not supported"),
+		return (ft_dprintf(STDERR_FILENO, "%s: unset: options not supported\n",
+				get_program_name()),
 			GENERAL_FAILURE);
 	while (argument_node)
 	{

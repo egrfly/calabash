@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 03:43:20 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 15:31:55 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <readline/readline.h>
-#include <readline/history.h>
 #include "ft_stdio.h"
 #include "../../main.h"
 #include "../../lex/lex.h"
@@ -66,35 +65,48 @@ static void	enter_interactive_mode(
 static void	exit_interactive_mode(void)
 {
 	toggle_terminal_echoctl_suppression(false);
-	access_command_history(DELETE, NO_ARG);
+	clear_command_history();
 	ft_printf("exit\n");
+}
+
+static int	process_input(
+				char *input,
+				t_multiline_options *multiline_options,
+				t_program_vars *program_vars)
+{
+	t_tokens_with_status	*tokens_with_status;
+
+	tokens_with_status = lex(input, multiline_options, DEFAULT_LINE_INDEX);
+	if (g_signal != SIGINT)
+		return (process_tokens(tokens_with_status, multiline_options,
+				program_vars));
+	else
+	{
+		destroy_tokens_with_status(tokens_with_status);
+		return (SIGNAL_BASE + g_signal);
+	}
 }
 
 int	process_interactive_input(
 		t_program_vars *program_vars)
 {
 	t_multiline_options		multiline_options;
+	int						latest_exit_code;
 	char					prompt[PROMPT_MAX];
 	char					*input;
-	t_tokens_with_status	*tokens_with_status;
-	int						latest_exit_code;
 
 	enter_interactive_mode(&multiline_options);
 	latest_exit_code = SUCCESS;
-	while (true)
+	while (!program_vars->should_exit)
 	{
 		update_command_prompt(prompt, latest_exit_code);
 		input = readline(prompt);
-		access_command_history(SET, input);
+		add_last_command(input);
 		if (!input)
 			break ;
-		tokens_with_status = lex(input, &multiline_options, DEFAULT_LINE_INDEX);
-		if (g_signal != SIGINT)
-			latest_exit_code = process_tokens(tokens_with_status,
-					&multiline_options, program_vars);
-		else
-			latest_exit_code = SIGNAL_BASE + g_signal;
-		mark_global_signal_as_processed();
+		latest_exit_code = process_input(input, &multiline_options,
+				program_vars);
+		mark_signal_as_processed();
 	}
 	exit_interactive_mode();
 	return (latest_exit_code);

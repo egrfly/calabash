@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:40:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 15:35:17 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 15:31:03 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	execute_recursively(
 		return (SUCCESS);
 	node_value = node->value;
 	execution_func = g_execution_funcs[node_value->type];
-	if (execution_func)
+	if (execution_func && !program_vars->should_exit)
 		return (execution_func(node, tokens_and_syntax_tree,
 				program_vars));
 	return (SUCCESS);

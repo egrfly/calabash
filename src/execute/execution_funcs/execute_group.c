@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:24:48 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 09:44:50 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 15:13:43 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int	execute_group(
 
 	node_value = node->value;
 	if (!perform_redirections(node_value->redirections))
-		exit_due_to_redirection_failure(program_vars, NO_ARG,
-			tokens_and_syntax_tree);
+		return (GENERAL_FAILURE);
 	exit_status = execute_recursively(node->primary_child,
 			tokens_and_syntax_tree, program_vars);
 	revert_redirections(node_value->redirections);

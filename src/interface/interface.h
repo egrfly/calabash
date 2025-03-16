@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 11:57:01 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 14:57:04 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdbool.h>
 # include "ft_list.h"
+# include "../execute/pipeline_lifecycle/pipeline_lifecycle.h"
 
 typedef enum e_access_mode
 {
@@ -32,7 +33,9 @@ typedef struct s_multiline_options
 
 typedef struct s_program_vars
 {
-	t_list	*vars;
+	t_list		*vars;
+	t_pipeline	*active_pipeline;
+	bool		should_exit;
 }	t_program_vars;
 
 int	interface(int argc, char **argv, char **envp);
