@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 12:13:02 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/11 02:05:12 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ bool	get_full_command_path(
 	int		i;
 	char	*full_command_path;
 
+	*path = NULL;
 	if (ft_strchr(command, '/'))
 		return (keep_absolute_or_relative_path(path, command));
 	if (!path_var)

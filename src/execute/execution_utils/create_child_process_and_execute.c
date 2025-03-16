@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_in_child_process.c                         :+:      :+:    :+:   */
+/*   create_child_process_and_execute.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:11:52 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/15 02:03:42 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@
 #include "ft_stdio.h"
 #include "../../main.h"
 #include "../../interface/interface.h"
-#include "../../interface/program_name_utils/program_name_utils.h"
+#include "../../interface/command_history_utils/command_history_utils.h"
+#include "../../interface/program_property_utils/program_property_utils.h"
 #include "../../interface/program_vars_lifecycle/program_vars_lifecycle.h"
 #include "../execute.h"
 #include "./execution_utils.h"
 
-int	execute_in_child_process(
+int	create_child_process_and_execute(
 		t_execution_func execution_func,
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
@@ -44,6 +45,7 @@ int	execute_in_child_process(
 				program_vars);
 		destroy_program_vars(program_vars);
 		destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
+		clear_command_history();
 		exit(exit_status);
 	}
 	waitpid(pid, &exit_status, NO_OPTIONS);

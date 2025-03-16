@@ -1,41 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_due_to_unfound_command.c                      :+:      :+:    :+:   */
+/*   execute_and_exit.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 02:50:27 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/14 13:50:05 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/05 21:11:52 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/16 15:12:42 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include "ft_list.h"
-#include "ft_stdio.h"
-#include "../../main.h"
+#include "ft_binary_tree.h"
 #include "../../interface/interface.h"
 #include "../../interface/command_history_utils/command_history_utils.h"
-#include "../../interface/program_property_utils/program_property_utils.h"
 #include "../../interface/program_vars_lifecycle/program_vars_lifecycle.h"
 #include "../execute.h"
-#include "../execution_utils/execution_utils.h"
-#include "../redirection_utils/redirection_utils.h"
-#include "./command_utils.h"
+#include "./execution_utils.h"
 
-void	exit_due_to_unfound_command(
-			t_program_vars *program_vars,
-			t_exec_params *exec_params,
+void	execute_and_exit(
+			t_execution_func execution_func,
+			t_binary_tree_node *node,
 			t_tokens_and_syntax_tree *tokens_and_syntax_tree,
-			t_list *redirections)
+			t_program_vars *program_vars)
 {
-	ft_dprintf(STDERR_FILENO, "%s: %s: command not found\n", get_program_name(),
-		exec_params->command);
-	revert_redirections(redirections);
+	int	exit_status;
+
+	exit_status = execution_func(node, tokens_and_syntax_tree, program_vars);
 	destroy_program_vars(program_vars);
-	destroy_exec_params(exec_params);
 	destroy_tokens_and_syntax_tree(tokens_and_syntax_tree);
 	clear_command_history();
-	exit(NOT_FOUND);
+	exit(exit_status);
 }

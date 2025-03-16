@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:22:18 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 16:08:21 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "../../main.h"
 #include "../../interface/interface.h"
 #include "../execute.h"
+#include "../execution_utils/execution_utils.h"
 
 int	execute_conditional_and(
 		t_binary_tree_node *node,
@@ -24,7 +25,8 @@ int	execute_conditional_and(
 
 	exit_status = execute_recursively(node->primary_child,
 			tokens_and_syntax_tree, program_vars);
-	if (exit_status == SUCCESS)
+	update_last_exit_status(exit_status, program_vars);
+	if (exit_status == SUCCESS && !program_vars->should_exit)
 		exit_status = execute_recursively(node->secondary_child,
 				tokens_and_syntax_tree, program_vars);
 	return (exit_status);

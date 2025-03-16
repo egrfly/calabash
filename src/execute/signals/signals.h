@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:43:31 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/09 22:49:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 13:47:48 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ void	sigquit_handler(
 			int signal_received,
 			siginfo_t *info,
 			void *ucontext);
-void	mark_global_signal_as_processed(void);
+void	sigpipe_handler(
+			int signal_received,
+			siginfo_t *info,
+			void *ucontext);
+void	mark_signal_as_processed(void);
 int		break_if_sigint_received(void);
 void	toggle_terminal_echoctl_suppression(bool disable_echoctl);
 

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:15 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 09:09:02 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "../../lex/tokens_with_status_lifecycle/tokens_with_status_lifecycle.h"
 #include "../interface.h"
 #include "../line_getters/line_getters.h"
-#include "../program_name_utils/program_name_utils.h"
+#include "../program_property_utils/program_property_utils.h"
 #include "../token_processors/token_processors.h"
 
 int	process_noninteractive_string_input(

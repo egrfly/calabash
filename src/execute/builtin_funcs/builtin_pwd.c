@@ -6,21 +6,25 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/10 10:23:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 15:06:48 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
+#include <signal.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include "ft_binary_tree.h"
 #include "ft_stdio.h"
 #include "ft_string.h"
 #include "../../main.h"
 #include "../../interface/interface.h"
-#include "../../interface/program_name_utils/program_name_utils.h"
+#include "../../interface/program_property_utils/program_property_utils.h"
 #include "../execute.h"
 #include "../execution_funcs/execution_funcs.h"
+#include "../signals/signals.h"
 
 static bool	handle_echo_options(
 				t_list_node *argument_node)
@@ -45,12 +49,14 @@ int	builtin_pwd(
 	node_value = node->value;
 	argument_node = node_value->arguments->first->next;
 	if (!handle_echo_options(argument_node))
-		return (ft_dprintf(STDERR_FILENO, "%s: pwd: %s\n", get_program_name(),
-				"options not supported"), GENERAL_FAILURE);
+		return (ft_dprintf(STDERR_FILENO, "%s: pwd: options not supported\n",
+				get_program_name()), GENERAL_FAILURE);
 	path = getcwd(NULL, 0);
 	if (!path)
 		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
 				get_program_name()), GENERAL_FAILURE);
-	ft_printf("%s\n", path);
+	if (ft_printf("%s\n", path) == WRITE_FAILURE && g_signal != SIGPIPE)
+		return (ft_dprintf(STDERR_FILENO, "%s: pwd: %s\n", get_program_name(),
+				strerror(errno)), GENERAL_FAILURE);
 	return (free(path), SUCCESS);
 }

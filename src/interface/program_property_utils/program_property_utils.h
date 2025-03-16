@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destroy_fixed_program_elements.c                   :+:      :+:    :+:   */
+/*   program_property_utils.h                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 22:05:15 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/08 12:45:17 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/11 02:01:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
-#include "../../lex/token_lifecycle/token_lifecycle.h"
-#include "../../parse/tree_lifecycle/tree_lifecycle.h"
-#include "../execute.h"
+#ifndef PROGRAM_PROPERTY_UTILS_H
+# define PROGRAM_PROPERTY_UTILS_H
 
-void	destroy_tokens_and_syntax_tree(
-			t_tokens_and_syntax_tree *tokens_and_syntax_tree)
-{
-	ft_list_destroy(tokens_and_syntax_tree->tokens,
-		(t_action_func)destroy_token);
-	destroy_syntax_tree(tokens_and_syntax_tree->syntax_tree);
-}
+# include "../interface.h"
+
+char	*get_program_name(void);
+void	set_program_name(
+			char *new_program_name);
+char	*get_program_path(void);
+void	set_program_path(
+			char *new_program_name,
+			char **envp);
+
+#endif

@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   program_name_utils.h                               :+:      :+:    :+:   */
+/*   destroy_tokens_and_syntax_tree.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 12:45:17 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 12:51:41 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/05 22:05:15 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/11 02:53:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROGRAM_NAME_UTILS_H
-# define PROGRAM_NAME_UTILS_H
+#include "ft_list.h"
+#include "../../lex/token_lifecycle/token_lifecycle.h"
+#include "../../parse/tree_lifecycle/tree_lifecycle.h"
+#include "../execute.h"
 
-# include "../interface.h"
-
-char	*get_program_name(void);
-char	*access_program_name(
-			t_access_mode mode,
-			char *new_program_name);
-
-#endif
+void	destroy_tokens_and_syntax_tree(
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree)
+{
+	ft_list_destroy(tokens_and_syntax_tree->tokens,
+		(t_action_func)destroy_token);
+	destroy_syntax_tree(tokens_and_syntax_tree->syntax_tree);
+}

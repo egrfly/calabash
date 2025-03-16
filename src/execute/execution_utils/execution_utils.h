@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:18:29 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:57:07 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 16:01:13 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,12 @@
 # include "../../interface/interface.h"
 # include "../execute.h"
 
-int		execute_in_child_process(
+int		create_child_process_and_execute(
+			t_execution_func execution_func,
+			t_binary_tree_node *node,
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+			t_program_vars *program_vars);
+void	execute_and_exit(
 			t_execution_func execution_func,
 			t_binary_tree_node *node,
 			t_tokens_and_syntax_tree *tokens_and_syntax_tree,
@@ -27,5 +32,8 @@ void	destroy_tokens_and_syntax_tree(
 int		try_decode_exit_status(
 			int exit_status,
 			int backup_exit_status);
+int		update_last_exit_status(
+			int exit_status,
+			t_program_vars *program_vars);
 
 #endif

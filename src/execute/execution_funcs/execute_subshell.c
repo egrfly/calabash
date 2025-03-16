@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:25:48 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 09:44:46 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 15:16:13 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ int	execute_subshell(
 
 	node_value = node->value;
 	if (!perform_redirections(node_value->redirections))
-		exit_due_to_redirection_failure(program_vars, NO_ARG,
-			tokens_and_syntax_tree);
-	exit_status = execute_in_child_process(execute_recursively,
+		return (GENERAL_FAILURE);
+	exit_status = create_child_process_and_execute(execute_recursively,
 			node->primary_child, tokens_and_syntax_tree, program_vars);
 	revert_redirections(node_value->redirections);
 	return (exit_status);

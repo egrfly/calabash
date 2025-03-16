@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_program_name.c                                 :+:      :+:    :+:   */
+/*   close_if_opened.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 12:46:54 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 16:04:41 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/10 23:02:20 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/10 23:03:25 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "../../main.h"
-#include "../interface.h"
+#include <unistd.h>
 
-char	*access_program_name(
-			t_access_mode mode,
-			char *new_program_name)
+#define FIRST_NON_STANDARD_FD 3
+
+void	close_if_opened(
+			int fd)
 {
-	static char	*program_name;
-
-	if (mode == SET)
-		program_name = new_program_name;
-	else if (mode == GET)
-		return (program_name);
-	return (NULL);
-}
-
-char	*get_program_name(void)
-{
-	return (access_program_name(GET, NO_ARG));
+	if (fd >= FIRST_NON_STANDARD_FD)
+		close(fd);
 }

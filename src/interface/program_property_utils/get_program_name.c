@@ -1,28 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destroy_program_vars.c                             :+:      :+:    :+:   */
+/*   get_program_name.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/07 04:10:14 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 14:58:46 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/08 12:46:54 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/11 00:58:53 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "ft_list.h"
-#include "../../execute/pipeline_lifecycle/pipeline_lifecycle.h"
+#include "../../main.h"
 #include "../interface.h"
 
-void	destroy_program_vars(
-			t_program_vars *program_vars)
+static char	*access_program_name(
+				t_access_mode mode,
+				char *new_program_name)
 {
-	if (program_vars->vars)
-		ft_list_destroy(program_vars->vars, free);
-	if (program_vars->active_pipeline)
-	{
-		destroy_pipeline(program_vars->active_pipeline);
-		program_vars->active_pipeline = NULL;
-	}
+	static char	*program_name;
+
+	if (mode == SET)
+		program_name = new_program_name;
+	else if (mode == GET)
+		return (program_name);
+	return (NULL);
+}
+
+void	set_program_name(
+			char *new_program_name)
+{
+	access_program_name(SET, new_program_name);
+}
+
+char	*get_program_name(void)
+{
+	return (access_program_name(GET, NO_ARG));
 }

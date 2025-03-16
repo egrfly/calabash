@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reroute_standard_error_if_necessary.c              :+:      :+:    :+:   */
+/*   update_last_exit_status.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/06 04:42:42 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 02:27:58 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/16 15:58:58 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/16 16:01:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "../../main.h"
-#include "../pipeline_lifecycle/pipeline_lifecycle.h"
-#include "./pipeline_utils.h"
+#include "../../interface/interface.h"
 
-void	reroute_standard_error_if_necessary(
-			t_pipeline *pipeline)
+int	update_last_exit_status(
+		int exit_status,
+		t_program_vars *program_vars)
 {
-	if (pipeline->current_index < pipeline->pipe_count)
-		dup2(pipeline->pipe_fds[pipeline->current_index][WRITE_END],
-			STDERR_FILENO);
+	program_vars->last_exit_status = exit_status;
+	return (exit_status);
 }
