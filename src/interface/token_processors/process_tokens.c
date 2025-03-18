@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/11 02:07:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 15:39:47 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,13 +149,13 @@ int	process_tokens(
 		input_fd = *(int *)multiline_options->get_next_line_arg;
 	lexing_status = handle_lexing_error(tokens_with_status, get_program_name());
 	if (lexing_status != SUCCESS)
-		return (destroy_tokens_with_status(tokens_with_status),
-			close_if_opened(input_fd), lexing_status);
+		return (close_if_opened(input_fd),
+			destroy_tokens_with_status(tokens_with_status), lexing_status);
 	tokens = tokens_with_status->tokens;
 	free(tokens_with_status);
 	if (DEBUG_LEXING)
-		return (ft_list_destroy(tokens, (t_action_func)destroy_token),
-			close_if_opened(input_fd), print_tokens(tokens), SUCCESS);
+		return (print_tokens(tokens), close_if_opened(input_fd),
+			ft_list_destroy(tokens, (t_action_func)destroy_token), SUCCESS);
 	syntax_tree = parse(tokens, multiline_options);
 	close_if_opened(input_fd);
 	exit_status = process_syntax_tree(tokens, syntax_tree, program_vars);

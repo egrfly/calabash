@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 15:34:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/11 02:07:35 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/14 13:50:05 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include "../../execute/execution_utils/execution_utils.h"
 #include "../../execute/path_utils/path_utils.h"
 #include "../../execute/pipeline_utils/pipeline_utils.h"
+#include "../../interface/command_history_utils/command_history_utils.h"
 #include "../../interface/program_property_utils/program_property_utils.h"
 #include "../../lex/token_lifecycle/token_lifecycle.h"
 #include "../parse.h"
@@ -42,6 +43,7 @@ static void	execute_external_mktemp(
 		execve(path, (char *[]){"mktemp", NULL}, (char *[]){NULL});
 	destroy_syntax_tree(syntax_tree);
 	ft_list_destroy(tokens, (t_action_func)destroy_token);
+	clear_command_history();
 	exit(GENERAL_FAILURE);
 }
 

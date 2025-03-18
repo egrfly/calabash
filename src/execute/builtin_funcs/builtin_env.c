@@ -6,10 +6,14 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 04:14:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 15:03:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
+#include <signal.h>
+#include <stdbool.h>
+#include <string.h>
 #include <unistd.h>
 #include "ft_binary_tree.h"
 #include "ft_stdio.h"
@@ -19,6 +23,7 @@
 #include "../../interface/program_property_utils/program_property_utils.h"
 #include "../../parse/parse.h"
 #include "../execute.h"
+#include "../signals/signals.h"
 #include "../var_utils/var_utils.h"
 
 static bool	handle_env_arguments(
@@ -50,15 +55,18 @@ int	builtin_env(
 	node_value = node->value;
 	argument_node = node_value->arguments->first->next;
 	if (!handle_env_arguments(argument_node))
-		return (ft_dprintf(STDERR_FILENO, "%s: env: %s\n",
-				get_program_name(), "options/arguments not supported"),
+		return (ft_dprintf(STDERR_FILENO, "%s: env: options/arguments "
+				"not supported\n", get_program_name()),
 			GENERAL_FAILURE);
 	current_var_node = program_vars->vars->first;
 	while (current_var_node)
 	{
 		if (!ft_strstarts(current_var_node->value, NOT_EXPORTED_PREFIX)
-			&& ft_strchr(current_var_node->value, '='))
-			ft_printf("%s\n", current_var_node->value);
+			&& ft_strchr(current_var_node->value, '=')
+			&& ft_printf("%s\n", current_var_node->value) == WRITE_FAILURE
+			&& g_signal != SIGPIPE)
+			return (ft_dprintf(STDERR_FILENO, "%s: env: %s\n",
+					get_program_name(), strerror(errno)), GENERAL_FAILURE);
 		current_var_node = current_var_node->next;
 	}
 	return (SUCCESS);

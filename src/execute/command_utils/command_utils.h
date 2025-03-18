@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 02:40:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 11:57:01 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/15 08:46:31 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ void	destroy_exec_params(
 void	exit_due_to_lack_of_memory(
 			t_program_vars *program_vars,
 			t_exec_params *exec_params,
-			t_tokens_and_syntax_tree *tokens_and_syntax_tree);
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+			t_list *redirections);
 void	exit_due_to_redirection_failure(
 			t_program_vars *program_vars,
 			t_exec_params *exec_params,
-			t_tokens_and_syntax_tree *tokens_and_syntax_tree);
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+			t_list *redirections);
 void	exit_due_to_unfound_command(
 			t_program_vars *program_vars,
 			t_exec_params *exec_params,

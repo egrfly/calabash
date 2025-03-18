@@ -6,14 +6,13 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/16 15:02:51 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
+#include <signal.h>
 #include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include "ft_stdio.h"
@@ -21,7 +20,8 @@
 #include "../../main.h"
 #include "../../interface/option_utils/option_utils.h"
 #include "../../interface/program_property_utils/program_property_utils.h"
-#include "../execution_funcs/execution_funcs.h"
+#include "../execute.h"
+#include "../signals/signals.h"
 
 static bool	handle_echo_options(
 				t_list_node **argument_node,
@@ -44,6 +44,18 @@ static bool	handle_echo_options(
 	return (true);
 }
 
+static bool	error_printing_other_than_sigpipe(
+				char *str)
+{
+	return (ft_printf("%s", str) == WRITE_FAILURE && g_signal != SIGPIPE);
+}
+
+static void	print_write_error(void)
+{
+	ft_dprintf(STDERR_FILENO, "%s: echo: %s (g_signal = %d)\n",
+		get_program_name(), strerror(errno), g_signal);
+}
+
 int	builtin_echo(
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
@@ -59,19 +71,17 @@ int	builtin_echo(
 	argument_node = node_value->arguments->first->next;
 	print_last_newline = true;
 	if (!handle_echo_options(&argument_node, &print_last_newline))
-		return (ft_dprintf(STDERR_FILENO, "%s: echo: %s\n", get_program_name(),
-				"options other than -n not supported"), GENERAL_FAILURE);
+		return (ft_dprintf(STDERR_FILENO, "%s: echo: options other than -n "
+				"not supported\n", get_program_name()), GENERAL_FAILURE);
 	while (argument_node)
 	{
-		if (ft_printf("%s", argument_node->value) == WRITE_FAILURE)
-			return (ft_dprintf(STDERR_FILENO, "%s: echo: %s\n",
-					get_program_name(), strerror(errno)), GENERAL_FAILURE);
-		if (argument_node->next)
-			ft_printf(" ");
+		if (error_printing_other_than_sigpipe(argument_node->value))
+			return (print_write_error(), GENERAL_FAILURE);
+		if (argument_node->next && error_printing_other_than_sigpipe(" "))
+			return (print_write_error(), GENERAL_FAILURE);
 		argument_node = argument_node->next;
 	}
-	if (print_last_newline && ft_printf("\n") == WRITE_FAILURE)
-		return (ft_dprintf(STDERR_FILENO, "%s: echo: %s\n",
-				get_program_name(), strerror(errno)), GENERAL_FAILURE);
+	if (print_last_newline && error_printing_other_than_sigpipe("\n"))
+		return (print_write_error(), GENERAL_FAILURE);
 	return (SUCCESS);
 }
