@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/20 13:10:30 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/20 15:07:36 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_var_and_value
 	bool	var_value_was_malloced;
 }	t_var_and_value;
 
-void	destroy_val_and_value(void *var_and_value)
+void	destroy_var_and_value(void *var_and_value)
 {
 	t_var_and_value *node_value;
 
@@ -147,7 +147,7 @@ t_list	*get_all_vars_and_values(char *str, t_program_vars *program_vars)
 	}
 	if (!all_vars_and_values->size)
 	{
-		ft_list_destroy(all_vars_and_values, destroy_val_and_value);
+		ft_list_destroy(all_vars_and_values, destroy_var_and_value);
 		all_vars_and_values = NULL;
 	}
 	return (all_vars_and_values);
@@ -242,6 +242,37 @@ char	*replace_vars_with_values(
 	return (new_str);
 }
 
+bool	is_quote(char c)
+{
+	return (c == '\'' || c == '"');
+}
+
+char	*remove_quotes(char *str)
+{
+	char	opening_quote;
+	char	*quote_free_str;
+	int		i;
+	int		j;
+
+	quote_free_str = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (is_quote(str[i]) && !is_quote(opening_quote))
+			opening_quote = str[i];
+		else if (is_quote(opening_quote) && str[i] == opening_quote)
+			opening_quote = ' ';
+		else
+		{
+			quote_free_str[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	return (quote_free_str);
+}
+
 int	builtin_expand(
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
@@ -252,6 +283,7 @@ int	builtin_expand(
 	t_list_node					*argument_node;
 	t_list						*all_vars_and_values;
 	char						*result;
+	char						*result_quote_free;
 
 	(void)node;
 	(void)tokens_and_syntax_tree;
@@ -279,16 +311,21 @@ int	builtin_expand(
 		print_pairs(all_vars_and_values);
 		ft_printf("\n");
 		result = replace_vars_with_values(argument_node->value, all_vars_and_values);
+		result_quote_free = remove_quotes(result);
 		ft_printf("Original [%zu]:\n"
 					"%s\n"
 					"Result [%zu]:\n"
+					"%s\n"
+					"After quote removal:\n"
 					"%s\n",
 					ft_strlen(argument_node->value),
 					argument_node->value,
 					ft_strlen(result),
-					result);
-		ft_list_destroy(all_vars_and_values, destroy_val_and_value);
+					result,
+					result_quote_free);
+		ft_list_destroy(all_vars_and_values, destroy_var_and_value);
 		free(result);
+		free(result_quote_free);
 	}
 	else
 		ft_printf("No variables found!\n");
