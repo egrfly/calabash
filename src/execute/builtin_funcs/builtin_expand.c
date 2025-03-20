@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/11 06:35:38 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/20 13:10:30 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +110,19 @@ t_list	*get_all_vars_and_values(char *str, t_program_vars *program_vars)
 	t_var_and_value	*var_and_value;
 	size_t			i;
 	size_t			var_name_len;
+	bool			expand;
 
 	if (!str || !str[0])
 		return (NULL);
 	all_vars_and_values = ft_list_init();
 	i = 0;
+	expand = true;
 	while (str[i])
 	{
+		if (str[i] == '\'')
+			expand = !expand;
 		var_name_len = 0;
-		if (str[i] == '$')
+		if (str[i] == '$' && expand)
 		{
 			var_and_value = ft_calloc(1, sizeof(t_var_and_value));
 			var_name_len = get_var_name(str, i + 1, &var_and_value->var_name);
@@ -246,7 +250,7 @@ int	builtin_expand(
 	static bool					_degub_1st_call = true;
 	t_syntax_tree_node_value	*node_value;
 	t_list_node					*argument_node;
-	t_list						*all_vals_and_values;
+	t_list						*all_vars_and_values;
 	char						*result;
 
 	(void)node;
@@ -267,14 +271,14 @@ int	builtin_expand(
 		ft_printf("ONE argument is needed!\n");
 		return (SUCCESS);
 	}
-	all_vals_and_values
+	all_vars_and_values
 		= get_all_vars_and_values(argument_node->value, program_vars);
-	if (all_vals_and_values)
+	if (all_vars_and_values)
 	{
 		ft_printf("Found the below variables in above string:\n");
-		print_pairs(all_vals_and_values);
+		print_pairs(all_vars_and_values);
 		ft_printf("\n");
-		result = replace_vars_with_values(argument_node->value, all_vals_and_values);
+		result = replace_vars_with_values(argument_node->value, all_vars_and_values);
 		ft_printf("Original [%zu]:\n"
 					"%s\n"
 					"Result [%zu]:\n"
@@ -283,7 +287,7 @@ int	builtin_expand(
 					argument_node->value,
 					ft_strlen(result),
 					result);
-		ft_list_destroy(all_vals_and_values, destroy_val_and_value);
+		ft_list_destroy(all_vars_and_values, destroy_val_and_value);
 		free(result);
 	}
 	else
