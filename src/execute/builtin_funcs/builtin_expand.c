@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/21 18:58:31 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/21 19:39:49 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ int	char_allowed_for_var_name(char c)
 	return (ft_isalnum(c) || c == '_');
 }
 
-int char_allowed_for_start_of_var_name(char c)
+int	char_allowed_for_start_of_var_name(char c)
 {
-	return (ft_isalpha(c) || c == '_');
+	return (ft_isalpha(c) || c == '_' || c == '?');
 }
 
 /*
@@ -98,9 +98,11 @@ size_t	get_var_name(
 	i = position;
 	if (str[i] && char_allowed_for_start_of_var_name(str[i]))
 	{
-		i++;
-		while (str[i] && char_allowed_for_var_name(str[i]))
+		if (str[i] == '?' && i > 0 && str[i - 1] == '$')
 			i++;
+		else
+			while (str[i] && char_allowed_for_var_name(str[i]))
+				i++;
 	}
 	var_len = i - position;
 	if (var_len)
@@ -120,7 +122,7 @@ bool	insert_next_var_and_value(
 			t_list *all_vars_and_values,
 			char *str,
 			size_t i,
-			t_list *program_vars)
+			t_program_vars *program_vars)
 {
 	t_var_and_value	*var_and_value;
 	size_t			var_name_len;
@@ -134,8 +136,14 @@ bool	insert_next_var_and_value(
 		var_and_value->var_name_len = DOLLAR_PREFIX + var_name_len;
 		var_and_value->var_name_start_pos = i - DOLLAR_PREFIX;
 		var_and_value->var_name_was_malloced = true;
-		var_and_value->var_value
-			= get_var_value(var_and_value->var_name, program_vars);
+		if (ft_strcmp(var_and_value->var_name, "?") == 0)
+		{
+			var_and_value->var_value = ft_itostr(program_vars->last_exit_status);
+			var_and_value->var_value_was_malloced = true;
+		}
+		else
+			var_and_value->var_value
+				= get_var_value(var_and_value->var_name, program_vars->vars);
 		if (var_and_value->var_value)
 			var_and_value->var_value_len = ft_strlen(var_and_value->var_value);
 		else
@@ -179,7 +187,7 @@ t_list	*get_all_vars_and_values(
 		if (str[i] == '$' && expand)
 		{
 			if (!insert_next_var_and_value(
-					all_vars_and_values, str, i + 1, program_vars->vars))
+					all_vars_and_values, str, i + 1, program_vars))
 			{
 				all_vars_and_values->size = 0;
 				break ;
@@ -346,7 +354,7 @@ int	builtin_expand(
 	{
 		add_history("expand \"$$asfddasfsd$USER|djafogisd$user$test\"");
 		add_history("expand \"$$1asfddasfsd$USER|djafogisd$user$testuuuas2 2 32 32 $MFLAGS 222222\"");
-		add_history("expand $USER'$PWD\"$USER\"$USER'\"$USER\"");
+		add_history("expand $?$USER'$?$PWD\"$USER\"$USER'$?\"$USER\"$?");
 		_degub_1st_call = false;
 	}
 	
