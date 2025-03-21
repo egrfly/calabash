@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/21 13:02:54 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/21 16:21:07 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ typedef struct s_var_and_value
 	bool	var_value_was_malloced;
 }	t_var_and_value;
 
+typedef enum e_string_types
+{
+	STR,
+	NEW_STR,
+}	t_string_types;
+
 void	destroy_var_and_value(void *var_and_value)
 {
 	t_var_and_value *node_value;
@@ -51,16 +57,19 @@ void	destroy_var_and_value(void *var_and_value)
 	node_value = (t_var_and_value *)var_and_value;
 	if (node_value->var_name_was_malloced)
 	{
+		// ft_printf("Destroying: var_name = %s\n", node_value->var_name);
 		free(node_value->var_name);
 		node_value->var_name = NULL;
 		node_value->var_name_was_malloced = false;
 	}
 	if (node_value->var_value_was_malloced)
 	{
+		// ft_printf("Destroying: var_value = %s\n", node_value->var_value);
 		free(node_value->var_value);
 		node_value->var_value = NULL;
 		node_value->var_value_was_malloced = false;
 	}
+	// ft_printf("Destroying: node\n");
 	free(node_value);
 }
 
@@ -132,10 +141,20 @@ bool	insert_next_var_and_value(
 		else
 			var_and_value->var_value_len = 0;
 		ft_list_append(all_vars_and_values, var_and_value);
-		return (true);
 	}
-	free(var_and_value);
-	return (false);
+	else
+		free(var_and_value);
+	return (true);
+}
+
+void	destroy_all_vars_and_values_if_empty(t_list **all_vars_and_values)
+{
+	//ft_printf("Destroying: all_vars_and_values\n");
+	if (!(*all_vars_and_values)->size)
+	{
+		ft_list_destroy(*all_vars_and_values, destroy_var_and_value);
+		*all_vars_and_values = NULL;
+	}
 }
 
 t_list	*get_all_vars_and_values(
@@ -154,8 +173,7 @@ t_list	*get_all_vars_and_values(
 	expand = true;
 	while (str[i])
 	{
-		if (str[i] == '\'')
-			expand = !expand;
+		expand = !(str[i] == '\'' && expand == true); // if (str[i] == '\'') expand = !expand;
 		var_name_len = 0;
 		if (str[i] == '$' && expand)
 		{
@@ -165,15 +183,12 @@ t_list	*get_all_vars_and_values(
 				all_vars_and_values->size = 0;
 				break ;
 			}
-			var_name_len = ((t_var_and_value *)all_vars_and_values->last->value)->var_name_len;
+			var_name_len = ((t_var_and_value *)
+					all_vars_and_values->last->value)->var_name_len;
 		}
 		i += 1 + var_name_len;
 	}
-	if (!all_vars_and_values->size)
-	{
-		ft_list_destroy(all_vars_and_values, destroy_var_and_value);
-		all_vars_and_values = NULL;
-	}
+	destroy_all_vars_and_values_if_empty(&all_vars_and_values);
 	return (all_vars_and_values);
 }
 
@@ -222,12 +237,6 @@ size_t	get_new_str_length(
 	return (ft_strlen(str) - total_var_names_len
 		+ total_var_values_len + EOF_STR);
 }
-
-typedef enum e_string_types
-{
-	STR,
-	NEW_STR,
-}	t_string_types;
 
 void	copy_var_values_into_new_str(
 			char *new_str,
@@ -310,6 +319,11 @@ char	*remove_quotes(char *str)
 	}
 	return (quote_free_str);
 }
+
+/*
+ *	TODO: $? ??? SUGGESTION: add variable with name "?" to program_vars?
+ *		  and, allow a var name with one '?' ???
+ */
 
 int	builtin_expand(
 		t_binary_tree_node *node,
