@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/20 15:07:36 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/21 13:02:54 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 #include <readline/history.h>
 
 
-#define VAR_NAME_PREFIX 1
+#define DOLLAR_PREFIX 1
 #define EOF_STR 1
 
 typedef struct s_var_and_value
@@ -78,7 +78,10 @@ int char_allowed_for_start_of_var_name(char c)
  *	If a variable name with length > 0 is found, will malloc and
  *	return A COPY for the portion from str.
  */
-size_t	get_var_name(char *str, size_t position, char **var_name)
+size_t	get_var_name(
+			char *str,
+			size_t position,
+			char **var_name)
 {
 	size_t	var_len;
 	size_t	i;
@@ -104,10 +107,42 @@ size_t	get_var_name(char *str, size_t position, char **var_name)
 	return (var_len);
 }
 
-t_list	*get_all_vars_and_values(char *str, t_program_vars *program_vars)
+bool	insert_next_var_and_value(
+			t_list *all_vars_and_values,
+			char *str,
+			size_t i,
+			t_list *program_vars)
+{
+	t_var_and_value	*var_and_value;
+	size_t			var_name_len;
+
+	var_and_value = ft_calloc(1, sizeof(t_var_and_value));
+	if (!var_and_value)
+		return (false);
+	var_name_len = get_var_name(str, i, &var_and_value->var_name);
+	if (var_name_len)
+	{
+		var_and_value->var_name_len = DOLLAR_PREFIX + var_name_len;
+		var_and_value->var_name_start_pos = i - DOLLAR_PREFIX;
+		var_and_value->var_name_was_malloced = true;
+		var_and_value->var_value
+			= get_var_value(var_and_value->var_name, program_vars);
+		if (var_and_value->var_value)
+			var_and_value->var_value_len = ft_strlen(var_and_value->var_value);
+		else
+			var_and_value->var_value_len = 0;
+		ft_list_append(all_vars_and_values, var_and_value);
+		return (true);
+	}
+	free(var_and_value);
+	return (false);
+}
+
+t_list	*get_all_vars_and_values(
+			char *str,
+			t_program_vars *program_vars)
 {
 	t_list			*all_vars_and_values;
-	t_var_and_value	*var_and_value;
 	size_t			i;
 	size_t			var_name_len;
 	bool			expand;
@@ -124,24 +159,13 @@ t_list	*get_all_vars_and_values(char *str, t_program_vars *program_vars)
 		var_name_len = 0;
 		if (str[i] == '$' && expand)
 		{
-			var_and_value = ft_calloc(1, sizeof(t_var_and_value));
-			var_name_len = get_var_name(str, i + 1, &var_and_value->var_name);
-			if (var_name_len)
+			if (!insert_next_var_and_value(
+					all_vars_and_values, str, i + 1, program_vars->vars))
 			{
-				var_and_value->var_name_len = var_name_len + VAR_NAME_PREFIX;
-				var_and_value->var_name_start_pos = i;
-				var_and_value->var_name_was_malloced = true;
-				var_and_value->var_value
-					= get_var_value(var_and_value->var_name, program_vars->vars);
-				var_and_value->var_value_was_malloced = false; //this is false by calloc by default!?
-				if (var_and_value->var_value)
-					var_and_value->var_value_len = ft_strlen(var_and_value->var_value);
-				else
-					var_and_value->var_value_len = 0;
-				ft_list_append(all_vars_and_values, var_and_value);
+				all_vars_and_values->size = 0;
+				break ;
 			}
-			else
-				free(var_and_value);
+			var_name_len = ((t_var_and_value *)all_vars_and_values->last->value)->var_name_len;
 		}
 		i += 1 + var_name_len;
 	}
@@ -205,6 +229,25 @@ typedef enum e_string_types
 	NEW_STR,
 }	t_string_types;
 
+void	copy_var_values_into_new_str(
+			char *new_str,
+			char *str,
+			size_t start_index[2],
+			t_var_and_value *var_and_value)
+{
+	size_t	chars_to_cpy;
+
+	chars_to_cpy = var_and_value->var_name_start_pos - start_index[STR];
+	ft_memcpy(new_str + start_index[NEW_STR],
+			str + start_index[STR], chars_to_cpy);
+	start_index[STR] += chars_to_cpy + var_and_value->var_name_len;
+	start_index[NEW_STR] += chars_to_cpy;
+	ft_memcpy(new_str + start_index[NEW_STR],
+			var_and_value->var_value,
+			var_and_value->var_value_len);
+	start_index[NEW_STR] += var_and_value->var_value_len;
+}
+
 char	*replace_vars_with_values(
 			char *str,
 			t_list *vars_and_values)
@@ -221,24 +264,18 @@ char	*replace_vars_with_values(
 		get_new_str_length(str, vars_and_values), sizeof(char));
 	if (!new_str)
 		return (NULL);
-	var_and_value_node = vars_and_values->first;
 	start_index[STR] = 0;
 	start_index[NEW_STR] = 0;
+	var_and_value_node = vars_and_values->first;
 	while (var_and_value_node)
 	{
 		var_and_value = var_and_value_node->value;
-		chars_to_cpy = var_and_value->var_name_start_pos - start_index[STR];
-		ft_memcpy(new_str + start_index[NEW_STR], str + start_index[STR], chars_to_cpy);
-		start_index[STR] += chars_to_cpy + var_and_value->var_name_len;
-		start_index[NEW_STR] += chars_to_cpy;
-		ft_memcpy(new_str + start_index[NEW_STR],
-				var_and_value->var_value,
-				var_and_value->var_value_len);
-		start_index[NEW_STR] += var_and_value->var_value_len;
+		copy_var_values_into_new_str(new_str, str, start_index, var_and_value);
 		var_and_value_node = var_and_value_node->next;
 	}
 	chars_to_cpy = ft_strlen(str) - start_index[STR];
-	ft_memcpy(new_str + start_index[NEW_STR], str + start_index[STR], chars_to_cpy);
+	ft_memcpy(new_str + start_index[NEW_STR],
+		str + start_index[STR], chars_to_cpy);
 	return (new_str);
 }
 
@@ -257,6 +294,7 @@ char	*remove_quotes(char *str)
 	quote_free_str = ft_calloc(ft_strlen(str) + 1, sizeof(char));
 	i = 0;
 	j = 0;
+	opening_quote = ' ';
 	while (str[i])
 	{
 		if (is_quote(str[i]) && !is_quote(opening_quote))
