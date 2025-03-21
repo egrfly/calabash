@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/21 16:21:07 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/21 18:58:31 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,8 @@ t_list	*get_all_vars_and_values(
 	expand = true;
 	while (str[i])
 	{
-		expand = !(str[i] == '\'' && expand == true); // if (str[i] == '\'') expand = !expand;
+		if (str[i] == '\'')
+			expand = !expand;
 		var_name_len = 0;
 		if (str[i] == '$' && expand)
 		{
@@ -184,7 +185,7 @@ t_list	*get_all_vars_and_values(
 				break ;
 			}
 			var_name_len = ((t_var_and_value *)
-					all_vars_and_values->last->value)->var_name_len;
+					all_vars_and_values->last->value)->var_name_len - 1;
 		}
 		i += 1 + var_name_len;
 	}
@@ -345,6 +346,7 @@ int	builtin_expand(
 	{
 		add_history("expand \"$$asfddasfsd$USER|djafogisd$user$test\"");
 		add_history("expand \"$$1asfddasfsd$USER|djafogisd$user$testuuuas2 2 32 32 $MFLAGS 222222\"");
+		add_history("expand $USER'$PWD\"$USER\"$USER'\"$USER\"");
 		_degub_1st_call = false;
 	}
 	
