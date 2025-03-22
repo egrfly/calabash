@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_utils.h                                       :+:      :+:    :+:   */
+/*   is_quote.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 19:19:40 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/22 15:58:30 by aistok           ###   ########.fr       */
+/*   Created: 2025/03/22 16:53:55 by aistok            #+#    #+#             */
+/*   Updated: 2025/03/22 17:01:59 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_UTILS_H
-# define LIST_UTILS_H
+#include <stdbool.h>
+#include "./expansions.h"
 
-# include "ft_list.h"
-
-t_list	*get_list_from_values(
-			char **values);
-char	**get_values_from_list(
-			t_list *list);
-t_list	*duplicate_str_list(
-			t_list *list);
-
-#endif
+bool	is_quote(
+			char c,
+			t_quote_types quote_type)
+{
+	if (quote_type == QUOTE_ANY)
+		return (c == '\'' || c == '"');
+	if (quote_type == QUOTE_SINGLE)
+		return (c == '\'');
+	if (quote_type == QUOTE_DOUBLE)
+		return (c == '"');
+	return (false);
+}

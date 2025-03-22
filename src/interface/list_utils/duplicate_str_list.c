@@ -1,25 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_utils.h                                       :+:      :+:    :+:   */
+/*   duplicate_str_list.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 19:19:40 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/22 15:58:30 by aistok           ###   ########.fr       */
+/*   Created: 2025/03/22 15:46:26 by aistok            #+#    #+#             */
+/*   Updated: 2025/03/22 15:58:41 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_UTILS_H
-# define LIST_UTILS_H
+#include <stdlib.h>
+#include "ft_list.h"
+#include "ft_string.h"
 
-# include "ft_list.h"
-
-t_list	*get_list_from_values(
-			char **values);
-char	**get_values_from_list(
-			t_list *list);
 t_list	*duplicate_str_list(
-			t_list *list);
+			t_list *list)
+{
+	t_list_node	*list_node;
+	t_list		*new_list;
 
-#endif
+	if (!list)
+		return (NULL);
+	new_list = ft_list_init();
+	list_node = list->first;
+	while (list_node)
+	{
+		if (!ft_list_append(new_list, ft_strdup(list_node->value)))
+		{
+			ft_list_destroy(new_list, free);
+			new_list = NULL;
+			break ;
+		}
+		list_node = list_node->next;
+	}
+	return (new_list);
+}
