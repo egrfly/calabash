@@ -12,7 +12,6 @@ export YELLOW="\033[1;33m"
 export DEFAULT="\033[0m"
 
 function run_test() {
-  # RETURN_VALUE=0
   # Test file-based input
   calabash_output=`echo "$COMMAND" | ../calabash`
   bash_output=`echo "$COMMAND" | bash`
@@ -26,7 +25,6 @@ function run_test() {
 	echo -e ${LIGHTGREEN}"    bash output:" "$bash_output"${DEFAULT}
 	RETURN_VALUE=1;
   fi
-
   # Test string-based input
   calabash_output=`../calabash -c "$COMMAND"`
   bash_output=`bash -c "$COMMAND"`
@@ -40,14 +38,16 @@ function run_test() {
 	echo -e ${LIGHTGREEN}"    bash output:" "$bash_output"${DEFAULT}
 	RETURN_VALUE=1;
   fi
-
   echo
 }
 
 export COMMAND="echo \$USER"
 run_test
 
-export COMMAND="echo \$USER \$PWD"
+export COMMAND="echo \$USER \$GROUP abc 123 abc123"
+run_test
+
+export COMMAND="no_such_cmd 2>/dev/null; echo \$?"
 run_test
 
 export COMMAND="echo '\$USER'"
@@ -61,8 +61,6 @@ run_test
 
 export COMMAND="echo '\"\$USER\"'"
 run_test
-
-
 
 export COMMAND="echo \"   123   \" 444"
 run_test
