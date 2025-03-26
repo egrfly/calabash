@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 12:55:36 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/22 17:09:32 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/26 04:08:05 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 #include "ft_string.h"
 #include "./expansions.h"
 
+/*
+ *	FOR FUTURE:
+ *	if this function will only remove quotes from the beginning and the end of
+ *	the string, then it could be simplified / "optimized", by calloc-ing
+ *	ft_strlen(str) - 2 + 1 bytes!!!
+ */
 char	*remove_quotes(char *str)
 {
 	char	opening_quote;
@@ -22,6 +28,8 @@ char	*remove_quotes(char *str)
 	int		j;
 
 	quote_free_str = ft_calloc(ft_strlen(str) + 1, sizeof(char));
+	// if (!quote_free_str)
+	// 	return (NULL); //???
 	i = 0;
 	j = 0;
 	opening_quote = ' ';

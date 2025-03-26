@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/22 17:48:18 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/26 05:33:23 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,73 +102,203 @@ static int	locate_and_execute_command(
 	return (GENERAL_FAILURE);
 }
 
+/*
+ *	In future this might be expanded to include the $IFS chars?
+ */
+bool	is_field_separator(char c)
+{
+	if (c == ' ')
+		return (true);
+	return (false);
+}
+
+// TODO: NORMINETTE
+// TODO: LEAKS
+/*
+ *	This function will break the string into chunks, based on
+ *	is_field_separator and will make sure, not to break quoted
+ *	sequences (so, if a quoted sequence is found, ex "say hello",
+ *	then, this sequence will become a chunk in it's own right,
+ *	together with the quotes themselves; "..." or '...' can both
+ *	happen to become chunks).
+ */
+t_list	*get_split_arguments(char *str, t_quote_types quote_type)
+{
+	t_list	*result;
+	size_t	start;
+	size_t	i;
+	char	opening_quote;
+	char	*subst;
+
+	if (ft_strlen(str) == 0)
+		return (NULL);
+	// ft_printf("get_split_arguments -> str = %s\n", str);
+	i = 0;
+	start = 0;
+	opening_quote = ' ';
+	result = ft_list_init();
+	while (str[i])
+	{
+		if (!is_quote(str[i], quote_type) && !is_quote(opening_quote, quote_type) && str[i])
+		{
+			if (is_field_separator(str[i]))
+			{
+				// ft_printf("AAA\n");
+				if (i - start > 0)
+				{
+					subst = ft_substr(str, start, i - start);
+					// ft_printf(">>%s<<\n", subst);
+					ft_list_append(result, subst);
+				}
+				start = i + 1;
+			}
+		}
+		else if (is_quote(str[i], quote_type) && !is_quote(opening_quote, quote_type))
+		{
+			// ft_printf("BBB\n");
+			opening_quote = str[i];
+			if (i - start > 0)
+			{
+				subst = ft_substr(str, start, i - start);
+				// ft_printf(">>%s<<\n", subst);
+				ft_list_append(result, subst);
+			}
+			start = i;
+		}
+		else if (is_quote(str[i], quote_type) && is_quote(opening_quote, quote_type) && str[i] == opening_quote)
+		{
+			// ft_printf("CCC\n");
+			opening_quote = ' ';
+			if (i - start > 0)
+			{
+				subst = ft_substr(str, start, i - start + 1);
+				// ft_printf(">>%s<<\n", subst);
+				ft_list_append(result, subst);
+			}
+			start = i + 1;
+		}
+		i++;
+	}
+	// ft_printf("start = %zu, i = %zu, len = %zu\n", start, i, ft_strlen(str));
+	if (ft_strlen(str) > 0 && i - start > 0 && i <= ft_strlen(str))
+	{
+		// ft_printf("DDD\n");
+		subst = ft_substr(str, start, i - start);
+		// ft_printf(">>%s<<\n", subst);
+		ft_list_append(result, subst);
+	}
+	return (result);
+}
+
+
+bool	has_field_separator_outside_quotes(char *str, t_quote_types quote_type)
+{
+	size_t	i;
+	char	opened_quote;
+
+	i = 0;
+	opened_quote = ' ';
+	while (str[i])
+	{
+		while (str[i] && !is_quote(str[i], quote_type) && !is_field_separator(str[i]))
+			i++;
+		if (str[i] && !is_quote(str[i], quote_type) && !is_quote(opened_quote, QUOTE_ANY) && is_field_separator(str[i]))
+			return (true);
+		else if (str[i] && is_quote(str[i], quote_type) && !is_quote(opened_quote, QUOTE_ANY))
+			opened_quote = str[i];
+		else if (str[i] && is_quote(str[i], quote_type) && is_quote(opened_quote, QUOTE_ANY) && opened_quote == str[i])
+			opened_quote = ' ';
+		i++;
+	}
+	return (false);
+}
+
+/*
+ *	TODO: this function needs checking for any free-ing! LEAKS ?
+ *	TODO: NORMINETTE !!
+ */
 t_list	*expand_arguments(
 			t_list *arguments,
 			t_program_vars *program_vars)
 {
 	t_list_node	*argument_node;
 	t_list		*all_vars_and_values;
+	t_list		*space_split_values;
 	t_list		*new_arguments;
 	char		*expanded_argument;
 	char		*quotes_removed;
 	char		*str_all_arguments;
-	char		*tmp;
-	char		**str_arguments_splitted;
-	
+
 	str_all_arguments = NULL;
 	new_arguments = NULL;
 	argument_node = arguments->first;
+	space_split_values = ft_list_init();
+	new_arguments = ft_list_init();
 	while (argument_node)
 	{
 		expanded_argument = NULL;
 		quotes_removed = NULL;
-		all_vars_and_values = get_all_vars_and_values(argument_node->value, program_vars);
-		expanded_argument = expand_vars_to_values(argument_node->value, all_vars_and_values);
-		quotes_removed = remove_quotes(expanded_argument);
-		if (!str_all_arguments)
-			tmp = ft_strjoin2("", quotes_removed, NULL);
+		all_vars_and_values = get_all_vars_and_values_outside_quotes(argument_node->value, program_vars, QUOTE_SINGLE);
+		if (all_vars_and_values)
+		{
+			expanded_argument = expand_vars_to_values(argument_node->value, all_vars_and_values);
+			if (has_field_separator_outside_quotes(expanded_argument, QUOTE_ANY))
+			{
+				space_split_values = get_split_arguments(expanded_argument, QUOTE_ANY);
+				if (space_split_values && space_split_values->size)
+				{
+					t_list_node *ln = space_split_values->first;
+					while (ln)
+					{
+						if (is_quote(((char *)ln->value)[0], QUOTE_ANY))
+							ft_list_append(new_arguments, remove_quotes(ln->value));
+						else
+							ft_list_append(new_arguments, ln->value); //check if ft_strdup is needed ???
+						ln = ln->next;
+					}
+				}
+			}
+			else
+				quotes_removed = remove_quotes(expanded_argument);
+		}
 		else
-			tmp = ft_strjoin2(str_all_arguments, quotes_removed, " ");
-		free(str_all_arguments);
-		str_all_arguments = tmp;
+		{
+			quotes_removed = remove_quotes(argument_node->value);
+		}
+		if (quotes_removed)
+			ft_list_append(new_arguments, quotes_removed);
 		argument_node = argument_node->next;
 		ft_list_destroy(all_vars_and_values, destroy_var_and_value);
 		free(expanded_argument);
-		free(quotes_removed);
+		//free(quotes_removed);
 	}
-	if (str_all_arguments)
-	{
-		str_arguments_splitted = ft_split(str_all_arguments, " ");
-		free(str_all_arguments);
-		new_arguments = get_list_from_values(str_arguments_splitted);
-		ft_split_destroy(&str_arguments_splitted);
-	}
-	if (!new_arguments)
-		new_arguments = duplicate_str_list(arguments);
 	return (new_arguments);
 }
 
-/* REMOVE ! */
+/* TODO: REMOVE ! */
 void	debug_print(char *title, t_list *list)
 {
 	t_list_node	*list_node;
 
-	ft_printf("%s\n", title);
+	ft_printf("---- %s ----\n", title);
 	if (!list || !list->first)
 	{
-		ft_printf("NULL\n");
-		ft_printf("---- DONE.\n");
+		ft_printf("--> NULL\n");
+		ft_printf("---- DONE ----\n");
 		return ;
 	}
 	list_node = list->first;
 	while (list_node)
 	{
-		ft_printf("%s\n", list_node->value);
+		ft_printf("--> %s\n", list_node->value);
 		list_node = list_node->next;
 	}
-	ft_printf("---- DONE.\n");
+	ft_printf("---- DONE ----\n");
 }
 
+// TODO: heredoc ?
+// TODO: NORMINETTE
+// TODO: FREE node_value->arguments
 int	execute_simple_command(
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
@@ -180,9 +310,10 @@ int	execute_simple_command(
 	if (node_value->arguments->first)
 	{
 		t_list	*new_arguments = expand_arguments(node_value->arguments, program_vars);
-		//debug_print("ORIGINAL ARGUMENTS:", node_value->arguments); // REMOVE
-		//debug_print("NEW ARGUMENTS:", new_arguments); // REMOVE
-		// QUESTION: !!!??? CAN WE FREE node_value->arguments HERE?!? AND REPLACE IT WITH new_arguments?
+			// // ft_printf("++");
+			// debug_print("ORIGINAL ARGUMENTS:", node_value->arguments); // REMOVE
+			// debug_print("NEW ARGUMENTS:", new_arguments); // REMOVE
+			// // TODO: !!!??? CAN WE FREE node_value->arguments HERE?!? AND REPLACE IT WITH new_arguments?
 		node_value->arguments = new_arguments;
 		if (node->parent && (node_is_of_type(node->parent->value, PIPE)
 				|| node_is_of_type(node->parent->value, PIPE_BOTH)))

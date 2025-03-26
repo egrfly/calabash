@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 12:37:05 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/22 17:01:45 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/26 04:42:18 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,13 @@ typedef enum e_quote_types
 }	t_quote_types;
 
 void	destroy_var_and_value(void *var_and_value);
-// static size_t	get_new_str_length(
-// 			char	*str,
-// 			t_list 	*vars_and_values);
-// void	copy_var_values_into_new_str(
-// 			char *new_str,
-// 			char *str,
-// 			size_t start_index[2],
-// 			t_var_and_value *var_and_value);
 char	*expand_vars_to_values(
 			char *str,
 			t_list *vars_and_values);
-// void	destroy_all_vars_and_values_if_empty(
-// 			t_list **all_vars_and_values);
-t_list	*get_all_vars_and_values(
+t_list	*get_all_vars_and_values_outside_quotes(
 			char *str,
-			t_program_vars *program_vars);
-// int		char_allowed_for_var_name(char c);
-// int		char_allowed_for_start_of_var_name(char c);
+			t_program_vars *program_vars,
+			t_quote_types quote_type);
 size_t	get_next_var_name(
 			char *str,
 			size_t position,

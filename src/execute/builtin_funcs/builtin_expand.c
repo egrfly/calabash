@@ -6,7 +6,7 @@
 /*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/22 17:52:59 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/26 01:18:42 by aistok           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	builtin_expand(
 		return (SUCCESS);
 	}
 	all_vars_and_values
-		= get_all_vars_and_values(argument_node->value, program_vars);
+		= get_all_vars_and_values_outside_quotes(argument_node->value, program_vars, QUOTE_SINGLE);
 	if (all_vars_and_values)
 	{
 		ft_printf("Found the below variables in above string:\n");
