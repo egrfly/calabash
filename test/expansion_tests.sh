@@ -89,4 +89,40 @@ run_test
 export COMMAND="echo \"abc def ghi\""
 run_test
 
+export COMMAND="export whois=\"some pople\"; echo \$whois"
+run_test
+
+export COMMAND="\"\$\$asfddasfsd\$USER|djafogisd\$user\$test\""
+run_test
+
+export COMMAND="\"\$\$1asfddasfsd\$USER|djafogisd\$user\$testuuuas2 2 32 32 \$MFLAGS 222222\""
+run_test
+
+export COMMAND="\"\$?\$USER'\$?\$PWD\"\$USER\"\$USER'\$?\"\$USER\"\$?\""
+run_test
+
+export COMMAND="\"\$? \"\$USER'\$?'\"'\$PWD' zzz '\$PWD'\$?ZERO!\""
+run_test
+
+export COMMAND="export v=\"     heee     looo   \"; echo \$v"
+run_test
+
+export COMMAND="export v=\"     heee     looo   \"; ls \$v"
+run_test
+
+export COMMAND="ls \"\""
+run_test
+
+export COMMAND="ec\"ho\""
+run_test
+
+export COMMAND="export LS=\"s -l\"; l\$LSa"
+run_test
+
+export COMMAND="export LS=\"s \$HOME\"; l\$LS"
+run_test
+
+export COMMAND="export tt=\"ho 123\"; ec\$tt"
+run_test
+
 exit $RETURN_VALUE
