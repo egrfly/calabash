@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 15:39:47 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/22 18:22:08 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static void	print_processing_error(
 		+ ft_strlen(": ")
 		+ ft_strlen(description)
 		+ ft_strlen(" near line ")
-		+ ft_nbrlen(token->start_line_index + 1, 10)
+		+ ft_nbrlen_base(token->start_line_index + 1, 10)
 		+ ft_strlen(", char ")
-		+ ft_nbrlen(token->start_index_in_start_line + 1, 10)
+		+ ft_nbrlen_base(token->start_index_in_start_line + 1, 10)
 		+ ft_strlen(": "),
 		"",
 		token->length_in_context,

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 11:47:25 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/19 17:11:12 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ bool	update_redirection_if_here_doc_or_string(
 {
 	t_syntax_tree_node_value	*current_node_value;
 	t_redirection				*last_redirection;
-	char						temp_file_path[PATH_MAX + 1];
+	char						temp_file_path[PATH_MAX];
 
 	current_node_value = syntax_tree->current_node->value;
 	last_redirection = current_node_value->redirections->last->value;

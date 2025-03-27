@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try_get_redirection_word.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 04:43:57 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 01:20:39 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/19 09:42:03 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	try_get_redirection_word(
 	if (current_token->type == TYPE_WORD)
 	{
 		word_len = ft_strlen(current_token->content.word);
-		if (word_len >= 3
+		if (word_len >= 2
 			&& current_token->content.word[0] == '{'
 			&& current_token->content.word[word_len - 1] == '}'
 			&& range_is_identifier(current_token->content.word,

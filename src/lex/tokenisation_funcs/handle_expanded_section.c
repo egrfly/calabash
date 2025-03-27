@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 20:57:41 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 09:03:10 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/20 10:54:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static t_expansion_mode	get_expansion_mode(
 	return (NOT_EXPANDED_OR_SUBSTITUTED);
 }
 
-static void	handle_variable_expansion_without_braces(
+static bool	handle_variable_expansion_without_braces(
 				t_input_tracker *input_tracker,
 				t_token *last_token,
 				bool *out_of_memory)
@@ -78,8 +78,8 @@ static void	handle_variable_expansion_without_braces(
 			out_of_memory);
 		i++;
 	}
-	if (!get_current_char(input_tracker)
-		&& ft_strchr("@*#?-$!0123456789", get_current_char(input_tracker)))
+	if (get_current_char(input_tracker)
+		&& ft_strchr("*#?0123456789", get_current_char(input_tracker)))
 		add_to_token_context_and_advance(input_tracker, last_token,
 			out_of_memory);
 	else if ((ft_isalpha(get_current_char(input_tracker))
@@ -92,9 +92,10 @@ static void	handle_variable_expansion_without_braces(
 			add_to_token_context_and_advance(input_tracker, last_token,
 				out_of_memory);
 	}
+	return (!*out_of_memory);
 }
 
-static void	handle_variable_expansion_with_braces(
+static bool	handle_variable_expansion_with_braces(
 				t_input_tracker *input_tracker,
 				t_token *last_token,
 				bool *out_of_memory)
@@ -115,6 +116,7 @@ static void	handle_variable_expansion_with_braces(
 				VARIABLE_EXPANSION_WITH_BRACES]))
 		add_to_token_context_and_advance(input_tracker, last_token,
 			out_of_memory);
+	return (!*out_of_memory);
 }
 
 static bool	handle_unsupported_expansion_mode(
@@ -170,10 +172,10 @@ bool	handle_expanded_section(
 			return (false);
 		if (expansion_mode == VARIABLE_EXPANSION_WITHOUT_BRACES)
 			return (handle_variable_expansion_without_braces(input_tracker,
-					last_token, &tokens_with_status->out_of_memory), true);
+					last_token, &tokens_with_status->out_of_memory));
 		if (expansion_mode == VARIABLE_EXPANSION_WITH_BRACES)
 			return (handle_variable_expansion_with_braces(input_tracker,
-					last_token, &tokens_with_status->out_of_memory), true);
+					last_token, &tokens_with_status->out_of_memory));
 		return (handle_unsupported_expansion_mode(expansion_mode,
 				input_tracker, last_token, tokens_with_status), false);
 	}

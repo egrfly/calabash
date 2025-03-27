@@ -6,12 +6,13 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:24:48 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 15:13:43 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/26 22:10:24 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_binary_tree.h"
 #include "../../main.h"
+#include "../../expand/expand.h"
 #include "../../interface/interface.h"
 #include "../execute.h"
 #include "../command_utils/command_utils.h"
@@ -26,7 +27,8 @@ int	execute_group(
 	int							exit_status;
 
 	node_value = node->value;
-	if (!perform_redirections(node_value->redirections))
+	if (!expand_redirection_right_words(node_value->redirections, program_vars)
+		|| !perform_redirections(node_value->redirections))
 		return (GENERAL_FAILURE);
 	exit_status = execute_recursively(node->primary_child,
 			tokens_and_syntax_tree, program_vars);

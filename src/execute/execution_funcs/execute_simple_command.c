@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 15:15:48 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/26 22:29:10 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "ft_stdlib.h"
 #include "ft_string.h"
 #include "../../main.h"
+#include "../../expand/expand.h"
 #include "../../interface/interface.h"
 #include "../../interface/list_utils/list_utils.h"
 #include "../../interface/program_property_utils/program_property_utils.h"
@@ -105,6 +106,11 @@ int	execute_simple_command(
 	t_syntax_tree_node_value	*node_value;
 
 	node_value = node->value;
+	if (!expand_assignments(node_value->assignments, program_vars)
+		|| !expand_arguments(&node_value->arguments, program_vars)
+		|| !expand_redirection_right_words(node_value->redirections,
+			program_vars))
+		return (GENERAL_FAILURE);
 	if (node_value->arguments->first)
 	{
 		if (node->parent && (node_is_of_type(node->parent->value, PIPE)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 03:24:39 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 19:52:33 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/27 10:30:16 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static const
 [BUILTIN_UNALIAS] = "unalias",
 [BUILTIN_UNSET] = "unset",
 [BUILTIN_WAIT] = "wait",
-[BUILTIN_EXPAND] = "expand",
 };
 
 t_builtin	get_builtin(

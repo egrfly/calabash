@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 03:21:34 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 19:52:08 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/27 10:30:23 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ typedef enum e_builtin
 	BUILTIN_UNALIAS,
 	BUILTIN_UNSET,
 	BUILTIN_WAIT,
-	BUILTIN_EXPAND,
 }	t_builtin;
 
 t_builtin	get_builtin(

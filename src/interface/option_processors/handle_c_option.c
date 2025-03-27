@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:42:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/22 10:52:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 #include "../program_property_utils/program_property_utils.h"
 #include "../program_vars_lifecycle/program_vars_lifecycle.h"
 
-int	handle_c_option(char **argv, char **envp, int option_count)
+int	handle_c_option(int argc, char **argv, char **envp, int option_count)
 {
 	t_program_vars	program_vars;
 	char			*program_argument;
 	int				exit_status;
 
-	if (!init_program_vars(&program_vars, envp))
+	if (!init_program_vars(&program_vars, argc, argv, envp))
 		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
 				get_program_name()), GENERAL_FAILURE);
 	program_argument = argv[1 + option_count];

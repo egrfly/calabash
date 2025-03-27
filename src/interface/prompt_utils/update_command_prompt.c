@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:34:08 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 04:43:10 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/19 17:43:54 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,17 @@ static void	update_command_prompt_with_exit_status(
 
 void	update_command_prompt(
 			char *prompt,
-			int exit_status)
+			int exit_status,
+			t_program_vars *program_vars)
 {
 	static char	username[SHORT_PROMPT_COMPONENT_MAX + 1];
 	static char	hostname[SHORT_PROMPT_COMPONENT_MAX + 1];
-	static char	cwd[PATH_MAX + 1];
+	static char	cwd[PATH_MAX];
 
-	get_short_prompt_component(username, "id",
-		(char *[]){"id", "-un", NULL});
-	get_short_prompt_component(hostname, "hostname",
-		(char *[]){"hostname", "-s", NULL});
+	get_short_prompt_component(username, (char *[]){"id", "-un", NULL},
+		program_vars);
+	get_short_prompt_component(hostname, (char *[]){"hostname", "-s", NULL},
+		program_vars);
 	ft_strcpy(prompt, "----------------------------------------"
 		"----------------------------------------\n");
 	if (getcwd(cwd, PATH_MAX))

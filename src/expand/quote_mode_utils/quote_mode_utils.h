@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   program_vars_lifecycle.h                           :+:      :+:    :+:   */
+/*   quote_mode_utils.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/07 04:09:26 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/22 10:53:18 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/27 13:38:00 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/27 16:43:21 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROGRAM_VARS_LIFECYCLE_H
-# define PROGRAM_VARS_LIFECYCLE_H
+#ifndef QUOTE_MODE_UTILS_H
+# define QUOTE_MODE_UTILS_H
 
 # include <stdbool.h>
-# include "../interface.h"
+# include "../../lex/lex.h"
 
-bool	init_program_vars(
-			t_program_vars *program_vars,
-			int argc,
-			char **argv,
-			char **envp);
-void	destroy_program_vars(
-			t_program_vars *program_vars);
+bool	update_quote_mode_based_on_current_char(
+			char *c,
+			bool is_heredoc,
+			t_quote_mode *quote_mode);
 
 #endif

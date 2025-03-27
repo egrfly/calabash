@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:18:29 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 16:01:13 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/19 17:52:42 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ void	execute_and_exit(
 			t_binary_tree_node *node,
 			t_tokens_and_syntax_tree *tokens_and_syntax_tree,
 			t_program_vars *program_vars);
+void	execute_external_command(
+			int pipe_fd[2],
+			char **argv,
+			t_program_vars *program_vars,
+			t_tokens_and_syntax_tree *tokens_and_syntax_tree);
 void	destroy_tokens_and_syntax_tree(
 			t_tokens_and_syntax_tree *tokens_and_syntax_tree);
 int		try_decode_exit_status(

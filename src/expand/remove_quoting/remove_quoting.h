@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   program_vars_lifecycle.h                           :+:      :+:    :+:   */
+/*   remove_quoting.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/07 04:09:26 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/22 10:53:18 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/26 15:54:40 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/26 16:00:42 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PROGRAM_VARS_LIFECYCLE_H
-# define PROGRAM_VARS_LIFECYCLE_H
+#ifndef REMOVE_QUOTING_H
+# define REMOVE_QUOTING_H
 
 # include <stdbool.h>
-# include "../interface.h"
 
-bool	init_program_vars(
-			t_program_vars *program_vars,
-			int argc,
-			char **argv,
-			char **envp);
-void	destroy_program_vars(
-			t_program_vars *program_vars);
+bool	remove_quoting(
+			char *str,
+			bool is_heredoc);
 
 #endif

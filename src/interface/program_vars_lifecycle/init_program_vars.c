@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:10:43 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 15:48:20 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/22 10:54:35 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@
 
 bool	init_program_vars(
 			t_program_vars *program_vars,
+			int argc,
+			char **argv,
 			char **envp)
 {
 	program_vars->vars = get_list_from_values(envp);
+	program_vars->argc = argc;
+	program_vars->argv = argv;
 	program_vars->active_pipeline = NULL;
 	program_vars->should_exit = false;
 	program_vars->last_exit_status = SUCCESS;
