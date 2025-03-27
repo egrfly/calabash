@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 15:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/27 16:45:16 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/27 19:31:10 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ bool	expand_variables(
 			&& original_str[i] == '$'
 			&& original_str[i + 1])
 		{
+			expansion_took_place = true;
 			i++;
 			if (original_str[i] == '*')
 			{
@@ -167,7 +168,11 @@ bool	expand_variables(
 				new_str_additional_len -= j + 3;
 				i += j + 1;
 			}
-			expansion_took_place = true;
+			else
+			{
+				expansion_took_place = false;
+				i--;
+			}
 		}
 		if (!expansion_took_place)
 			i++;
@@ -190,6 +195,7 @@ bool	expand_variables(
 			&& original_str[i] == '$'
 			&& original_str[i + 1])
 		{
+			expansion_took_place = true;
 			i++;
 			if (original_str[i] == '*')
 			{
@@ -273,7 +279,11 @@ bool	expand_variables(
 				new_str_additional_len -= j + 3;
 				i += j + 1;
 			}
-			expansion_took_place = true;
+			else
+			{
+				expansion_took_place = false;
+				i--;
+			}
 		}
 		if (!expansion_took_place)
 		{
