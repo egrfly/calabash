@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/27 22:31:32 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,26 @@ static void	print_var_or_usage_error(
 		error_message);
 }
 
-static int	handle_cd_arguments(
+static bool	handle_cd_arguments(
 				t_list_node **argument_node)
 {
 	if (*argument_node
 		&& ft_strstarts((*argument_node)->value, "-")
 		&& ft_strcmp((*argument_node)->value, "-")
 		&& ft_strcmp((*argument_node)->value, "--"))
-		return (print_var_or_usage_error("options not supported"),
-			GENERAL_FAILURE);
+		return (print_var_or_usage_error("options not supported"), false);
 	if (*argument_node
 		&& !ft_strcmp((*argument_node)->value, "--"))
 		*argument_node = (*argument_node)->next;
 	if (*argument_node && (*argument_node)->next)
-		return (print_var_or_usage_error("too many arguments"),
-			GENERAL_FAILURE);
-	return (SUCCESS);
+		return (print_var_or_usage_error("too many arguments"), false);
+	return (true);
 }
 
 static bool	set_pwd_and_oldpwd_vars(
 				char *previous_dir,
-				t_list *vars)
+				t_list *vars,
+				bool should_pwd)
 {
 	char	*current_dir;
 	char	*new_pwd_var;
@@ -63,6 +62,8 @@ static bool	set_pwd_and_oldpwd_vars(
 	if (!current_dir)
 		return (free(previous_dir), ft_dprintf(STDERR_FILENO,
 				"%s: out of memory\n", get_program_name()), GENERAL_FAILURE);
+	if (should_pwd)
+		ft_printf("%s\n", current_dir);
 	new_pwd_var = ft_strjoin("PWD=", current_dir);
 	new_oldpwd_var = ft_strjoin("OLDPWD=", previous_dir);
 	free(current_dir);
@@ -79,7 +80,8 @@ static bool	set_pwd_and_oldpwd_vars(
 
 static int	try_change_to_dir(
 				const char *target_dir_path,
-				t_list *vars)
+				t_list *vars,
+				bool should_pwd)
 {
 	char	*current_dir;
 	int		exit_status;
@@ -88,7 +90,10 @@ static int	try_change_to_dir(
 	if (!current_dir)
 		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
 				get_program_name()), GENERAL_FAILURE);
-	exit_status = chdir(target_dir_path);
+	if (!ft_strcmp(target_dir_path, ""))
+		exit_status = SUCCESS;
+	else
+		exit_status = chdir(target_dir_path);
 	if (exit_status != SUCCESS)
 	{
 		free(current_dir);
@@ -96,7 +101,7 @@ static int	try_change_to_dir(
 				get_program_name(), target_dir_path, strerror(errno)),
 			GENERAL_FAILURE);
 	}
-	if (!set_pwd_and_oldpwd_vars(current_dir, vars))
+	if (!set_pwd_and_oldpwd_vars(current_dir, vars, should_pwd))
 		return (GENERAL_FAILURE);
 	return (SUCCESS);
 }
@@ -108,18 +113,20 @@ int	builtin_cd(
 {
 	t_syntax_tree_node_value	*node_value;
 	t_list_node					*argument_node;
-	int							argument_check;
+	bool						should_pwd;
 	char						*target_dir_path;
 
-	(void)tokens_and_syntax_tree;
-	node_value = node->value;
+	((void)tokens_and_syntax_tree, node_value = node->value);
 	argument_node = node_value->arguments->first->next;
-	argument_check = handle_cd_arguments(&argument_node);
-	if (argument_check != SUCCESS)
-		return (argument_check);
+	should_pwd = false;
+	if (!handle_cd_arguments(&argument_node))
+		return (GENERAL_FAILURE);
 	else if (argument_node && !ft_strcmp(argument_node->value, "-")
 		&& get_var_value("OLDPWD", program_vars->vars))
+	{
 		target_dir_path = get_var_value("OLDPWD", program_vars->vars);
+		should_pwd = true;
+	}
 	else if (argument_node && !ft_strcmp(argument_node->value, "-"))
 		return (print_var_or_usage_error("OLDPWD not set"), GENERAL_FAILURE);
 	else if (argument_node)
@@ -128,5 +135,5 @@ int	builtin_cd(
 		target_dir_path = get_var_value("HOME", program_vars->vars);
 	else
 		return (print_var_or_usage_error("HOME not set"), GENERAL_FAILURE);
-	return (try_change_to_dir(target_dir_path, program_vars->vars));
+	return (try_change_to_dir(target_dir_path, program_vars->vars, should_pwd));
 }

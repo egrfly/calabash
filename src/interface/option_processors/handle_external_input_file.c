@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:39:44 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/22 10:52:27 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/27 22:56:31 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ int	handle_external_input_file(int argc, char **argv, char **envp,
 	int				exit_status;
 
 	if (!init_program_vars(&program_vars, argc, argv, envp))
-		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
-				get_program_name()), GENERAL_FAILURE);
+		return (GENERAL_FAILURE);
 	input_file_fd = open(argv[1 + options_end_count], O_RDONLY);
 	if (input_file_fd > -1)
 	{

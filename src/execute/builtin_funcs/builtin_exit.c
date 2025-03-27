@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:10:03 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/18 01:19:51 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/27 23:09:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ int	builtin_exit(
 	exit_status = program_vars->last_exit_status;
 	if (argument_node && !ft_strtol(argument_node->value, &exit_status))
 		return (ft_dprintf(STDERR_FILENO,
-				"%s: exit: numeric argument required\n",
-				get_program_name()), NUMERIC_ARGUMENT_REQUIRED);
+				"%s: exit: %s: numeric argument required\n",
+				get_program_name(), argument_node->value),
+			NUMERIC_ARGUMENT_REQUIRED);
 	else if (argument_node && argument_node->next)
 		return (ft_dprintf(STDERR_FILENO, "%s: exit: too many arguments\n",
 				get_program_name()), TOO_MANY_ARGUMENTS);
