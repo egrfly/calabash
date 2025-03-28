@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 11:32:34 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/27 12:59:00 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 20:13:58 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,30 @@
 #include "ft_string.h"
 #include "../../interface/interface.h"
 #include "../../interface/program_property_utils/program_property_utils.h"
+#include "../../lex/lex.h"
 #include "../../parse/word_utils/word_utils.h"
 #include "../../execute/var_utils/var_utils.h"
+#include "../quote_mode_utils/quote_mode_utils.h"
 
 static int	get_new_str_additional_len(
 				char *var_value,
 				char *home)
 {
-	size_t	home_len;
-	int		new_str_additional_len;
-	size_t	i;
-	size_t	tilde_prefix_len;
+	t_quote_mode	quote_mode;
+	size_t			home_len;
+	int				new_str_additional_len;
+	size_t			i;
+	size_t			tilde_prefix_len;
 
+	quote_mode = UNQUOTED;
 	home_len = ft_strlen(home);
 	new_str_additional_len = 0;
 	i = 0;
 	while (var_value[i])
 	{
-		if ((i == 0 || var_value[i - 1] == ':')
-			&& var_value[i] == '~')
+		if (!update_quote_mode_based_on_current_char(&var_value[i],
+				&quote_mode, UNQUOTED) && quote_mode == UNQUOTED
+			&& ((i == 0 || var_value[i - 1] == ':') && var_value[i] == '~'))
 		{
 			tilde_prefix_len = ft_strcspn(&var_value[i], "/:");
 			if (tilde_prefix_len == 1)
@@ -53,15 +58,18 @@ static void	populate_new_str(
 				char *var_value,
 				char *home)
 {
-	size_t	i;
-	size_t	tilde_prefix_len;
+	t_quote_mode	quote_mode;
+	size_t			i;
+	size_t			tilde_prefix_len;
 
+	quote_mode = UNQUOTED;
 	ft_strncat(new_str, original_str, var_value - original_str);
 	i = 0;
 	while (var_value[i])
 	{
-		if ((i == 0 || var_value[i - 1] == ':')
-			&& var_value[i] == '~')
+		if (!update_quote_mode_based_on_current_char(&var_value[i],
+				&quote_mode, UNQUOTED) && quote_mode == UNQUOTED
+			&& ((i == 0 || var_value[i - 1] == ':') && var_value[i] == '~'))
 		{
 			tilde_prefix_len = ft_strcspn(&var_value[i], "/:");
 			if (tilde_prefix_len == 1)
