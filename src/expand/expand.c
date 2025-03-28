@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:06:17 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/26 18:25:48 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 02:13:47 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 #include "ft_list.h"
 #include "ft_stdio.h"
 #include "ft_string.h"
+#include "../execute/execute.h"
 #include "../interface/interface.h"
 #include "../interface/program_property_utils/program_property_utils.h"
 #include "../lex/lex.h"
 #include "../parse/parse.h"
+#include "../parse/temp_file_utils/temp_file_utils.h"
 #include "./expand.h"
 #include "./expand_tildes/expand_tildes.h"
 #include "./expand_variables/expand_variables.h"
@@ -100,6 +102,65 @@ bool	expand_arguments(
 	return (true);
 }
 
+#include <fcntl.h>
+#include "../interface/list_utils/list_utils.h"
+#include "../main.h"
+bool	expand_here_doc(
+			t_redirection *redirection,
+			t_program_vars *program_vars)
+{
+	int		fd;
+	t_list	*here_doc_line_list;
+	char	*here_doc_line;
+	char	**here_doc_lines;
+	char	*here_doc_content;
+
+	fd = open(redirection->right_content.word, O_RDONLY);
+	if (fd == OPEN_FAILURE)
+		return (ft_dprintf(STDERR_FILENO, "%s: here-document failure\n",
+				get_program_name()), unlink(
+					redirection->right_content.word), false);
+	here_doc_line_list = ft_list_init();
+	if (!here_doc_line_list)
+		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
+				get_program_name()), unlink(
+					redirection->right_content.word), false);
+	here_doc_line = ft_getline(fd);
+	while (here_doc_line)
+	{
+		if (!ft_list_append(here_doc_line_list, here_doc_line))
+			return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
+					get_program_name()), ft_list_destroy(here_doc_line_list,
+					free), unlink(redirection->right_content.word), false);
+		here_doc_line = ft_getline(fd);
+	}
+	close(fd);
+	here_doc_lines = get_values_from_list(here_doc_line_list);
+	if (!here_doc_lines)
+		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
+				get_program_name()), unlink(
+					redirection->right_content.word), false);
+	here_doc_content = ft_arrjoin(here_doc_lines, "\n");
+	ft_list_destroy(here_doc_line_list, free);
+	free(here_doc_lines);
+	if (!here_doc_content)
+		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
+				get_program_name()), unlink(
+					redirection->right_content.word), false);
+	if (!expand_variables(&here_doc_content, program_vars, IS_HEREDOC))
+		return (free(here_doc_content), unlink(redirection->right_content.word), false);
+	remove_quoting(here_doc_content, IS_HEREDOC);
+	fd = open(redirection->right_content.word, O_WRONLY | O_TRUNC);
+	if (fd == OPEN_FAILURE)
+		return (ft_dprintf(STDERR_FILENO, "%s: here-document failure\n",
+				get_program_name()), free(here_doc_content), unlink(
+					redirection->right_content.word), false);
+	ft_dprintf(fd, "%s\n", here_doc_content);
+	free(here_doc_content);
+	close(fd);
+	return (true);
+}
+
 bool	expand_redirection_right_word(
 			t_redirection *redirection,
 			t_program_vars *program_vars)
@@ -109,12 +170,13 @@ bool	expand_redirection_right_word(
 	original_right_word = ft_strdup(redirection->right_content.word);
 	if (!original_right_word)
 		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
-					get_program_name()), false);
+				get_program_name()), false);
 	if (redirection->operator == LESS_LESS
 		|| redirection->operator == LESS_LESS_DASH)
 	{
-		if (remove_quoting(redirection->right_content.word, NOT_HEREDOC))
-			redirection->heredoc_delimiter_involved_quoting = true;
+		if (!redirection->heredoc_delimiter_involved_quoting
+			&& !expand_here_doc(redirection, program_vars))
+			return (free(original_right_word), false);
 	}
 	else
 	{
@@ -125,7 +187,7 @@ bool	expand_redirection_right_word(
 		if (count_split_fields(redirection->right_content.word) != 1)
 			return (ft_dprintf(STDERR_FILENO, "%s: %s: ambiguous redirect\n",
 					get_program_name(), original_right_word),
-				free(original_right_word),  false);
+				free(original_right_word), false);
 		remove_quoting(redirection->right_content.word, NOT_HEREDOC);
 	}
 	return (free(original_right_word), true);
@@ -146,15 +208,3 @@ bool	expand_redirection_right_words(
 	}
 	return (true);
 }
-
-// Open file, line-by-line: read line, write expanded version to new file getting more lines if needed. Finally, remove original file
-// bool	expand_here_doc(
-// 			t_redirection *redirection,
-// 			t_program_vars *program_vars)
-// {
-// 	if (!redirection->heredoc_delimiter_involved_quoting)
-// 	{
-// 		// variable expansion
-// 	}
-// 	return (true);
-// }

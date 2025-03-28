@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 11:47:25 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/19 17:11:12 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 02:26:41 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 #include "ft_string.h"
 #include "../../main.h"
 #include "../../execute/signals/signals.h"
+#include "../../expand/expand.h"
+#include "../../expand/remove_quoting/remove_quoting.h"
 #include "../../interface/program_property_utils/program_property_utils.h"
 #include "../../lex/lex.h"
 #include "../parse.h"
@@ -44,11 +46,14 @@ static char	*adjust_line_start_if_necessary(
 static bool	add_here_doc_content_to_temp_file(
 				char *temp_file_path,
 				char *delimiter,
+				bool *delimiter_involved_quoting,
 				bool should_strip_leading_tabs)
 {
 	int		fd;
 	char	*line;
 
+	if (remove_quoting(delimiter, NOT_HEREDOC))
+		*delimiter_involved_quoting = true;
 	fd = open(temp_file_path, O_WRONLY | O_TRUNC);
 	if (fd == OPEN_FAILURE)
 		return (ft_dprintf(STDERR_FILENO, "%s: here-document failure\n",
@@ -102,10 +107,12 @@ static bool	add_here_doc_or_string_content_to_temp_file(
 		|| (redirection->operator == LESS_LESS_DASH
 			&& add_here_doc_content_to_temp_file(temp_file_path,
 				redirection->right_content.word,
+				&redirection->heredoc_delimiter_involved_quoting,
 				SHOULD_STRIP_LEADING_TABS))
 		|| (redirection->operator == LESS_LESS
 			&& add_here_doc_content_to_temp_file(temp_file_path,
 				redirection->right_content.word,
+				&redirection->heredoc_delimiter_involved_quoting,
 				SHOULD_NOT_STRIP_LEADING_TABS)));
 }
 

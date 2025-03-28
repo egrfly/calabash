@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 15:34:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/19 17:10:55 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 02:25:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ bool	make_temp_file(
 	int	exit_status;
 	int	chars_read;
 
+	temp_file_path[0] = '\0';
 	if (pipe(pipe_fd) == PIPE_FAILURE)
 		return (try_open_backup_temp_file(temp_file_path));
 	pid = fork();
