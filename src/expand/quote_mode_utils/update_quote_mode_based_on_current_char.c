@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:36:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/27 16:43:16 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 18:32:11 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 bool	update_quote_mode_based_on_current_char(
 			char *c,
-			bool is_heredoc,
-			t_quote_mode *quote_mode)
+			t_quote_mode *quote_mode,
+			t_quote_mode base_quote_mode)
 {
 	if (*quote_mode == UNQUOTED && *c == '\\')
 		*quote_mode = ESCAPED;
@@ -32,7 +32,8 @@ bool	update_quote_mode_based_on_current_char(
 		*quote_mode = UNQUOTED;
 	else if (*quote_mode == SINGLE_QUOTED && *c == '\'')
 		*quote_mode = UNQUOTED;
-	else if (*quote_mode == DOUBLE_QUOTED && *c == '\"' && !is_heredoc)
+	else if (*quote_mode == DOUBLE_QUOTED && *c == '\"'
+		&& base_quote_mode != DOUBLE_QUOTED)
 		*quote_mode = UNQUOTED;
 	else if (*quote_mode == DOUBLE_QUOTED_AND_ESCAPED)
 		*quote_mode = DOUBLE_QUOTED;

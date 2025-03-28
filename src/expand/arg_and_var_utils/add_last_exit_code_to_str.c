@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_mode_utils.h                                 :+:      :+:    :+:   */
+/*   add_last_exit_code_to_str.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 13:38:00 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/28 18:42:21 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/28 19:01:13 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/28 19:01:32 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef QUOTE_MODE_UTILS_H
-# define QUOTE_MODE_UTILS_H
+#include <stdlib.h>
+#include "../../interface/interface.h"
+#include "../escaped_string_utils/escaped_string_utils.h"
 
-# include <stdbool.h>
-# include "../../lex/lex.h"
-
-bool	update_quote_mode_based_on_current_char(
-			char *c,
-			t_quote_mode *quote_mode,
-			t_quote_mode base_quote_mode);
-bool	should_expand(
-			char *str,
-			t_quote_mode *quote_mode,
-			t_quote_mode base_quote_mode);
-
-#endif
+size_t	add_last_exit_code_to_str(
+			char *new_str,
+			t_program_vars *program_vars)
+{
+	strcat_number(new_str, program_vars->last_exit_status);
+	return (1);
+}

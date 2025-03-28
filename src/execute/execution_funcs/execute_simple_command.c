@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:47:20 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/26 22:29:10 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 12:04:05 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,33 @@ static int	locate_and_execute_command(
 	return (GENERAL_FAILURE);
 }
 
+static int	identify_and_execute_command(
+				t_binary_tree_node *node,
+				t_tokens_and_syntax_tree *tokens_and_syntax_tree,
+				t_program_vars *program_vars)
+{
+	t_syntax_tree_node_value	*node_value;
+
+	node_value = node->value;
+	if (node->parent && (node_is_of_type(node->parent->value, PIPE)
+			|| node_is_of_type(node->parent->value, PIPE_BOTH)))
+	{
+		if (get_builtin(node_value->arguments->first->value))
+			execute_and_exit(execute_builtin, node,
+				tokens_and_syntax_tree, program_vars);
+		return (locate_and_execute_command(node,
+				tokens_and_syntax_tree, program_vars));
+	}
+	else
+	{
+		if (get_builtin(node_value->arguments->first->value))
+			return (execute_builtin(node,
+					tokens_and_syntax_tree, program_vars));
+		return (create_child_process_and_execute(locate_and_execute_command,
+				node, tokens_and_syntax_tree, program_vars));
+	}
+}
+
 int	execute_simple_command(
 		t_binary_tree_node *node,
 		t_tokens_and_syntax_tree *tokens_and_syntax_tree,
@@ -112,22 +139,8 @@ int	execute_simple_command(
 			program_vars))
 		return (GENERAL_FAILURE);
 	if (node_value->arguments->first)
-	{
-		if (node->parent && (node_is_of_type(node->parent->value, PIPE)
-				|| node_is_of_type(node->parent->value, PIPE_BOTH)))
-		{
-			if (get_builtin(node_value->arguments->first->value))
-				execute_and_exit(execute_builtin, node,
-					tokens_and_syntax_tree, program_vars);
-			return (locate_and_execute_command(node,
-					tokens_and_syntax_tree, program_vars));
-		}
-		if (get_builtin(node_value->arguments->first->value))
-			return (execute_builtin(node,
-					tokens_and_syntax_tree, program_vars));
-		return (create_child_process_and_execute(locate_and_execute_command,
-				node, tokens_and_syntax_tree, program_vars));
-	}
+		return (identify_and_execute_command(node, tokens_and_syntax_tree,
+				program_vars));
 	if (!perform_redirections(node_value->redirections))
 		return (GENERAL_FAILURE);
 	if (!perform_assignments(node_value->assignments, program_vars->vars))

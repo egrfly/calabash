@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:01:36 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/27 16:44:20 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 18:33:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,25 @@ static bool	add_field_if_field_len_nonzero(
 	return (true);
 }
 
+static bool	add_field_or_increase_field_len(
+				char *c,
+				t_quote_mode *quote_mode,
+				size_t *field_len,
+				t_list *split_fields)
+{
+	if (!update_quote_mode_based_on_current_char(c, quote_mode,
+			UNQUOTED) && *quote_mode == UNQUOTED && ft_isspace(*c))
+	{
+		if (!add_field_if_field_len_nonzero(*field_len, c - *field_len,
+				split_fields))
+			return (false);
+		*field_len = 0;
+	}
+	else
+		(*field_len)++;
+	return (true);
+}
+
 t_list	*get_split_fields(
 			char *str)
 {
@@ -66,16 +85,9 @@ t_list	*get_split_fields(
 	i = 0;
 	while (str[i])
 	{
-		if (!update_quote_mode_based_on_current_char(&str[i], NOT_HEREDOC,
-				&quote_mode) && quote_mode == UNQUOTED && ft_isspace(str[i]))
-		{
-			if (!add_field_if_field_len_nonzero(field_len, &str[i - field_len],
-					split_fields))
-				return (NULL);
-			field_len = 0;
-		}
-		else
-			field_len++;
+		if (!add_field_or_increase_field_len(&str[i], &quote_mode, &field_len,
+				split_fields))
+			return (NULL);
 		i++;
 	}
 	if (!add_field_if_field_len_nonzero(field_len, &str[i - field_len],

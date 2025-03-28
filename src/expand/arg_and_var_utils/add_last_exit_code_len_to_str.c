@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_mode_utils.h                                 :+:      :+:    :+:   */
+/*   add_last_exit_code_len_to_str.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 13:38:00 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/28 18:42:21 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/28 18:52:48 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/28 18:53:18 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef QUOTE_MODE_UTILS_H
-# define QUOTE_MODE_UTILS_H
+#include <stdlib.h>
+#include "ft_stdlib.h"
+#include "ft_string.h"
+#include "../../interface/interface.h"
 
-# include <stdbool.h>
-# include "../../lex/lex.h"
-
-bool	update_quote_mode_based_on_current_char(
-			char *c,
-			t_quote_mode *quote_mode,
-			t_quote_mode base_quote_mode);
-bool	should_expand(
-			char *str,
-			t_quote_mode *quote_mode,
-			t_quote_mode base_quote_mode);
-
-#endif
+size_t	add_last_exit_code_len_to_str(
+			int *new_str_additional_len,
+			t_program_vars *program_vars)
+{
+	*new_str_additional_len
+		+= ft_nbrlen_base(program_vars->last_exit_status, 10);
+	*new_str_additional_len
+		-= ft_strlen("$?");
+	return (1);
+}

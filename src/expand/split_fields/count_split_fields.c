@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 16:02:08 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/27 16:47:46 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 18:32:48 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ size_t	count_split_fields(
 	i = 0;
 	while (str[i])
 	{
-		if (!update_quote_mode_based_on_current_char(&str[i], NOT_HEREDOC,
-				&quote_mode) && quote_mode == UNQUOTED && ft_isspace(str[i]))
+		if (!update_quote_mode_based_on_current_char(&str[i], &quote_mode,
+				UNQUOTED) && quote_mode == UNQUOTED && ft_isspace(str[i]))
 		{
 			increment_field_count_if_field_len_nonzero(field_len, &field_count);
 			field_len = 0;
