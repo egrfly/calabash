@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:10:43 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/27 23:15:10 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 22:06:23 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,11 @@ bool	init_program_vars(
 		return (ft_list_destroy(program_vars->vars, free), false);
 	program_vars->argc = argc;
 	program_vars->argv = argv;
-	program_vars->active_pipeline = NULL;
+	program_vars->active_pipelines = ft_list_init();
+	if (!program_vars->active_pipelines)
+		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
+				get_program_name()), ft_list_destroy(program_vars->vars, free),
+			false);
 	program_vars->should_exit = false;
 	program_vars->last_exit_status = SUCCESS;
 	return (true);

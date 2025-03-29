@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:08:12 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/07 08:09:20 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 21:52:05 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	revert_redirections(
 	t_list_node		*current_redirection_node;
 	t_redirection	*current_redirection;
 
+	if (!redirections)
+		return ;
 	current_redirection_node = redirections->last;
 	while (current_redirection_node)
 	{

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/22 10:51:00 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 22:05:23 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_program_vars
 	t_list		*vars;
 	int			argc;
 	char		**argv;
-	t_pipeline	*active_pipeline;
+	t_list		*active_pipelines;
 	bool		should_exit;
 	int			last_exit_status;
 }	t_program_vars;

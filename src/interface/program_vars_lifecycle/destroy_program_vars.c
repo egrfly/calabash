@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 04:10:14 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/27 23:57:25 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 22:20:21 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ void	destroy_program_vars(
 		return ;
 	if (program_vars->vars)
 		ft_list_destroy(program_vars->vars, free);
-	if (program_vars->active_pipeline)
+	if (program_vars->active_pipelines)
 	{
-		destroy_pipeline(program_vars->active_pipeline);
-		program_vars->active_pipeline = NULL;
+		ft_list_destroy(program_vars->active_pipelines,
+			(t_action_func)destroy_pipeline);
+		program_vars->active_pipelines = NULL;
 	}
 }

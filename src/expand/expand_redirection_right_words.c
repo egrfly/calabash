@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:11:41 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/28 19:48:51 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 21:50:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ bool	expand_redirection_right_words(
 	t_redirection	*redirection;
 	char			*original_right_word;
 
+	if (!redirections)
+		return (true);
 	redirection_node = redirections->first;
 	while (redirection_node)
 	{
