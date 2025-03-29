@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/22 18:22:08 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 14:34:41 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,15 @@ static int	handle_parsing_error(
 		return (print_processing_error(program_name,
 				"unsupported feature", get_first_unsupported_token(
 					tokens)), GENERAL_FAILURE);
-	if (syntax_tree->input_terminated_prematurely && g_signal != SIGINT)
+	if (syntax_tree->quoted_section_not_closed && g_signal != SIGINT)
 		return (print_processing_error(program_name,
 				"unclosed quote",
 				get_penultimate_token_with_context_focused_on_quote(
+					tokens)), INCORRECT_USAGE);
+	if (syntax_tree->expanded_section_not_closed && g_signal != SIGINT)
+		return (print_processing_error(program_name,
+				"unclosed brace",
+				get_last_token_with_context_focused_on_dollar_brace(
 					tokens)), INCORRECT_USAGE);
 	if (syntax_tree->some_tokens_left_unconsumed && g_signal != SIGINT)
 		return (print_processing_error(program_name,
@@ -124,10 +129,15 @@ static int	handle_lexing_error(
 		return (print_processing_error(program_name,
 				"unsupported feature", get_first_unsupported_token(
 					tokens_with_status->tokens)), GENERAL_FAILURE);
-	if (tokens_with_status->input_terminated_prematurely)
+	if (tokens_with_status->quoted_section_not_closed)
 		return (print_processing_error(program_name,
 				"unclosed quote",
 				get_penultimate_token_with_context_focused_on_quote(
+					tokens_with_status->tokens)), INCORRECT_USAGE);
+	if (tokens_with_status->expanded_section_not_closed)
+		return (print_processing_error(program_name,
+				"unclosed brace",
+				get_last_token_with_context_focused_on_dollar_brace(
 					tokens_with_status->tokens)), INCORRECT_USAGE);
 	return (SUCCESS);
 }

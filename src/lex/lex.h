@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 17:21:28 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 05:31:46 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 14:29:51 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,10 @@ typedef struct s_token
 	int				last_opening_quote_index_in_word_content_line;
 	int				last_opening_quote_line_index;
 	int				last_opening_quote_index_in_line;
+	int				last_dollar_brace_line_start_index_in_word_content;
+	int				last_dollar_brace_index_in_word_content_line;
+	int				last_dollar_brace_line_index;
+	int				last_dollar_brace_index_in_line;
 	int				end_line_index;
 	t_token_content	content;
 	char			surrounding_context[ELLIPSIS_LENGTH
@@ -122,7 +126,8 @@ typedef struct s_tokens_with_status
 	t_list	*tokens;
 	bool	out_of_memory;
 	bool	contains_unsupported_features;
-	bool	input_terminated_prematurely;
+	bool	quoted_section_not_closed;
+	bool	expanded_section_not_closed;
 }	t_tokens_with_status;
 
 t_tokens_with_status	*lex(char *input,

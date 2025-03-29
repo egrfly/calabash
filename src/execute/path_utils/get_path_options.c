@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 20:19:35 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/28 23:50:17 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 14:43:18 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,5 @@ char	**get_path_options(
 	path_options = get_values_from_list(path_options_list);
 	if (!path_options)
 		return (ft_list_destroy(path_options_list, free), NULL);
-	return (free(path_options_list), path_options);
+	return (ft_list_destroy(path_options_list, NULL), path_options);
 }
