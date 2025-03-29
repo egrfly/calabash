@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:11:41 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/29 21:50:30 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 22:45:41 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ static char	*get_here_doc_content(
 	if (!here_doc_lines)
 		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
 				get_program_name()), NULL);
-	here_doc_content = ft_arrjoin(here_doc_lines, "\n");
+	if (here_doc_line_list->first)
+		here_doc_content = ft_arrjoin(here_doc_lines, "\n");
+	else
+		here_doc_content = ft_strdup("");
 	ft_list_destroy(here_doc_line_list, free);
 	free(here_doc_lines);
 	if (!here_doc_content)
