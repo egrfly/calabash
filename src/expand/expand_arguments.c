@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:10:08 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/28 19:37:21 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 15:49:53 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ bool	expand_arguments(
 			program_vars))
 		return (false);
 	split_fields_for_all_arguments(arguments);
-	// pathname expansion - optional
 	remove_quoting_for_all_arguments(*arguments);
 	return (true);
 }
