@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:08:06 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/28 19:26:12 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 18:33:57 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ static bool	expand_assignment(
 				t_list_node *assignment_node,
 				t_program_vars *program_vars)
 {
-	if (!expand_tildes((char **)&assignment_node->value, program_vars))
-		return (false);
-	if (!expand_variables((char **)&assignment_node->value, program_vars,
+	if (!expand_tildes((char **)&assignment_node->value, program_vars)
+		|| !expand_variables((char **)&assignment_node->value, program_vars,
 			NOT_HEREDOC))
 		return (false);
 	remove_quoting(assignment_node->value, NOT_HEREDOC);
