@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:07:45 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/11 00:59:43 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/22 10:54:01 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	interface(int argc, char **argv, char **envp)
 		option_count = c_option_count + get_options_end_count(argc, argv);
 		next_argument = argv[1 + option_count];
 		if (c_option_count > 0)
-			return (handle_c_option(argv, envp, option_count));
+			return (handle_c_option(argc, argv, envp, option_count));
 		if (next_argument)
-			return (handle_external_input_file(argv, envp, option_count));
+			return (handle_external_input_file(argc, argv, envp, option_count));
 	}
-	return (handle_standard_input(envp));
+	return (handle_standard_input(argc, argv, envp));
 }

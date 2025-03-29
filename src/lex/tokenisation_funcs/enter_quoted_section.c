@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 16:29:35 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 08:50:52 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 15:01:16 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,6 @@ static void	set_quote_mode(
 		input_tracker->quote_mode = DOUBLE_QUOTED;
 	else if (quote_char == '\'')
 		input_tracker->quote_mode = SINGLE_QUOTED;
-}
-
-static void	update_last_opening_quote_details(
-				t_input_tracker *input_tracker,
-				t_token *token)
-{
-	if (token->content.word)
-		token->last_opening_quote_line_start_index_in_word_content
-			= ft_strlen(token->content.word);
-	if (token->start_line_index != input_tracker->line_index)
-		token->last_opening_quote_index_in_word_content_line
-			= input_tracker->index_in_line;
-	else
-		token->last_opening_quote_index_in_word_content_line
-			= input_tracker->index_in_line - token->start_index_in_start_line;
-	token->last_opening_quote_line_index = input_tracker->line_index;
-	token->last_opening_quote_index_in_line = input_tracker->index_in_line;
 }
 
 static bool	reached_backslash_newline_sequence(

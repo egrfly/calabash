@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 12:46:54 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/11 02:13:30 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/19 17:09:51 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ static void	case_by_case_set_program_path(
 	char	*temp_program_path;
 
 	if (ft_strstarts(new_program_name, "/"))
-		ft_strlcat(program_path, new_program_name, PATH_MAX + 1);
+		ft_strlcpy(program_path, new_program_name, PATH_MAX);
 	else if (ft_strchr(new_program_name, '/'))
 	{
 		current_dir = getcwd(NULL, 0);
 		if (current_dir)
 		{
-			ft_strlcat(program_path, current_dir, PATH_MAX + 1);
-			ft_strlcat(program_path, "/", PATH_MAX + 1);
-			ft_strlcat(program_path, new_program_name, PATH_MAX + 1);
+			ft_strlcpy(program_path, current_dir, PATH_MAX);
+			ft_strlcat(program_path, "/", PATH_MAX);
+			ft_strlcat(program_path, new_program_name, PATH_MAX);
 		}
 		free(current_dir);
 	}
@@ -59,7 +59,7 @@ static void	case_by_case_set_program_path(
 		get_full_command_path(&temp_program_path, new_program_name,
 			get_path_var_from_envp(envp));
 		if (temp_program_path)
-			ft_strlcat(program_path, temp_program_path, PATH_MAX + 1);
+			ft_strlcpy(program_path, temp_program_path, PATH_MAX);
 		free(temp_program_path);
 	}
 }
@@ -69,7 +69,7 @@ static char	*access_program_path(
 				char *new_program_name,
 				char **envp)
 {
-	static char	program_path[PATH_MAX + 1];
+	static char	program_path[PATH_MAX];
 
 	if (mode == SET && !ft_strcmp(program_path, ""))
 		case_by_case_set_program_path(program_path, new_program_name, envp);

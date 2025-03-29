@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try_get_assignment_word.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aistok <aistok@student.42london.com>       +#+  +:+       +#+        */
+/*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 23:43:19 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 01:13:49 by aistok           ###   ########.fr       */
+/*   Updated: 2025/03/22 15:18:26 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	try_get_assignment_word(
 		t_multiline_options *multiline_options)
 {
 	t_token	*current_token;
-	size_t	word_len;
 	char	*first_equals_sign;
 
 	(void)arg;
@@ -36,10 +35,8 @@ int	try_get_assignment_word(
 	current_token = (*current_token_node)->value;
 	if (current_token->type == TYPE_WORD)
 	{
-		word_len = ft_strlen(current_token->content.word);
 		first_equals_sign = ft_strchr(current_token->content.word, '=');
-		if (word_len >= 2
-			&& first_equals_sign
+		if (first_equals_sign
 			&& range_is_identifier(current_token->content.word,
 				0, first_equals_sign - current_token->content.word))
 		{

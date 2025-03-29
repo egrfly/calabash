@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:13:10 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 15:52:01 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 13:52:49 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_redirection
 	t_operator						operator;
 	t_redirection_right_type		right_type;
 	t_redirection_right_content		right_content;
+	bool							heredoc_delimiter_involved_quoting;
 	t_redirection_reset_instruction	primary_reset_instruction;
 	t_redirection_reset_instruction	secondary_reset_instruction;
 }	t_redirection;
@@ -120,7 +121,8 @@ typedef struct s_syntax_tree
 	bool				out_of_memory;
 	bool				contains_unsupported_features;
 	bool				some_tokens_left_unconsumed;
-	bool				input_terminated_prematurely;
+	bool				quoted_section_not_closed;
+	bool				expanded_section_not_closed;
 	bool				here_doc_failure;
 }	t_syntax_tree;
 

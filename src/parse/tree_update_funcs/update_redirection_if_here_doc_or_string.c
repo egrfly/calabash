@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 11:47:25 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/11 00:59:29 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 19:42:08 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 #include "ft_string.h"
 #include "../../main.h"
 #include "../../execute/signals/signals.h"
+#include "../../expand/expand.h"
+#include "../../expand/remove_quoting/remove_quoting.h"
 #include "../../interface/program_property_utils/program_property_utils.h"
 #include "../../lex/lex.h"
 #include "../parse.h"
@@ -96,6 +98,10 @@ static bool	add_here_doc_or_string_content_to_temp_file(
 				t_redirection *redirection,
 				char *temp_file_path)
 {
+	if ((redirection->operator == LESS_LESS
+			|| redirection->operator == LESS_LESS_DASH)
+		&& remove_quoting(redirection->right_content.word, NOT_HEREDOC))
+		redirection->heredoc_delimiter_involved_quoting = true;
 	return ((redirection->operator == LESS_LESS_LESS
 			&& add_here_string_content_to_temp_file(temp_file_path,
 				redirection->right_content.word))
@@ -115,7 +121,7 @@ bool	update_redirection_if_here_doc_or_string(
 {
 	t_syntax_tree_node_value	*current_node_value;
 	t_redirection				*last_redirection;
-	char						temp_file_path[PATH_MAX + 1];
+	char						temp_file_path[PATH_MAX];
 
 	current_node_value = syntax_tree->current_node->value;
 	last_redirection = current_node_value->redirections->last->value;

@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 16:12:04 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/19 17:42:34 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	process_interactive_input(
 	last_exit_status = SUCCESS;
 	while (!program_vars->should_exit)
 	{
-		update_command_prompt(prompt, last_exit_status);
+		update_command_prompt(prompt, last_exit_status, program_vars);
 		input = readline(prompt);
 		add_last_command(input);
 		if (!input)

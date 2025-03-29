@@ -29,3 +29,10 @@ if [[ $ANSWER == "y" ]]
 then
     yes | make test-parsing
 fi
+
+read -n 1 -p "Run expansion tests? [y/n] " ANSWER
+echo
+if [[ $ANSWER == "y" ]]
+then
+    yes | make test-expansion
+fi

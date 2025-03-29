@@ -494,67 +494,6 @@ run_test
 
 fi
 
-export SECTION_NAME="WHILE/UNTIL COMMAND TESTS"
-ask_whether_section_should_be_run
-
-if [[ $SHOULD_RUN_SECTION == "y" ]]; then
-
-export COMMAND="while true ; do echo 'hello' ; done"
-export EXPECTED_RESULT="\
-Type while
-  -> Type simple command, arguments: true
-  -> Type group
-    -> Type simple command, arguments: echo, 'hello'
-"
-run_test
-
-export COMMAND="until false ; do ls ; done"
-export EXPECTED_RESULT="\
-Type until
-  -> Type simple command, arguments: false
-  -> Type group
-    -> Type simple command, arguments: ls
-"
-run_test
-
-export COMMAND="while true ; do something ; something else ; done"
-export EXPECTED_RESULT="\
-Type while
-  -> Type simple command, arguments: true
-  -> Type group
-    -> Type sequence
-      -> Type simple command, arguments: something
-      -> Type simple command, arguments: something, else
-"
-run_test
-
-export COMMAND="S=w ; while [ \$S != www ] ; do echo \$S ; S=w\$S ; done"
-export EXPECTED_RESULT="\
-Type sequence
-  -> Type simple command, assignments: S=w
-  -> Type while
-    -> Type simple command, arguments: [, \$S, !=, www, ]
-    -> Type group
-      -> Type sequence
-        -> Type simple command, arguments: echo, \$S
-        -> Type simple command, assignments: S=w\$S
-"
-run_test
-
-export COMMAND="while true ; do until false ; do echo hello ; done ; done"
-export EXPECTED_RESULT="\
-Type while
-  -> Type simple command, arguments: true
-  -> Type group
-    -> Type until
-      -> Type simple command, arguments: false
-      -> Type group
-        -> Type simple command, arguments: echo, hello
-"
-run_test
-
-fi
-
 export SECTION_NAME="MULTILINE TESTS"
 ask_whether_section_should_be_run
 
@@ -879,6 +818,41 @@ export COMMAND="cat a.txt & echo 'hello' && ls ; ! cat b.txt | cat c.txt ;"
 export EXPECTED_RESULT="\
 ../calabash: unsupported feature near line 1, char 11: ....txt & echo...
                                                                ^
+"
+run_test
+
+export COMMAND="while true ; do echo 'hello' ; done"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 1: while true...
+                                                      ^^^^^
+"
+run_test
+
+export COMMAND="until false ; do ls ; done"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 1: until fals...
+                                                      ^^^^^
+"
+run_test
+
+export COMMAND="while true ; do something ; something else ; done"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 1: while true...
+                                                      ^^^^^
+"
+run_test
+
+export COMMAND="S=w ; while [ \$S != www ] ; do echo \$S ; S=w\$S ; done"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 7: ...=w ; while [ \$S...
+                                                              ^^^^^
+"
+run_test
+
+export COMMAND="while true ; do until false ; do echo hello ; done ; done"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 1: while true...
+                                                      ^^^^^
 "
 run_test
 

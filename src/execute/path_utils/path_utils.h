@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:28:38 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 12:13:10 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 20:37:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 bool	get_full_command_path(
 			char **path,
 			char *command,
+			char *path_var);
+char	**get_path_options(
 			char *path_var);
 char	*path_join(
 			char *base,

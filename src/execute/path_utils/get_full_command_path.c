@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:30:47 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/11 02:05:12 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 21:32:54 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool	get_full_command_path(
 		return (keep_absolute_or_relative_path(path, command));
 	if (!path_var)
 		return (COMMAND_NOT_FOUND);
-	path_options = ft_split(path_var, ":");
+	path_options = get_path_options(path_var);
 	if (!path_options)
 		return (OUT_OF_MEMORY);
 	i = 0;

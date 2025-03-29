@@ -6,7 +6,7 @@
 #    By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/03 00:45:25 by emflynn           #+#    #+#              #
-#    Updated: 2025/03/10 02:12:01 by emflynn          ###   ########.fr        #
+#    Updated: 2025/03/29 15:40:01 by emflynn          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,10 +131,13 @@ run:				$(NAME)
 					@./$(NAME)
 
 test-lexing:		debug-lexing
-					@cd $(TEST_DIR) && bash lexer_tests.sh
+					@cd $(TEST_DIR) && bash test_lexing.sh
 
 test-parsing:		debug-parsing
-					@cd $(TEST_DIR) && bash parser_tests.sh
+					@cd $(TEST_DIR) && bash test_parsing.sh
+
+test-expansion:		turn-off-debugging
+					@cd $(TEST_DIR) && bash test_expansion.sh
 
 $(OBJ_DIR):
 					@$(MKDIR) $(OBJ_DIRS)

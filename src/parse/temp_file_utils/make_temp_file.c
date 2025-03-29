@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 15:34:31 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/14 13:50:05 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 02:25:29 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ bool	make_temp_file(
 	int	exit_status;
 	int	chars_read;
 
+	temp_file_path[0] = '\0';
 	if (pipe(pipe_fd) == PIPE_FAILURE)
 		return (try_open_backup_temp_file(temp_file_path));
 	pid = fork();
@@ -84,7 +85,7 @@ bool	make_temp_file(
 	waitpid(pid, &exit_status, NO_OPTIONS);
 	if (!WIFEXITED(exit_status) || WEXITSTATUS(exit_status) != SUCCESS)
 		return (try_open_backup_temp_file(temp_file_path));
-	chars_read = read(pipe_fd[READ_END], temp_file_path, PATH_MAX);
+	chars_read = read(pipe_fd[READ_END], temp_file_path, PATH_MAX - 1);
 	close_pipe_fds_for_process((int (*)[2])pipe_fd, SINGLE_PIPE);
 	if (chars_read <= 2)
 		return (try_open_backup_temp_file(temp_file_path));

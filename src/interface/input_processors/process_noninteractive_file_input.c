@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 22:13:12 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 15:32:11 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/28 17:26:08 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	process_noninteractive_file_input(
 	t_tokens_with_status	*tokens_with_status;
 	int						exit_status;
 
+	program_vars->argv = &program_vars->argv[1];
+	program_vars->argc--;
 	multiline_options.input_mode_is_interactive = false;
 	multiline_options.get_next_line
 		= noninteractive_get_next_line_from_file_descriptor;

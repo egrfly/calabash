@@ -6,13 +6,14 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:10:03 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/16 16:33:25 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/27 23:09:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <unistd.h>
 #include "ft_binary_tree.h"
+#include "ft_ctype.h"
 #include "ft_list.h"
 #include "ft_stdlib.h"
 #include "ft_stdio.h"
@@ -33,7 +34,8 @@ static bool	handle_exit_options(
 	if (*argument_node
 		&& ft_strstarts((*argument_node)->value, "-")
 		&& ft_strcmp((*argument_node)->value, "-")
-		&& ft_strcmp((*argument_node)->value, "--"))
+		&& ft_strcmp((*argument_node)->value, "--")
+		&& !ft_strall(&((char *)(*argument_node)->value)[1], ft_isdigit))
 		return (false);
 	if (*argument_node
 		&& !ft_strcmp((*argument_node)->value, "--"))
@@ -59,8 +61,9 @@ int	builtin_exit(
 	exit_status = program_vars->last_exit_status;
 	if (argument_node && !ft_strtol(argument_node->value, &exit_status))
 		return (ft_dprintf(STDERR_FILENO,
-				"%s: exit: numeric argument required\n",
-				get_program_name()), NUMERIC_ARGUMENT_REQUIRED);
+				"%s: exit: %s: numeric argument required\n",
+				get_program_name(), argument_node->value),
+			NUMERIC_ARGUMENT_REQUIRED);
 	else if (argument_node && argument_node->next)
 		return (ft_dprintf(STDERR_FILENO, "%s: exit: too many arguments\n",
 				get_program_name()), TOO_MANY_ARGUMENTS);

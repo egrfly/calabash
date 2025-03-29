@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 21:03:24 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/10 09:10:44 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 14:12:50 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include "ft_list.h"
 #include "ft_stdlib.h"
+#include "ft_string.h"
 #include "../interface/interface.h"
 #include "../interface/line_getters/line_getters.h"
 #include "../execute/signals/signals.h"
@@ -63,7 +64,8 @@ static bool	any_terminating_tokenisation_func_called_without_error(
 			input_tracker, tokens_with_status, multiline_options))
 			return (true);
 		if (tokens_with_status->out_of_memory
-			|| tokens_with_status->contains_unsupported_features)
+			|| tokens_with_status->contains_unsupported_features
+			|| tokens_with_status->expanded_section_not_closed)
 			return (false);
 		i++;
 	}
@@ -85,7 +87,8 @@ static bool	any_non_terminating_tokenisation_func_called_without_error(
 			input_tracker, tokens_with_status, multiline_options))
 			return (true);
 		if (tokens_with_status->out_of_memory
-			|| tokens_with_status->contains_unsupported_features)
+			|| tokens_with_status->contains_unsupported_features
+			|| tokens_with_status->expanded_section_not_closed)
 			return (false);
 		i++;
 	}
@@ -108,12 +111,13 @@ static t_tokens_with_status	*get_tokens_with_status(
 				tokens_with_status))
 		{
 			if (input_tracker->quote_mode != UNQUOTED)
-				tokens_with_status->input_terminated_prematurely = true;
+				tokens_with_status->quoted_section_not_closed = true;
 			return (tokens_with_status);
 		}
 		if (g_signal == SIGINT
 			|| tokens_with_status->out_of_memory
 			|| tokens_with_status->contains_unsupported_features
+			|| tokens_with_status->expanded_section_not_closed
 			|| !any_non_terminating_tokenisation_func_called_without_error(
 				input_tracker, multiline_options,
 				tokens_with_status))
@@ -127,20 +131,17 @@ t_tokens_with_status	*lex(
 							t_multiline_options *multiline_options,
 							int start_line_index)
 {
-	t_input_tracker			*input_tracker;
+	t_input_tracker			input_tracker;
 	t_tokens_with_status	*tokens_with_status;
 
-	input_tracker = ft_calloc(1, sizeof(t_input_tracker));
-	if (!input_tracker)
-		return (NULL);
-	input_tracker->original_input = input;
-	input_tracker->current_input_line = input;
-	input_tracker->line_index = start_line_index;
+	ft_bzero(&input_tracker, sizeof(t_input_tracker));
+	input_tracker.original_input = input;
+	input_tracker.current_input_line = input;
+	input_tracker.line_index = start_line_index;
 	tokens_with_status
-		= get_tokens_with_status(input_tracker,
+		= get_tokens_with_status(&input_tracker,
 			multiline_options);
 	if (multiline_options->get_next_line != noninteractive_get_null_line)
-		free(input_tracker->original_input);
-	free(input_tracker);
+		free(input_tracker.original_input);
 	return (tokens_with_status);
 }
