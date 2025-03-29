@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_pathnames.h                                 :+:      :+:    :+:   */
+/*   update_quote_mode_if_not_skippable_based_on        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/29 10:14:32 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/29 19:40:41 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/29 19:16:08 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/29 19:32:00 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXPAND_PATHNAMES_H
-# define EXPAND_PATHNAMES_H
+#include <stdbool.h>
+#include "../../lex/lex.h"
 
-# include "ft_list.h"
-# include "../../lex/lex.h"
-
-typedef struct s_match_checkpoint
+bool	update_quote_mode_and_do_not_skip_current_char(
+			t_quote_mode *quote_mode)
 {
-	t_quote_mode	quote_mode_at_latest_star;
-	char			*latest_star;
-	char			*last_attempted_match_start;
-}	t_match_checkpoint;
-
-t_list	*get_expanded_pathnames(
-			char *str);
-
-#endif
+	if (*quote_mode == ESCAPED)
+		*quote_mode = UNQUOTED;
+	else if (*quote_mode == DOUBLE_QUOTED_AND_ESCAPED)
+		*quote_mode = DOUBLE_QUOTED;
+	else
+		return (false);
+	return (true);
+}
