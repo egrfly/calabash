@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 00:49:50 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/09 20:51:44 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 13:53:15 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,10 @@ static void	propagate_lexing_errors(
 		syntax_tree->out_of_memory = true;
 	if (next_line_tokens->contains_unsupported_features)
 		syntax_tree->contains_unsupported_features = true;
-	if (next_line_tokens->input_terminated_prematurely)
-		syntax_tree->input_terminated_prematurely = true;
+	if (next_line_tokens->quoted_section_not_closed)
+		syntax_tree->quoted_section_not_closed = true;
+	if (next_line_tokens->expanded_section_not_closed)
+		syntax_tree->expanded_section_not_closed = true;
 }
 
 static bool	prompt_more_while_at_end_of_input(
