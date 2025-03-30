@@ -6,101 +6,51 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:11:41 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/29 22:45:41 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/30 00:12:07 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "ft_list.h"
 #include "ft_stdio.h"
 #include "ft_string.h"
-#include "../main.h"
 #include "../interface/interface.h"
-#include "../interface/list_utils/list_utils.h"
 #include "../interface/program_property_utils/program_property_utils.h"
 #include "../parse/parse.h"
 #include "./expand.h"
+#include "./expand_pathnames/expand_pathnames.h"
 #include "./expand_tildes/expand_tildes.h"
 #include "./expand_variables/expand_variables.h"
+#include "./here_doc_utils/here_doc_utils.h"
 #include "./remove_quoting/remove_quoting.h"
 #include "./split_fields/split_fields.h"
 
-static t_list	*get_here_doc_lines(
-					char *file_path)
+static bool	expand_pathname(
+				char **right_word,
+				char *right_word_before_expansion)
 {
-	int		fd;
-	t_list	*here_doc_lines;
-	char	*here_doc_line;
+	t_list	*expanded_pathnames;
+	char	*right_word_after_partial_expansion;
 
-	fd = open(file_path, O_RDONLY);
-	if (fd == OPEN_FAILURE)
-		return (ft_dprintf(STDERR_FILENO, "%s: here-document failure\n",
-				get_program_name()), NULL);
-	here_doc_lines = ft_list_init();
-	if (!here_doc_lines)
+	right_word_after_partial_expansion = *right_word;
+	expanded_pathnames = get_expanded_pathnames(
+			right_word_after_partial_expansion);
+	if (!expanded_pathnames)
 		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
-				get_program_name()), close(fd), NULL);
-	here_doc_line = ft_getline(fd);
-	while (here_doc_line)
-	{
-		if (!ft_list_append(here_doc_lines, here_doc_line))
-			return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
-					get_program_name()),
-				ft_list_destroy(here_doc_lines, free), close(fd), NULL);
-		here_doc_line = ft_getline(fd);
-	}
-	return (close(fd), here_doc_lines);
-}
-
-static char	*get_here_doc_content(
-				t_list	*here_doc_line_list,
-				t_program_vars *program_vars)
-{
-	char	**here_doc_lines;
-	char	*here_doc_content;
-
-	here_doc_lines = get_values_from_list(here_doc_line_list);
-	if (!here_doc_lines)
+				get_program_name()), false);
+	if (expanded_pathnames->size != 1)
+		return (ft_dprintf(STDERR_FILENO, "%s: %s: ambiguous redirect\n",
+				get_program_name(), right_word_before_expansion),
+			ft_list_destroy(expanded_pathnames, free), false);
+	*right_word = ft_strdup(expanded_pathnames->first->value);
+	free(right_word_after_partial_expansion);
+	ft_list_destroy(expanded_pathnames, free);
+	if (!*right_word)
 		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
-				get_program_name()), NULL);
-	if (here_doc_line_list->first)
-		here_doc_content = ft_arrjoin(here_doc_lines, "\n");
-	else
-		here_doc_content = ft_strdup("");
-	ft_list_destroy(here_doc_line_list, free);
-	free(here_doc_lines);
-	if (!here_doc_content)
-		return (ft_dprintf(STDERR_FILENO, "%s: out of memory\n",
-				get_program_name()), NULL);
-	if (!expand_variables(&here_doc_content, program_vars, IS_HEREDOC))
-		return (free(here_doc_content), NULL);
-	remove_quoting(here_doc_content, IS_HEREDOC);
-	return (here_doc_content);
-}
-
-static bool	expand_here_doc(
-				t_redirection *redirection,
-				t_program_vars *program_vars)
-{
-	int		fd;
-	t_list	*here_doc_lines;
-	char	*here_doc_content;
-
-	here_doc_lines = get_here_doc_lines(redirection->right_content.word);
-	if (!here_doc_lines)
-		return (false);
-	here_doc_content = get_here_doc_content(here_doc_lines, program_vars);
-	if (!here_doc_content)
-		return (false);
-	fd = open(redirection->right_content.word, O_WRONLY | O_TRUNC);
-	if (fd == OPEN_FAILURE)
-		return (ft_dprintf(STDERR_FILENO, "%s: here-document failure\n",
-				get_program_name()), free(here_doc_content), false);
-	ft_dprintf(fd, "%s\n", here_doc_content);
-	return (free(here_doc_content), close(fd), true);
+				get_program_name()), false);
+	return (true);
 }
 
 static bool	expand_redirection_right_word(
@@ -124,6 +74,9 @@ static bool	expand_redirection_right_word(
 		if (count_split_fields(redirection->right_content.word) != 1)
 			return (ft_dprintf(STDERR_FILENO, "%s: %s: ambiguous redirect\n",
 					get_program_name(), original_right_word), false);
+		if (!expand_pathname(&redirection->right_content.word,
+				original_right_word))
+			return (false);
 		remove_quoting(redirection->right_content.word, NOT_HEREDOC);
 	}
 	return (true);
