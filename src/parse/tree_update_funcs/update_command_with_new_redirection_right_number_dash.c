@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 03:05:04 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/08 06:08:25 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/30 15:40:42 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_list.h"
 #include "ft_stdlib.h"
 #include "ft_string.h"
+#include "../../interface/interface.h"
 #include "../../lex/lex.h"
 #include "../parse.h"
 #include "../redirection_utils/redirection_utils.h"
@@ -21,11 +22,13 @@
 
 bool	update_command_with_new_redirection_right_number_dash(
 			t_syntax_tree *syntax_tree,
-			t_list_node *current_token_node)
+			t_list_node *current_token_node,
+			t_multiline_options *multiline_options)
 {
 	t_redirection	*last_redirection;
 	t_token			*current_token;
 
+	(void)multiline_options;
 	last_redirection = get_or_create_redirection(syntax_tree);
 	if (!last_redirection)
 		return (false);
