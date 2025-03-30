@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 11:47:25 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/28 19:42:08 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/30 15:57:01 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include "../../execute/signals/signals.h"
 #include "../../expand/expand.h"
 #include "../../expand/remove_quoting/remove_quoting.h"
+#include "../../interface/interface.h"
 #include "../../interface/program_property_utils/program_property_utils.h"
 #include "../../lex/lex.h"
 #include "../parse.h"
@@ -46,6 +47,7 @@ static char	*adjust_line_start_if_necessary(
 static bool	add_here_doc_content_to_temp_file(
 				char *temp_file_path,
 				char *delimiter,
+				t_multiline_options *multiline_opts,
 				bool should_strip_leading_tabs)
 {
 	int		fd;
@@ -55,7 +57,7 @@ static bool	add_here_doc_content_to_temp_file(
 	if (fd == OPEN_FAILURE)
 		return (ft_dprintf(STDERR_FILENO, "%s: here-document failure\n",
 				get_program_name()), false);
-	line = readline("> ");
+	line = multiline_opts->get_next_line(multiline_opts->get_next_line_arg);
 	while (g_signal != SIGINT && line
 		&& ft_strcmp(adjust_line_start_if_necessary(line,
 				should_strip_leading_tabs), delimiter))
@@ -65,7 +67,7 @@ static bool	add_here_doc_content_to_temp_file(
 			return (free(line), close(fd), ft_dprintf(STDERR_FILENO,
 					"%s: here-document failure\n", get_program_name()), false);
 		free(line);
-		line = readline("> ");
+		line = multiline_opts->get_next_line(multiline_opts->get_next_line_arg);
 	}
 	if (g_signal == SIGINT)
 		return (free(line), close(fd), false);
@@ -96,7 +98,8 @@ static bool	add_here_string_content_to_temp_file(
 
 static bool	add_here_doc_or_string_content_to_temp_file(
 				t_redirection *redirection,
-				char *temp_file_path)
+				char *temp_file_path,
+				t_multiline_options *multiline_options)
 {
 	if ((redirection->operator == LESS_LESS
 			|| redirection->operator == LESS_LESS_DASH)
@@ -108,16 +111,17 @@ static bool	add_here_doc_or_string_content_to_temp_file(
 		|| (redirection->operator == LESS_LESS_DASH
 			&& add_here_doc_content_to_temp_file(temp_file_path,
 				redirection->right_content.word,
-				SHOULD_STRIP_LEADING_TABS))
+				multiline_options, SHOULD_STRIP_LEADING_TABS))
 		|| (redirection->operator == LESS_LESS
 			&& add_here_doc_content_to_temp_file(temp_file_path,
 				redirection->right_content.word,
-				SHOULD_NOT_STRIP_LEADING_TABS)));
+				multiline_options, SHOULD_NOT_STRIP_LEADING_TABS)));
 }
 
 bool	update_redirection_if_here_doc_or_string(
 			t_syntax_tree *syntax_tree,
-			t_list_node *current_token_node)
+			t_list_node *current_token_node,
+			t_multiline_options *multiline_options)
 {
 	t_syntax_tree_node_value	*current_node_value;
 	t_redirection				*last_redirection;
@@ -132,7 +136,7 @@ bool	update_redirection_if_here_doc_or_string(
 		make_temp_file(temp_file_path, syntax_tree, current_token_node->parent);
 		if (g_signal == SIGINT
 			|| !add_here_doc_or_string_content_to_temp_file(last_redirection,
-				temp_file_path))
+				temp_file_path, multiline_options))
 		{
 			syntax_tree->here_doc_failure = true;
 			return (unlink(temp_file_path), false);

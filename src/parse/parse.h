@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:13:10 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/29 13:52:49 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/30 15:35:38 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,8 @@ typedef int		(*t_token_consumption_func)(
 
 typedef bool	(*t_tree_update_func)(
 	t_syntax_tree *syntax_tree,
-	t_list_node *current_token_node);
+	t_list_node *current_token_node,
+	t_multiline_options *multiline_options);
 
 typedef void	(*t_tree_undo_action_func)(
 	t_syntax_tree *syntax_tree);
