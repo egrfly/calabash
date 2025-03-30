@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   destroy_redirection.c                              :+:      :+:    :+:   */
+/*   here_doc_utils.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/18 16:27:43 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/30 02:16:47 by emflynn          ###   ########.fr       */
+/*   Created: 2025/03/29 23:42:14 by emflynn           #+#    #+#             */
+/*   Updated: 2025/03/29 23:44:55 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "../parse.h"
+#ifndef HERE_DOC_UTILS_H
+# define HERE_DOC_UTILS_H
 
-void	destroy_redirection(
-			t_redirection *redirection)
-{
-	if (redirection->left_type == REDIRECTION_LEFT_REDIRECTION_WORD)
-		free(redirection->left_content.redirection_word);
-	if (redirection->right_type == REDIRECTION_RIGHT_WORD)
-		free(redirection->right_content.word);
-	free(redirection);
-}
+# include <stdbool.h>
+# include "../../interface/interface.h"
+# include "../../parse/parse.h"
+
+bool	expand_here_doc(
+			t_redirection *redirection,
+			t_program_vars *program_vars);
+
+#endif

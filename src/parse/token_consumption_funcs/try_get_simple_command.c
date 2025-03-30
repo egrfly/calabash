@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 19:59:07 by emflynn           #+#    #+#             */
-/*   Updated: 2025/02/26 14:47:21 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 23:07:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,7 @@ static const
 	.token_consumption_func = try_get_simple_command_core_and_suffix,
 	.token_consumption_func_arg = NO_ARG,
 	.tree_update_func = UPDATE_NO_OP,
-	.is_optional = MANDATORY,
-	.is_supported = SUPPORTED,
-}};
-
-static const
-	t_parsing_option
-	g_prefix_sequence[] = {
-{
-	.token_consumption_func = try_get_simple_command_prefix,
-	.token_consumption_func_arg = NO_ARG,
-	.tree_update_func = UPDATE_NO_OP,
-	.is_optional = MANDATORY,
+	.is_optional = OPTIONAL,
 	.is_supported = SUPPORTED,
 }};
 
@@ -75,15 +64,6 @@ static const
 
 static const
 	t_parsing_option_sequence_with_count
-	g_prefix_sequence_with_count = {
-	.name = "prefix",
-	.sequence = g_prefix_sequence,
-	.count = sizeof(g_prefix_sequence)
-	/ sizeof(t_parsing_option),
-};
-
-static const
-	t_parsing_option_sequence_with_count
 	g_core_and_suffix_sequence_with_count = {
 	.name = "core and suffix",
 	.sequence = g_core_and_suffix_sequence,
@@ -95,7 +75,6 @@ static const
 	t_parsing_option_sequence_with_count
 	*g_simple_command_sequences[] = {
 	&g_prefix_with_core_and_suffix_sequence_with_count,
-	&g_prefix_sequence_with_count,
 	&g_core_and_suffix_sequence_with_count,
 	NULL,
 };

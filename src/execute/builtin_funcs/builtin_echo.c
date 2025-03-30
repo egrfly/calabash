@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 04:09:55 by aistok            #+#    #+#             */
-/*   Updated: 2025/03/16 15:02:51 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 20:45:39 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,14 @@ static bool	handle_echo_options(
 static bool	error_printing_other_than_sigpipe(
 				char *str)
 {
-	return (ft_printf("%s", str) == WRITE_FAILURE && g_signal != SIGPIPE);
+	return (ft_printf("%s", str) == WRITE_FAILURE
+		&& errno != EPIPE
+		&& g_signal != SIGPIPE);
 }
 
 static void	print_write_error(void)
 {
-	ft_dprintf(STDERR_FILENO, "%s: echo: %s (g_signal = %d)\n",
+	ft_dprintf(STDERR_FILENO, "%s: echo: %s\n",
 		get_program_name(), strerror(errno), g_signal);
 }
 

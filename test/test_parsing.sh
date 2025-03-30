@@ -435,65 +435,6 @@ run_test
 
 fi
 
-export SECTION_NAME="FUNCTION TESTS"
-ask_whether_section_should_be_run
-
-if [[ $SHOULD_RUN_SECTION == "y" ]]; then
-
-export COMMAND="function hello() { echo 'hello' ; }"
-export EXPECTED_RESULT="\
-Type function, identifier: hello
-  -> Type group
-    -> Type simple command, arguments: echo, 'hello'
-"
-run_test
-
-export COMMAND="function hello { echo 'hello' ; }"
-export EXPECTED_RESULT="\
-Type function, identifier: hello
-  -> Type group
-    -> Type simple command, arguments: echo, 'hello'
-"
-run_test
-
-export COMMAND="hello() { echo 'hello' ; }"
-export EXPECTED_RESULT="\
-Type function, identifier: hello
-  -> Type group
-    -> Type simple command, arguments: echo, 'hello'
-"
-run_test
-
-export COMMAND="hello() { echo 'hello' ; } ; hello"
-export EXPECTED_RESULT="\
-Type sequence
-  -> Type function, identifier: hello
-    -> Type group
-      -> Type simple command, arguments: echo, 'hello'
-  -> Type simple command, arguments: hello
-"
-run_test
-
-export COMMAND="function hello({ echo 'hello' ; })"
-export EXPECTED_RESULT="\
-Type function, identifier: hello
-  -> Type subshell
-    -> Type group
-      -> Type simple command, arguments: echo, 'hello'
-"
-run_test
-
-export COMMAND="function hello() ({ echo 'hello' ; })"
-export EXPECTED_RESULT="\
-Type function, identifier: hello
-  -> Type subshell
-    -> Type group
-      -> Type simple command, arguments: echo, 'hello'
-"
-run_test
-
-fi
-
 export SECTION_NAME="MULTILINE TESTS"
 ask_whether_section_should_be_run
 
@@ -521,16 +462,6 @@ export COMMAND="\"
 export EXPECTED_RESULT="\
 Type simple command, arguments: \"
 \"
-"
-run_test
-
-export COMMAND="function hello() {
-  echo 'hello'
-}"
-export EXPECTED_RESULT="\
-Type function, identifier: hello
-  -> Type group
-    -> Type simple command, arguments: echo, 'hello'
 "
 run_test
 
@@ -622,17 +553,10 @@ export EXPECTED_RESULT="\
 "
 run_test
 
-export COMMAND="something() (else)"
+export COMMAND="(else)"
 export EXPECTED_RESULT="\
-../calabash: syntax error near line 1, char 14: ...g() (else)
-                                                        ^^^^
-"
-run_test
-
-export COMMAND="function blah() {blahblahblah"
-export EXPECTED_RESULT="\
-../calabash: syntax error near line 1, char 17: ...ah() {blahblahb...
-                                                        ^^^^^^^^^^
+../calabash: syntax error near line 1, char 2: (else)
+                                                ^^^^
 "
 run_test
 
@@ -704,22 +628,6 @@ export COMMAND="! [[ something ]]"
 export EXPECTED_RESULT="\
 ../calabash: unsupported feature near line 1, char 3: ! [[ some...
                                                         ^^
-"
-run_test
-
-export COMMAND="function hello() for WORD in dog cat pig; do echo \$WORD ; done"
-export EXPECTED_RESULT="\
-../calabash: unsupported feature near line 1, char 18: ...lo() for WORD...
-                                                               ^^^
-"
-run_test
-
-export COMMAND="function hello() {
-  for WORD in dog cat pig; do echo \$WORD ; done
-}"
-export EXPECTED_RESULT="\
-../calabash: unsupported feature near line 2, char 3:   for WORD...
-                                                        ^^^
 "
 run_test
 
@@ -853,6 +761,57 @@ export COMMAND="while true ; do until false ; do echo hello ; done ; done"
 export EXPECTED_RESULT="\
 ../calabash: unsupported feature near line 1, char 1: while true...
                                                       ^^^^^
+"
+run_test
+
+export COMMAND="function hello() { echo 'hello' ; }"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 1: function hell...
+                                                      ^^^^^^^^
+"
+run_test
+
+export COMMAND="function hello { echo 'hello' ; }"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 1: function hell...
+                                                      ^^^^^^^^
+"
+run_test
+
+export COMMAND="hello() { echo 'hello' ; }"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 1: hello() { ...
+                                                      ^^^^^
+"
+run_test
+
+export COMMAND="hello() { echo 'hello' ; } ; hello"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 1: hello() { ...
+                                                      ^^^^^
+"
+run_test
+
+export COMMAND="function hello({ echo 'hello' ; })"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 1: function hell...
+                                                      ^^^^^^^^
+"
+run_test
+
+export COMMAND="function hello() ({ echo 'hello' ; })"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 1: function hell...
+                                                      ^^^^^^^^
+"
+run_test
+
+export COMMAND="function hello() {
+  echo 'hello'
+}"
+export EXPECTED_RESULT="\
+../calabash: unsupported feature near line 1, char 1: function hell...
+                                                      ^^^^^^^^
 "
 run_test
 

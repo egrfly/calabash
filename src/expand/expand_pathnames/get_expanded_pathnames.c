@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 15:46:41 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/29 19:57:14 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 23:32:02 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static bool	try_match_current_char_and_advance(
 		(*pattern)++;
 	if (**word == '/' && *quote_mode == UNQUOTED)
 		return (false);
-	if (**pattern != '*' && **pattern == **word)
+	if (!(**pattern == '*' && *quote_mode == UNQUOTED) && **pattern == **word)
 	{
 		(*pattern)++;
 		(*word)++;
@@ -74,13 +74,13 @@ static bool	matches_pattern(
 		if (!try_match_current_char_and_advance(&word, &pattern,
 				&quote_mode, &checkpoint))
 			return (false);
-	while (update_quote_mode_and_skip_current_char(pattern,
-			&quote_mode) || (*pattern == '*' && quote_mode == UNQUOTED))
+	while (update_quote_mode_and_skip_current_char(pattern, &quote_mode)
+		|| (*pattern == '*' && quote_mode == UNQUOTED))
 		pattern++;
 	return (!*pattern);
 }
 
-t_list	*get_all_entries_in_cwd(void)
+static t_list	*get_all_entries_in_cwd(void)
 {
 	char			*current_dir;
 	t_list			*entries;
@@ -107,7 +107,8 @@ t_list	*get_all_entries_in_cwd(void)
 	return (entries);
 }
 
-t_list	*get_expanded_paths_from_str(char *pattern)
+static t_list	*get_expanded_paths_from_str(
+					char *pattern)
 {
 	t_list		*entries;
 	t_list_node	*entry_node;
@@ -130,16 +131,22 @@ t_list	*get_expanded_paths_from_str(char *pattern)
 	return (entries);
 }
 
-t_list	*get_expanded_pathnames(char *str)
+t_list	*get_expanded_pathnames(
+			char *str)
 {
 	t_list	*expanded_paths;
 	char	*new_str;
 
-	expanded_paths = get_expanded_paths_from_str(str);
-	if (!expanded_paths)
-		return (NULL);
-	if (expanded_paths->first)
-		return (expanded_paths);
+	if (ft_strchr(str, '*'))
+	{
+		expanded_paths = get_expanded_paths_from_str(str);
+		if (!expanded_paths)
+			return (NULL);
+		if (expanded_paths->first)
+			return (expanded_paths);
+		else
+			ft_list_destroy(expanded_paths, free);
+	}
 	expanded_paths = ft_list_init();
 	new_str = ft_strdup(str);
 	if (!expanded_paths || !new_str

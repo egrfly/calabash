@@ -6,10 +6,11 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 08:08:12 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/07 08:09:20 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/30 00:54:30 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
 #include <unistd.h>
 #include "ft_list.h"
 #include "../../parse/parse.h"
@@ -20,6 +21,8 @@ void	revert_redirections(
 	t_list_node		*current_redirection_node;
 	t_redirection	*current_redirection;
 
+	if (!redirections)
+		return ;
 	current_redirection_node = redirections->last;
 	while (current_redirection_node)
 	{
@@ -29,12 +32,14 @@ void	revert_redirections(
 			dup2(current_redirection->primary_reset_instruction.original_fd,
 				current_redirection->primary_reset_instruction.fd_to_reset);
 			close(current_redirection->primary_reset_instruction.original_fd);
+			current_redirection->primary_reset_instruction.is_active = false;
 		}
 		if (current_redirection->secondary_reset_instruction.is_active)
 		{
 			dup2(current_redirection->secondary_reset_instruction.original_fd,
 				current_redirection->secondary_reset_instruction.fd_to_reset);
 			close(current_redirection->secondary_reset_instruction.original_fd);
+			current_redirection->secondary_reset_instruction.is_active = false;
 		}
 		current_redirection_node = current_redirection_node->prev;
 	}

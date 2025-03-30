@@ -6,7 +6,7 @@
 /*   By: emflynn <emflynn@student.42london.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 20:57:01 by emflynn           #+#    #+#             */
-/*   Updated: 2025/03/16 16:09:46 by emflynn          ###   ########.fr       */
+/*   Updated: 2025/03/29 22:18:40 by emflynn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static bool	execute_section_of_pipeline(
 				pipeline->pipe_count), false);
 	else if (pipeline->pids[pipeline->current_index] == CHILD_PROCESS_ID)
 	{
-		program_vars->active_pipeline = pipeline;
+		ft_list_append(program_vars->active_pipelines, pipeline);
 		node_value = node->value;
 		reroute_standard_input_if_necessary(pipeline);
 		reroute_standard_output_if_necessary(pipeline);
